@@ -472,11 +472,11 @@ function Hero() {
           </motion.blockquote>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <MagneticButton href="#contact" pulse>
-              Check Seat Availability <ArrowRight className="h-4 w-4" />
+            <MagneticButton href="#curriculum" pulse>
+              Explore Course <ArrowRight className="h-4 w-4" />
             </MagneticButton>
-            <MagneticButton href="#curriculum" variant="secondary">
-              Explore Course Tiers <ArrowRight className="h-4 w-4" />
+            <MagneticButton href="#contact" variant="secondary">
+              Contact Now <ArrowRight className="h-4 w-4" />
             </MagneticButton>
           </div>
 
