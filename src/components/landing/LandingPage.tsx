@@ -1460,7 +1460,6 @@ function ContactFooter() {
             transition={{ duration: 0.6 }}
             className="mobile-reveal transform-gpu"
           >
-            <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">Admission Inquiries</div>
             <form
               onSubmit={handleSubmit}
               className="rounded-3xl border border-border bg-card/90 p-6 shadow-lg sm:p-8"
