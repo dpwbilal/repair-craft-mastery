@@ -1669,8 +1669,8 @@ export default function LandingPage() {
         <Hero />
         <Marquee />
         <Master />
-        <DiplomaShowcase />
         <Curriculum />
+        <DiplomaShowcase />
         <Lab />
         <StatsBand />
         <ValueProps />
