@@ -77,14 +77,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Nasir Tech Institute — Punjab's Premier Mobile Repairing Academy" },
+      {
+        name: "description",
+        content:
+          "Master mobile repairing under Sir Nasir Awan on Main Hall Road, Lahore. Foundational, Advanced and Master micro-soldering tiers with 100% practical lab training.",
+      },
+      { name: "author", content: "Nasir Tech Institute" },
+      { property: "og:title", content: "Nasir Tech Institute — Punjab's Premier Mobile Repairing Academy" },
+      {
+        property: "og:description",
+        content:
+          "Master mobile repairing under Sir Nasir Awan on Main Hall Road, Lahore. Foundational, Advanced and Master micro-soldering tiers with 100% practical lab training.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Nasir Tech Institute — Punjab's Premier Mobile Repairing Academy" },
+      { name: "twitter:description", content: "Master mobile repairing under Sir Nasir Awan on Main Hall Road, Lahore. Foundational, Advanced and Master micro-soldering tiers with 100% practical lab training." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a0a187a-dd27-4ff6-9d14-86fa111470ee/id-preview-bb12763d--4c53437e-30ff-43ec-87e9-13a0ae6500af.lovable.app-1784373023209.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a0a187a-dd27-4ff6-9d14-86fa111470ee/id-preview-bb12763d--4c53437e-30ff-43ec-87e9-13a0ae6500af.lovable.app-1784373023209.png" },
     ],
     links: [
       {
@@ -92,6 +104,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -102,7 +120,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
       </head>
@@ -116,6 +134,14 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
