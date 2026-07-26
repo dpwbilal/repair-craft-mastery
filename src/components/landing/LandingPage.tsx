@@ -881,12 +881,13 @@ function CurriculumInner() {
           viewport={{ once: true, amount: 0.2 }}
           className="mobile-reveal mx-auto mb-16 max-w-3xl text-center transform-gpu"
         >
-          <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">Integrated Curriculum</div>
-          <h2 className="mt-3 text-4xl sm:text-5xl font-bold leading-tight">
-            <SplitReveal text="Course Levels" className="text-gradient-tech" />
+          <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">Choose Your Path</div>
+          <h2 className="mt-3 font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+            <SplitReveal text="Course Level" className="text-gradient-tech" />
           </h2>
-          <p className="mt-4 text-muted-foreground">
-            Every tier weaves hardware craft and software flashing together — no isolated theory, no idle observation.
+          <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)]" />
+          <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
+            Select the best mobile repairing course level and learn from basic to master level with hands-on practice.
           </p>
         </motion.div>
 
