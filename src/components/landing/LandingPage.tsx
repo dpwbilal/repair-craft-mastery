@@ -1116,6 +1116,8 @@ function Lab() {
     { name: "China Unlock", desc: "MTK / SPD / Qualcomm processor flashing with UnlockTool.", icon: <KeyRound className="h-5 w-5" />, accent: "var(--power)" },
     { name: "Firmware Repair", desc: "Odin, QFIL, MiFlash, SP Flash Tool — full boot recovery.", icon: <Database className="h-5 w-5" />, accent: "var(--tech)" },
     { name: "Network Repair", desc: "Baseband, IMEI, and country/society-code correction.", icon: <Wifi className="h-5 w-5" />, accent: "var(--power)" },
+    { name: "Dead Boot Recovery", desc: "Reviving dead phones via ISP, EDL & test-point flashing.", icon: <Zap className="h-5 w-5" />, accent: "var(--tech)" },
+    { name: "Pattern Unlock", desc: "Screen lock, pin & pattern removal without data wipe.", icon: <ShieldCheck className="h-5 w-5" />, accent: "var(--power)" },
   ];
 
   return (
@@ -1127,52 +1129,42 @@ function Lab() {
           viewport={{ once: true, amount: 0.2 }}
           className="mobile-reveal mx-auto max-w-3xl text-center transform-gpu"
         >
-          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--tech)]">SOFTWARE</div>
-          <h2 className="mt-2 text-4xl sm:text-5xl font-bold leading-tight">
-            <SplitReveal text="Flashing." /> <SplitReveal text="Unlocking." /> <SplitReveal text="Bypassing." className="text-gradient-tech" />
+          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--tech)]">Software Lab</div>
+          <h2 className="mt-3 font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
+            <span className="text-gradient-tech">SOFTWARE</span>
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Comprehensive training on{" "}
-            <span className="font-semibold text-[var(--tech)]">iPhone Flashing</span>,{" "}
-            <span className="font-semibold text-[var(--tech)]">iPhone Jailbreak</span>,{" "}
-            <span className="font-semibold text-[var(--power)]">iCloud Bypass</span>, and{" "}
-            <span className="font-semibold text-[var(--power)]">FRP Unlocking</span> — plus processor-level China flashing.
+          <div className="mx-auto mt-3 h-1 w-24 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)]" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base text-muted-foreground">
+            Master mobile software repair with professional training in phone flashing, device unlocking, and dead phone recovery using industry-standard tools. The course covers Samsung, Oppo, Vivo, Xiaomi, Infinix, Tecno, and iPhone.
           </p>
         </motion.div>
 
-        {/* Software tool cards */}
-        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Compact software tool grid: 2 cols mobile / 4 cols desktop */}
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
           {softwareTools.map((s, i) => (
             <motion.div
               key={s.name}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
-              whileHover={{ y: -6 }}
-              className="mobile-reveal group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transform-gpu"
-              style={{ boxShadow: `0 6px 24px -14px color-mix(in oklab, ${s.accent} 45%, transparent)` }}
+              transition={{ duration: 0.4, delay: (i % 4) * 0.05 }}
+              className="mobile-reveal group relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-5 transform-gpu transition-transform hover:-translate-y-1"
+              style={{ boxShadow: `0 4px 18px -12px color-mix(in oklab, ${s.accent} 55%, transparent)` }}
             >
               <div
-                className="pointer-events-none absolute inset-x-0 top-0 h-[2px] opacity-70 transition-opacity duration-500 group-hover:opacity-100"
+                className="pointer-events-none absolute inset-x-0 top-0 h-[2px] opacity-70"
                 style={{ background: `linear-gradient(90deg, transparent, ${s.accent}, transparent)` }}
               />
-              <div
-                className="pointer-events-none absolute -inset-1 rounded-3xl opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-60"
-                style={{ background: `radial-gradient(50% 40% at 50% 0%, ${s.accent}, transparent 70%)` }}
-              />
-              <div className="relative flex items-start gap-4">
-                <span
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform duration-500 group-hover:scale-110"
-                  style={{ backgroundColor: `color-mix(in oklab, ${s.accent} 18%, transparent)`, color: s.accent }}
-                >
-                  {s.icon}
-                </span>
-                <div className="min-w-0">
-                  <div className="font-display text-lg font-bold">{s.name}</div>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-                </div>
-              </div>
+              <span
+                className="grid h-10 w-10 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110"
+                style={{ backgroundColor: `color-mix(in oklab, ${s.accent} 18%, transparent)`, color: s.accent }}
+              >
+                {s.icon}
+              </span>
+              <div className="mt-3 font-display text-sm sm:text-base font-bold leading-tight">{s.name}</div>
+              <p className="mt-1 hidden text-xs leading-relaxed text-muted-foreground sm:block">
+                {s.desc}
+              </p>
             </motion.div>
           ))}
         </div>
