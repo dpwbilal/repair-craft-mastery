@@ -1066,25 +1066,10 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
           <Link
             to="/course/$slug"
             params={{ slug: t.slug }}
-            className="mt-auto pt-8 relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full text-sm font-semibold transition-colors duration-300"
-            style={{
-              color: t.accent,
-            }}
+            className="group/btn mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02]"
+            style={{ backgroundColor: t.accent, boxShadow: `0 8px 24px -8px ${t.accent}` }}
           >
-            <span
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border px-5 py-3 transition-colors duration-300"
-              style={{ borderColor: `${t.accent}88` }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = t.accent;
-                e.currentTarget.style.color = "#0B0B0C";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = t.accent;
-              }}
-            >
-              Learn More <ArrowRight className="h-4 w-4" />
-            </span>
+            Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
           </Link>
         </div>
       </motion.article>
