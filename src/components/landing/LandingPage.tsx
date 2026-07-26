@@ -1518,6 +1518,10 @@ function ContactFooter() {
             transition={{ duration: 0.6, delay: 0.08 }}
             className="mobile-reveal transform-gpu lg:sticky lg:top-24"
           >
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
+              <Sparkles className="h-3 w-3" />
+              Click to copy number
+            </div>
             <div className="flex flex-col gap-3">
               <motion.button
                 whileHover={{ y: -4 }}
