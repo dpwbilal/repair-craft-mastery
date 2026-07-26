@@ -806,7 +806,7 @@ function DiplomaShowcase() {
           />
           <motion.div
             animate={{ y: [0, -10, 0], rotate: [0, 0.4, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             className="group relative overflow-hidden rounded-3xl border border-[var(--power)]/40 bg-card shadow-[0_30px_80px_-30px_rgba(255,176,32,0.5)] will-change-transform"
           >
             <img
@@ -815,7 +815,8 @@ function DiplomaShowcase() {
               className="h-full w-full object-cover aspect-[16/9]"
               loading="lazy"
             />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-5 sm:p-7 text-white">
+            {/* Overlay caption — hidden on mobile so image is fully visible */}
+            <div className="hidden sm:block absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-5 sm:p-7 text-white">
               <div className="flex flex-wrap items-end justify-between gap-3">
                 <div>
                   <div className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--power)]">
@@ -831,6 +832,20 @@ function DiplomaShowcase() {
               </div>
             </div>
           </motion.div>
+          {/* Mobile-only caption below image */}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--power)]/30 bg-card px-4 py-3 sm:hidden">
+            <div className="min-w-0">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--power)]">
+                Diploma Day 2026
+              </div>
+              <div className="mt-0.5 font-display text-sm font-bold leading-tight">
+                Graduating Batch — Mobile Repairing
+              </div>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[var(--power)]/60 bg-[var(--power)]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--power)]">
+              <Award className="h-3 w-3" /> Certified
+            </span>
+          </div>
         </motion.div>
       </div>
 
@@ -838,7 +853,7 @@ function DiplomaShowcase() {
       <AnimatePresence>
         {celebrate && (
           <div className="pointer-events-none fixed inset-0 z-[120] overflow-hidden">
-            {Array.from({ length: 120 }).map((_, i) => {
+            {Array.from({ length: typeof window !== "undefined" && window.innerWidth < 768 ? 40 : 100 }).map((_, i) => {
               const colors = ["#FFC300", "#FF7A00", "#00A3FF", "#00E5FF", "#FF5500", "#FFFFFF"];
               const left = Math.random() * 100;
               const delay = Math.random() * 0.3;
