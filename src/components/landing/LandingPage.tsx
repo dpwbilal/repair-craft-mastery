@@ -222,7 +222,7 @@ const NAV = [
   { label: "Home", href: "#home" },
   { label: "The Master", href: "#master" },
   { label: "Course Levels", href: "#curriculum" },
-  { label: "Facilities", href: "#lab" },
+  { label: "Software", href: "#lab" },
   { label: "Contact", href: "#contact" },
 ];
 
