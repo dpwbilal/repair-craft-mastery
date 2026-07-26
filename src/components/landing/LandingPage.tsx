@@ -517,9 +517,9 @@ function Hero() {
             <div className="pointer-events-none absolute inset-x-0 h-[3px] -translate-y-1/2 bg-gradient-to-r from-transparent via-[var(--tech)] to-transparent shadow-[0_0_20px_2px_color-mix(in_oklab,var(--tech)_60%,transparent)] animate-scan" />
             {/* floating hotspots */}
             {[
-              { top: "18%", left: "22%", label: "CPU" },
-              { top: "62%", left: "70%", label: "eMMC" },
-              { top: "40%", left: "50%", label: "PMIC" },
+              { top: "18%", left: "78%", label: "CPU" },
+              { top: "22%", left: "48%", label: "UFS" },
+              { top: "58%", left: "50%", label: "LPDDR5X" },
             ].map((h, i) => (
               <motion.div
                 key={i}
