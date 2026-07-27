@@ -610,21 +610,32 @@ function Master() {
   const cards = [
     {
       tag: "1993",
-      title: "Electronics Course — Friends College, Lahore",
+      titleParts: [
+        { text: "Electronics Course", highlight: true },
+        { text: " — Friends College, Lahore" },
+      ],
       body: "Where the journey began — foundational electronics theory, hands-on component work, and the discipline that defines every repair since.",
       icon: <ShieldCheck className="h-5 w-5" />,
       accent: "var(--tech)",
     },
     {
       tag: "2001",
-      title: "Mobile Phone Complete Course — Kuwait",
+      titleParts: [
+        { text: "Mobile Phone Complete Course — " },
+        { text: "Kuwait", highlight: true },
+      ],
       body: "Years abroad drilling deep-level micro-soldering principles and disciplined workshop craft that most local trainers never touch.",
       icon: <Cpu className="h-5 w-5" />,
       accent: "var(--power)",
     },
     {
       tag: "2013 – 2018",
-      title: "Multiple Professional Visits to China",
+      titleParts: [
+        { text: "Multiple " },
+        { text: "Professional", highlight: true },
+        { text: " Visits to " },
+        { text: "China", highlight: true },
+      ],
       body: "Frequent trips to Shenzhen's hardware bazaars — sourcing the newest diagnostic rigs, flashing boxes, and repair techniques straight from the source.",
       icon: <MapPin className="h-5 w-5" />,
       accent: "var(--tech)",
