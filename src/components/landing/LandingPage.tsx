@@ -650,7 +650,7 @@ function Master() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mobile-reveal mb-4 max-w-2xl transform-gpu"
+          className="mobile-reveal mb-2 max-w-2xl transform-gpu"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Meet the Instructor</div>
           <h2 className="mt-1 text-4xl sm:text-5xl font-bold leading-tight">
@@ -658,18 +658,9 @@ function Master() {
             <br />
             <SplitReveal text="into one Lahore classroom." className="text-gradient-tech" />
           </h2>
-          <p className="mt-3 text-sm sm:text-base leading-relaxed text-muted-foreground">
-            Trained in{" "}
-            <span className="rounded-md bg-[var(--tech)]/10 px-1.5 py-0.5 font-semibold text-[var(--tech)]">Lahore</span>
-            , mastered in{" "}
-            <span className="rounded-md bg-[var(--power)]/10 px-1.5 py-0.5 font-semibold text-[var(--power)]">Kuwait</span>
-            , sharpened in{" "}
-            <span className="rounded-md bg-[var(--tech)]/10 px-1.5 py-0.5 font-semibold text-[var(--tech)]">China</span>
-            . Three countries of craft, distilled into one classroom.
-          </p>
         </motion.div>
 
-        <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
+        <div className="mt-2 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
