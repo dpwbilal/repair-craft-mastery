@@ -920,6 +920,9 @@ function CurriculumInner() {
             <SplitReveal text="Course Level" className="text-gradient-tech" />
           </h2>
           <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)]" />
+          <h3 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
+            <span className="text-gradient-tech">OUR PLANS</span>
+          </h3>
           <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
             Select the best mobile repairing course level and learn from basic to master level with hands-on practice.
           </p>
