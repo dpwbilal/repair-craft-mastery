@@ -1584,7 +1584,7 @@ function ContactFooter() {
               </motion.button>
 
               <button
-                onClick={() => copy("admissions@awantech.pk", "Email")}
+                onClick={() => copy("bmsaadnasir@gmail.com", "Email")}
                 className="premium-lift group inline-flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-left hover:border-[var(--power)]"
               >
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--power)]/10 text-[var(--power)]">
@@ -1594,7 +1594,7 @@ function ContactFooter() {
                   <span className="block text-[10px] uppercase tracking-widest text-muted-foreground">
                     Email Admissions
                   </span>
-                  <span className="block font-display text-lg font-bold">admissions@awantech.pk</span>
+                  <span className="block font-display text-lg font-bold">bmsaadnasir@gmail.com</span>
                 </span>
                 <ChevronRight className="ml-2 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
               </button>
