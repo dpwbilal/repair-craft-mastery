@@ -719,7 +719,7 @@ function Master() {
             <div className="space-y-6">
               {cards.map((c, i) => (
                 <motion.article
-                  key={c.title}
+                  key={c.tag}
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
@@ -739,7 +739,24 @@ function Master() {
                     >
                       {c.tag}
                     </div>
-                    <h3 className="mt-1 font-display text-2xl font-bold">{c.title}</h3>
+                    <h3 className="mt-1 font-display text-2xl font-bold">
+                      {c.titleParts.map((p, idx) =>
+                        p.highlight ? (
+                          <span
+                            key={idx}
+                            className="rounded-md px-1.5 py-0.5 font-extrabold"
+                            style={{
+                              backgroundColor: `color-mix(in oklab, ${c.accent} 18%, transparent)`,
+                              color: c.accent,
+                            }}
+                          >
+                            {p.text}
+                          </span>
+                        ) : (
+                          <span key={idx}>{p.text}</span>
+                        )
+                      )}
+                    </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
                   </div>
                 </motion.article>
