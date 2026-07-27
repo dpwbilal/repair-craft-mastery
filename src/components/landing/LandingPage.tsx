@@ -610,21 +610,32 @@ function Master() {
   const cards = [
     {
       tag: "1993",
-      title: "Electronics Course — Friends College, Lahore",
+      titleParts: [
+        { text: "Electronics Course", highlight: true },
+        { text: " — Friends College, Lahore" },
+      ],
       body: "Where the journey began — foundational electronics theory, hands-on component work, and the discipline that defines every repair since.",
       icon: <ShieldCheck className="h-5 w-5" />,
       accent: "var(--tech)",
     },
     {
       tag: "2001",
-      title: "Mobile Phone Complete Course — Kuwait",
+      titleParts: [
+        { text: "Mobile Phone Complete Course — " },
+        { text: "Kuwait", highlight: true },
+      ],
       body: "Years abroad drilling deep-level micro-soldering principles and disciplined workshop craft that most local trainers never touch.",
       icon: <Cpu className="h-5 w-5" />,
       accent: "var(--power)",
     },
     {
       tag: "2013 – 2018",
-      title: "Multiple Professional Visits to China",
+      titleParts: [
+        { text: "Multiple " },
+        { text: "Professional", highlight: true },
+        { text: " Visits to " },
+        { text: "China", highlight: true },
+      ],
       body: "Frequent trips to Shenzhen's hardware bazaars — sourcing the newest diagnostic rigs, flashing boxes, and repair techniques straight from the source.",
       icon: <MapPin className="h-5 w-5" />,
       accent: "var(--tech)",
@@ -639,7 +650,7 @@ function Master() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mobile-reveal mb-4 max-w-2xl transform-gpu"
+          className="mobile-reveal mb-2 max-w-2xl transform-gpu"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Meet the Instructor</div>
           <h2 className="mt-1 text-4xl sm:text-5xl font-bold leading-tight">
@@ -647,18 +658,9 @@ function Master() {
             <br />
             <SplitReveal text="into one Lahore classroom." className="text-gradient-tech" />
           </h2>
-          <p className="mt-3 text-sm sm:text-base leading-relaxed text-muted-foreground">
-            Trained in{" "}
-            <span className="rounded-md bg-[var(--tech)]/10 px-1.5 py-0.5 font-semibold text-[var(--tech)]">Lahore</span>
-            , mastered in{" "}
-            <span className="rounded-md bg-[var(--power)]/10 px-1.5 py-0.5 font-semibold text-[var(--power)]">Kuwait</span>
-            , sharpened in{" "}
-            <span className="rounded-md bg-[var(--tech)]/10 px-1.5 py-0.5 font-semibold text-[var(--tech)]">China</span>
-            . Three countries of craft, distilled into one classroom.
-          </p>
         </motion.div>
 
-        <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
+        <div className="mt-2 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -708,7 +710,7 @@ function Master() {
             <div className="space-y-6">
               {cards.map((c, i) => (
                 <motion.article
-                  key={c.title}
+                  key={c.tag}
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
@@ -728,7 +730,24 @@ function Master() {
                     >
                       {c.tag}
                     </div>
-                    <h3 className="mt-1 font-display text-2xl font-bold">{c.title}</h3>
+                    <h3 className="mt-1 font-display text-2xl font-bold">
+                      {c.titleParts.map((p, idx) =>
+                        p.highlight ? (
+                          <span
+                            key={idx}
+                            className="rounded-md px-1.5 py-0.5 font-extrabold"
+                            style={{
+                              backgroundColor: `color-mix(in oklab, ${c.accent} 18%, transparent)`,
+                              color: c.accent,
+                            }}
+                          >
+                            {p.text}
+                          </span>
+                        ) : (
+                          <span key={idx}>{p.text}</span>
+                        )
+                      )}
+                    </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
                   </div>
                 </motion.article>
@@ -901,6 +920,9 @@ function CurriculumInner() {
             <SplitReveal text="Course Level" className="text-gradient-tech" />
           </h2>
           <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)]" />
+          <h3 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
+            <span className="text-gradient-tech">OUR PLANS</span>
+          </h3>
           <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
             Select the best mobile repairing course level and learn from basic to master level with hands-on practice.
           </p>
@@ -926,17 +948,8 @@ export const TIERS = [
     duration: "1 Month",
     bestFor: "Beginners & Job Seekers",
     features: [
-      "Mobile Open and close",
-      "Glass changing",
-      "OCA machine",
-      "De-bubbler machine",
-      "All kind of parts replacement",
-      "Mobile housing",
-      "Use of tools & multimeter",
-      "Use of soldering iron",
-      "Use of heat gun",
-      "Hands-on practice on smartphone models",
-      "Basics chip-level repairing and more…",
+      "Basic Multimeter introduction",
+      "Basic tool guide and more",
     ],
   },
   {
@@ -1574,7 +1587,7 @@ function ContactFooter() {
               </motion.button>
 
               <button
-                onClick={() => copy("admissions@awantech.pk", "Email")}
+                onClick={() => copy("bmsaadnasir@gmail.com", "Email")}
                 className="premium-lift group inline-flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-left hover:border-[var(--power)]"
               >
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--power)]/10 text-[var(--power)]">
@@ -1584,7 +1597,7 @@ function ContactFooter() {
                   <span className="block text-[10px] uppercase tracking-widest text-muted-foreground">
                     Email Admissions
                   </span>
-                  <span className="block font-display text-lg font-bold">admissions@awantech.pk</span>
+                  <span className="block font-display text-lg font-bold">bmsaadnasir@gmail.com</span>
                 </span>
                 <ChevronRight className="ml-2 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
               </button>

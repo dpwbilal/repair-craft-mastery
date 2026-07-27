@@ -318,6 +318,28 @@
   will-change: transform, opacity;
 }
 
+/* -------------------------------------------------------------------------- */
+/*  Safety net: guarantee text visibility even if motion JS is slow / blocked */
+/* -------------------------------------------------------------------------- */
+@keyframes reveal-fallback {
+  to {
+    opacity: 1;
+  }
+}
+
+.mobile-reveal {
+  animation: reveal-fallback 0.01s linear 3s forwards;
+}
+
+/* Gradient text fallback — if the gradient background fails to paint for
+   any reason, the underlying text color still renders so nothing goes
+   invisible. Applied only when the element has no explicit color. */
+.text-gradient-tech,
+.text-gradient-shimmer,
+.text-hero-mono {
+  color: var(--foreground);
+}
+
 @media (max-width: 768px) {
   .mobile-enroll {
     min-height: 0;
