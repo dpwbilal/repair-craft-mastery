@@ -1381,7 +1381,6 @@ function ValueProps() {
 function ContactFooter() {
   const [toast, setToast] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", email: "" });
 
   const copy = async (value: string, label: string) => {
     try {
@@ -1396,75 +1395,11 @@ function ContactFooter() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    alert("Your application has been submitted successfully.");
-    (e.target as HTMLFormElement).reset();
-    setForm({ name: "", phone: "", email: "" });
-  };
 
   return (
     <section id="contact" className="relative pt-24 lg:pt-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-14">
-          {/* Column 1 — form directly beneath the section label */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="mobile-reveal transform-gpu"
-          >
-            <form
-              onSubmit={handleSubmit}
-              className="rounded-3xl border border-border bg-card/90 p-6 shadow-lg sm:p-8"
-            >
-              <div className="text-[10px] uppercase tracking-widest text-[var(--tech)]">Apply Now</div>
-              <h3 className="mt-1 font-display text-2xl font-bold">Submit your application</h3>
-              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <FormField
-                  icon={<User className="h-4 w-4" />}
-                  label="Full Name"
-                  name="name"
-                  value={form.name}
-                  onChange={(v) => setForm((f) => ({ ...f, name: v }))}
-                  placeholder="John Doe"
-                  required
-                  pattern="[A-Za-z\s]+"
-                  title="Please enter alphabetic characters only."
-                />
-                <FormField
-                  icon={<Phone className="h-4 w-4" />}
-                  label="WhatsApp / Phone"
-                  name="phone"
-                  value={form.phone}
-                  onChange={(v) => setForm((f) => ({ ...f, phone: v }))}
-                  placeholder="+1 234 567 8900"
-                  required
-                  pattern="[0-9]+"
-                  title="Please enter numbers only. No spaces or special characters."
-                />
-                <div className="sm:col-span-2">
-                  <FormField
-                    icon={<Mail className="h-4 w-4" />}
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    value={form.email}
-                    onChange={(v) => setForm((f) => ({ ...f, email: v }))}
-                    placeholder="student@example.com"
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="premium-lift mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)] px-6 py-3.5 text-sm font-semibold text-black sm:w-auto"
-              >
-                Submit Application <ArrowRight className="h-4 w-4" />
-              </button>
-            </form>
-          </motion.div>
-
+        <div className="grid grid-cols-1 items-start gap-8 lg:gap-14">
           {/* Column 2 — contact cards parallel to the form */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
