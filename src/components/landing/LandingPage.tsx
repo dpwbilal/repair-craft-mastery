@@ -19,7 +19,6 @@ import {
   ChevronRight,
   Award,
   Circle,
-  User,
   Headphones,
   Cog,
   Unlock,
@@ -36,63 +35,6 @@ import diplomaAsset from "@/assets/diploma-2026.jpeg.asset.json";
 
 const masterImg = nasirAwanAsset.url;
 const diplomaImg = diplomaAsset.url;
-
-function FormField({
-  label,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
-  icon,
-  required = false,
-  name,
-  pattern,
-  title,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  type?: string;
-  icon?: React.ReactNode;
-  required?: boolean;
-  name?: string;
-  pattern?: string;
-  title?: string;
-}) {
-  const [focused, setFocused] = useState(false);
-  const active = focused || value.length > 0;
-  return (
-    <label className="group relative block">
-      <span
-        className={`pointer-events-none absolute left-10 z-10 origin-left text-xs font-medium uppercase tracking-widest transition-all duration-200 ${
-          active
-            ? "top-1 -translate-y-0 scale-90 text-[var(--tech)]"
-            : "top-1/2 -translate-y-1/2 scale-100 text-muted-foreground"
-        }`}
-      >
-        {label}
-        {required && <span className="ml-1 text-[var(--power)]">*</span>}
-      </span>
-      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-[var(--tech)]">
-        {icon}
-      </span>
-      <input
-        type={type}
-        name={name}
-        value={value}
-        required={required}
-        pattern={pattern}
-        title={title}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={active ? placeholder : ""}
-        className="w-full rounded-2xl border border-border bg-background/60 pl-10 pr-4 pt-6 pb-2 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-[var(--tech)] focus:shadow-[0_0_0_4px_color-mix(in_oklab,var(--tech)_18%,transparent)]"
-      />
-    </label>
-  );
-}
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
