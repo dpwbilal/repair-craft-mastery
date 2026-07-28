@@ -19,7 +19,6 @@ import {
   ChevronRight,
   Award,
   Circle,
-  User,
   Headphones,
   Cog,
   Unlock,
@@ -36,63 +35,6 @@ import diplomaAsset from "@/assets/diploma-2026.jpeg.asset.json";
 
 const masterImg = nasirAwanAsset.url;
 const diplomaImg = diplomaAsset.url;
-
-function FormField({
-  label,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
-  icon,
-  required = false,
-  name,
-  pattern,
-  title,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  type?: string;
-  icon?: React.ReactNode;
-  required?: boolean;
-  name?: string;
-  pattern?: string;
-  title?: string;
-}) {
-  const [focused, setFocused] = useState(false);
-  const active = focused || value.length > 0;
-  return (
-    <label className="group relative block">
-      <span
-        className={`pointer-events-none absolute left-10 z-10 origin-left text-xs font-medium uppercase tracking-widest transition-all duration-200 ${
-          active
-            ? "top-1 -translate-y-0 scale-90 text-[var(--tech)]"
-            : "top-1/2 -translate-y-1/2 scale-100 text-muted-foreground"
-        }`}
-      >
-        {label}
-        {required && <span className="ml-1 text-[var(--power)]">*</span>}
-      </span>
-      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-[var(--tech)]">
-        {icon}
-      </span>
-      <input
-        type={type}
-        name={name}
-        value={value}
-        required={required}
-        pattern={pattern}
-        title={title}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={active ? placeholder : ""}
-        className="w-full rounded-2xl border border-border bg-background/60 pl-10 pr-4 pt-6 pb-2 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-[var(--tech)] focus:shadow-[0_0_0_4px_color-mix(in_oklab,var(--tech)_18%,transparent)]"
-      />
-    </label>
-  );
-}
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -1439,7 +1381,6 @@ function ValueProps() {
 function ContactFooter() {
   const [toast, setToast] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", email: "" });
 
   const copy = async (value: string, label: string) => {
     try {
@@ -1454,75 +1395,11 @@ function ContactFooter() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    alert("Your application has been submitted successfully.");
-    (e.target as HTMLFormElement).reset();
-    setForm({ name: "", phone: "", email: "" });
-  };
 
   return (
     <section id="contact" className="relative pt-24 lg:pt-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-14">
-          {/* Column 1 — form directly beneath the section label */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="mobile-reveal transform-gpu"
-          >
-            <form
-              onSubmit={handleSubmit}
-              className="rounded-3xl border border-border bg-card/90 p-6 shadow-lg sm:p-8"
-            >
-              <div className="text-[10px] uppercase tracking-widest text-[var(--tech)]">Apply Now</div>
-              <h3 className="mt-1 font-display text-2xl font-bold">Submit your application</h3>
-              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <FormField
-                  icon={<User className="h-4 w-4" />}
-                  label="Full Name"
-                  name="name"
-                  value={form.name}
-                  onChange={(v) => setForm((f) => ({ ...f, name: v }))}
-                  placeholder="John Doe"
-                  required
-                  pattern="[A-Za-z\s]+"
-                  title="Please enter alphabetic characters only."
-                />
-                <FormField
-                  icon={<Phone className="h-4 w-4" />}
-                  label="WhatsApp / Phone"
-                  name="phone"
-                  value={form.phone}
-                  onChange={(v) => setForm((f) => ({ ...f, phone: v }))}
-                  placeholder="+1 234 567 8900"
-                  required
-                  pattern="[0-9]+"
-                  title="Please enter numbers only. No spaces or special characters."
-                />
-                <div className="sm:col-span-2">
-                  <FormField
-                    icon={<Mail className="h-4 w-4" />}
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    value={form.email}
-                    onChange={(v) => setForm((f) => ({ ...f, email: v }))}
-                    placeholder="student@example.com"
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="premium-lift mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)] px-6 py-3.5 text-sm font-semibold text-black sm:w-auto"
-              >
-                Submit Application <ArrowRight className="h-4 w-4" />
-              </button>
-            </form>
-          </motion.div>
-
+        <div className="grid grid-cols-1 items-start gap-8 lg:gap-14">
           {/* Column 2 — contact cards parallel to the form */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
