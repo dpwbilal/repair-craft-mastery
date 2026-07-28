@@ -677,13 +677,17 @@ function Master() {
                         p.highlight ? (
                           <span
                             key={idx}
-                            className="rounded-md px-1.5 py-0.5 font-extrabold"
+                            className="relative inline-block rounded-lg px-2 py-0.5 font-extrabold text-white shadow-[0_0_18px_-4px_currentColor]"
                             style={{
-                              backgroundColor: `color-mix(in oklab, ${c.accent} 18%, transparent)`,
-                              color: c.accent,
+                              backgroundImage: `linear-gradient(135deg, ${c.accent}, color-mix(in oklab, ${c.accent} 70%, var(--power)))`,
+                              textShadow: "0 1px 2px rgba(0,0,0,0.25)",
                             }}
                           >
-                            {p.text}
+                            <span className="relative z-10">{p.text}</span>
+                            <span
+                              aria-hidden
+                              className="pointer-events-none absolute inset-0 rounded-lg border border-white/20"
+                            />
                           </span>
                         ) : (
                           <span key={idx}>{p.text}</span>
