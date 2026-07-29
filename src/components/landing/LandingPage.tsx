@@ -675,19 +675,8 @@ function Master() {
                     <h3 className="mt-1 font-display text-2xl font-bold">
                       {c.titleParts.map((p, idx) =>
                         p.highlight ? (
-                          <span
-                            key={idx}
-                            className="relative inline-block rounded-lg px-2 py-0.5 font-extrabold text-white shadow-[0_0_18px_-4px_currentColor]"
-                            style={{
-                              backgroundImage: `linear-gradient(135deg, ${c.accent}, color-mix(in oklab, ${c.accent} 70%, var(--power)))`,
-                              textShadow: "0 1px 2px rgba(0,0,0,0.25)",
-                            }}
-                          >
-                            <span className="relative z-10">{p.text}</span>
-                            <span
-                              aria-hidden
-                              className="pointer-events-none absolute inset-0 rounded-lg border border-white/20"
-                            />
+                          <span key={idx} className="font-extrabold" style={{ color: c.accent }}>
+                            {p.text}
                           </span>
                         ) : (
                           <span key={idx}>{p.text}</span>
