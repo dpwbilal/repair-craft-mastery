@@ -333,7 +333,7 @@
   /* Start hidden so the SSR'd box/border never flashes before the
      entrance animation takes over; fallback guarantees visibility. */
   opacity: 0;
-  animation: reveal-fallback 0.3s ease-out 3s forwards;
+  animation: reveal-fallback 0.3s ease-out 0.9s forwards;
   backface-visibility: hidden;
   transform: translateZ(0);
 }
@@ -346,13 +346,16 @@
   }
 }
 
-/* Gradient text fallback — if the gradient background fails to paint for
-   any reason, the underlying text color still renders so nothing goes
-   invisible. Applied only when the element has no explicit color. */
-.text-gradient-tech,
-.text-gradient-shimmer,
-.text-hero-mono {
-  color: var(--foreground);
+/* Gradient text fallback — only for engines without background-clip: text.
+   Applying it unconditionally used to paint solid text over the gradient. */
+@supports not ((background-clip: text) or (-webkit-background-clip: text)) {
+  .text-gradient-tech,
+  .text-gradient-shimmer,
+  .text-hero-mono {
+    background-image: none;
+    color: var(--foreground);
+    -webkit-text-fill-color: var(--foreground);
+  }
 }
 
 @media (max-width: 768px) {
