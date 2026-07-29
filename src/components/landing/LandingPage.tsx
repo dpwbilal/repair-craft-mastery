@@ -1074,7 +1074,7 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
           <Link
             to="/course/$slug"
             params={{ slug: t.slug }}
-            className="group/btn mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02]"
+            className="group/btn mt-6 min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             style={{ backgroundColor: t.accent, boxShadow: `0 8px 24px -8px ${t.accent}` }}
           >
             Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
