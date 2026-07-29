@@ -330,6 +330,12 @@
   backface-visibility: hidden;
 }
 
+.reveal-force-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal-word,
   .mobile-reveal {
