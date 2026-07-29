@@ -27,6 +27,8 @@ import {
   KeyRound,
   Wifi,
   ShieldOff,
+  Facebook,
+  Youtube,
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import motherboardImg from "@/assets/motherboard.jpg";
