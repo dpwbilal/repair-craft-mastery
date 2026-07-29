@@ -27,6 +27,8 @@ import {
   KeyRound,
   Wifi,
   ShieldOff,
+  Facebook,
+  Youtube,
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import motherboardImg from "@/assets/motherboard.jpg";
@@ -436,6 +438,27 @@ function Hero() {
             <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[var(--tech)]" /> Kuwait Trained</div>
             <div className="flex items-center gap-2"><Cpu className="h-4 w-4 text-[var(--power)]" /> China Sourced Rigs</div>
             <div className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Main Hall Road, Lahore</div>
+          </div>
+
+          <div className="mt-6 flex items-center gap-3">
+            <a
+              href="https://www.facebook.com/profile.php?id=61591323549533"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Nasir Tech Institute on Facebook"
+              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[var(--tech)] hover:text-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <Facebook className="h-5 w-5" />
+            </a>
+            <a
+              href="https://www.youtube.com/@mobilereparingcours"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Watch Nasir Tech Institute on YouTube"
+              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[var(--power)] hover:text-[var(--power)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <Youtube className="h-5 w-5" />
+            </a>
           </div>
         </motion.div>
 
