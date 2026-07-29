@@ -522,19 +522,19 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="absolute -left-2 sm:-left-6 bottom-8 rounded-2xl glass-card px-4 py-3 shadow-lg"
+            className="absolute left-1 sm:-left-6 bottom-3 sm:bottom-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3"
           >
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Micro-Soldering</div>
-            <div className="font-display text-lg font-bold">0.4 mm precision</div>
+            <div className="text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">Micro-Soldering</div>
+            <div className="font-display text-sm font-bold sm:text-lg">0.4 mm precision</div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="absolute -right-2 sm:-right-6 top-8 rounded-2xl glass-card px-4 py-3 shadow-lg"
+            className="absolute right-1 sm:-right-6 top-2 sm:top-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3"
           >
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Success Rate</div>
-            <div className="font-display text-lg font-bold text-[var(--power)]">98.6%</div>
+            <div className="text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">Success Rate</div>
+            <div className="font-display text-sm font-bold text-[var(--power)] sm:text-lg">98.6%</div>
           </motion.div>
         </motion.div>
       </div>
