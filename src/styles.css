@@ -182,6 +182,22 @@
   }
 }
 
+
+.content-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}
+
+.mobile-reveal,
+.reveal-word,
+.hero-in,
+[style*="opacity: 0"],
+[style*="opacity:0"] {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
 /* ============ Custom utilities ============ */
 
 @utility font-display {
@@ -213,13 +229,11 @@
 
 @utility glass-nav {
   background-color: color-mix(in oklab, var(--background) 65%, transparent);
-  backdrop-filter: blur(14px) saturate(160%);
   border-bottom: 1px solid var(--border);
 }
 
 @utility glass-card {
   background-color: color-mix(in oklab, var(--card) 70%, transparent);
-  backdrop-filter: blur(12px) saturate(140%);
   border: 1px solid var(--border);
 }
 
@@ -229,15 +243,11 @@
 }
 
 @utility glow-tech {
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--tech) 40%, transparent),
-    0 10px 40px -10px color-mix(in oklab, var(--tech) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--tech) 35%, transparent);
 }
 
 @utility glow-power {
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--power) 40%, transparent),
-    0 10px 40px -10px color-mix(in oklab, var(--power) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--power) 35%, transparent);
 }
 
 @utility bg-grid {
@@ -294,12 +304,8 @@
 
 .premium-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
 }
 
-.dark .premium-lift:hover {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45), 0 8px 10px -6px rgba(0, 0, 0, 0.35);
-}
 
 /* Hero mono headline — theme-aware gradient so it stays readable in light mode */
 @utility text-hero-mono {
@@ -317,8 +323,9 @@
 }
 
 @utility mobile-reveal {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
 }
 
 /* Hero + split-word reveals are pure CSS: they start animating as soon as the
@@ -335,14 +342,15 @@
 }
 
 .reveal-word {
-  animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
 }
 
 .hero-in {
-  animation: fade-up-in 0.5s ease-out both;
-  will-change: transform, opacity;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
 }
 
 .reveal-force-visible {
@@ -385,10 +393,7 @@
   [class*="backdrop-blur"],
   .glass-nav,
   .glass-card {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
     background-color: color-mix(in oklab, var(--card) 94%, transparent) !important;
-    box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.28);
   }
 
   [class*="blur-3xl"],

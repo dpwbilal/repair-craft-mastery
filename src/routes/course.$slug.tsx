@@ -1,5 +1,4 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { ArrowLeft, Check, Clock, Users, Zap, ArrowRight, Cpu, CircuitBoard, BriefcaseBusiness, Quote } from "lucide-react";
 import { TIERS } from "@/components/landing/LandingPage";
 
@@ -17,6 +16,22 @@ export const Route = createFileRoute("/course/$slug")({
         },
         {
           name: "description",
+          content: tier
+            ? `${tier.title} · ${tier.duration}. Hands-on mobile repair training under Sir Nasir Awan.`
+            : "Explore our mobile repairing course tiers at Nasir Tech Institute.",
+        },
+        { property: "og:title", content: tier ? `${tier.title} — Nasir Tech Institute` : "Course — Nasir Tech Institute" },
+        {
+          property: "og:description",
+          content: tier
+            ? `${tier.title} · ${tier.duration}. Hands-on mobile repair training under Sir Nasir Awan.`
+            : "Explore our mobile repairing course tiers at Nasir Tech Institute.",
+        },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: tier ? `${tier.title} — Nasir Tech Institute` : "Course — Nasir Tech Institute" },
+        {
+          name: "twitter:description",
           content: tier
             ? `${tier.title} · ${tier.duration}. Hands-on mobile repair training under Sir Nasir Awan.`
             : "Explore our mobile repairing course tiers at Nasir Tech Institute.",
@@ -73,10 +88,7 @@ function CoursePage() {
             Back to Institute
           </Link>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
             className="mt-8"
           >
             <span
@@ -101,7 +113,7 @@ function CoursePage() {
               <InfoChip icon={<Users className="h-4 w-4" />} label="Best For" value={tier.bestFor} accent={tier.accent} />
               <InfoChip icon={<Zap className="h-4 w-4" />} label="Format" value="100% Practical" accent={tier.accent} />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -116,13 +128,9 @@ function CoursePage() {
 
         <div className="mt-10 space-y-4">
           {tier.features.map((f: string, i: number) => (
-            <motion.div
+            <div
               key={f}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="mobile-reveal premium-lift group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 transform-gpu hover:border-[color:var(--fg)]"
+              className="premium-lift group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 hover:border-[color:var(--fg)]"
               style={{ ["--fg" as string]: `${tier.accent}66` }}
             >
               <span
@@ -135,34 +143,27 @@ function CoursePage() {
                 <div className="font-semibold text-foreground">{f}</div>
               </div>
               <Check className="mt-1 h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100" style={{ color: tier.accent }} />
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
 
       <section className="border-y border-border bg-surface py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            className="mobile-reveal max-w-2xl transform-gpu"
+          <div
+            className="max-w-2xl"
           >
             <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: tier.accent }}>The learning path</div>
             <h2 className="mt-2 font-display text-3xl font-bold sm:text-4xl">From first tool to market-ready mastery.</h2>
-          </motion.div>
+          </div>
 
           <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3">
             {phases.map((phase, index) => {
               const Icon = phase.icon;
               return (
-                <motion.article
+                <article
                   key={phase.label}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                  className="mobile-reveal premium-lift relative overflow-hidden rounded-2xl border border-border bg-card p-6 transform-gpu"
+                  className="premium-lift relative overflow-hidden rounded-2xl border border-border bg-card p-6"
                   style={{ borderTopColor: tier.accent, borderTopWidth: 3 }}
                 >
                   <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ backgroundColor: `${tier.accent}20`, color: tier.accent }}>
@@ -171,23 +172,20 @@ function CoursePage() {
                   <div className="mt-5 text-[10px] font-bold uppercase tracking-widest" style={{ color: tier.accent }}>{phase.label}</div>
                   <h3 className="mt-2 font-display text-xl font-bold">{phase.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{phase.body}</p>
-                </motion.article>
+                </article>
               );
             })}
           </div>
 
-          <motion.blockquote
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            className="mobile-reveal relative mt-10 overflow-hidden rounded-2xl border border-border bg-card p-7 transform-gpu sm:p-10"
+          <blockquote
+            className="relative mt-10 overflow-hidden rounded-2xl border border-border bg-card p-7 sm:p-10"
           >
             <Quote className="h-9 w-9" style={{ color: tier.accent }} />
             <p className="mt-5 max-w-4xl font-display text-xl font-semibold leading-relaxed sm:text-2xl">
               “True mastery isn't just about replacing parts; it's about understanding the architecture of the board and executing repairs with surgical precision.”
             </p>
             <footer className="mt-5 text-sm font-semibold" style={{ color: tier.accent }}>Sir Nasir's Philosophy</footer>
-          </motion.blockquote>
+          </blockquote>
         </div>
       </section>
 
