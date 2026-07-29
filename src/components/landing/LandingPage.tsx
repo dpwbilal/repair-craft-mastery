@@ -73,10 +73,10 @@ function SplitReveal({ text, className = "" }: { text: string; className?: strin
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-baseline pr-[0.25em]">
           <motion.span
-            className="mobile-reveal inline-block transform-gpu"
+            className="reveal-word inline-block transform-gpu"
             initial={{ y: "110%", opacity: 0 }}
             whileInView={{ y: "0%", opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: "some", margin: "0px 0px -10% 0px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.05 }}
           >
             {w}
