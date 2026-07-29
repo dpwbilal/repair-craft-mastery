@@ -1057,7 +1057,7 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
             </div>
           </div>
 
-          <ul className="mt-5 space-y-3">
+          <ul className="mt-5 mb-6 space-y-3">
             {t.features.map((f) => (
               <li key={f} className="flex items-start gap-3 text-sm text-foreground/85">
                 <span
