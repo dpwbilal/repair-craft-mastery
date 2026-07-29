@@ -82,7 +82,7 @@ function SplitReveal({ text, className = "" }: { text: string; className?: strin
       transition={{ staggerChildren: 0.05 }}
     >
       {words.map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden align-baseline pr-[0.25em]">
+        <span key={i} className="inline-block overflow-hidden align-bottom leading-[1.12] pr-[0.25em]">
           <motion.span
             /* gradient classes must sit on the element that paints the glyphs,
                otherwise background-clip:text has nothing to clip and the words
@@ -220,13 +220,14 @@ function Nav() {
           : "backdrop-blur-md bg-background/20 border-b border-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
-        <a href="#home" className="flex items-center gap-2 font-display font-bold tracking-tight">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:px-6 lg:px-10">
+        <a href="#home" className="flex min-w-0 items-center gap-2 font-display font-bold tracking-tight">
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-foreground text-background">
             <Wrench className="h-4 w-4" />
           </span>
-          <span className="text-sm sm:text-base">
-            NASIR <span className="text-[var(--tech)]">TECH</span> INSTITUTE
+          <span className="truncate whitespace-nowrap text-sm sm:text-base">
+            NASIR <span className="text-[var(--tech)]">TECH</span>
+            <span className="hidden sm:inline"> INSTITUTE</span>
           </span>
         </a>
 
@@ -253,11 +254,11 @@ function Nav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <button
             onClick={toggle}
             aria-label="Toggle theme"
-            className="relative grid h-9 w-9 place-items-center rounded-full border border-border bg-background/60 backdrop-blur transition-colors hover:border-[var(--tech)]"
+            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border bg-background/60 backdrop-blur transition-colors hover:border-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -280,15 +281,16 @@ function Nav() {
           <MagneticButton
             href="#contact"
             pulse
-            className="mobile-enroll h-8 whitespace-nowrap px-3 py-1.5 text-sm sm:h-auto sm:px-6 sm:py-3"
+            className="mobile-enroll min-h-11 whitespace-nowrap px-4 py-2 text-sm sm:h-auto sm:min-h-0 sm:px-6 sm:py-3"
           >
             Enroll Now <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4" />
           </MagneticButton>
 
           <button
-            className="lg:hidden grid h-9 w-9 place-items-center rounded-full border border-border"
+            className="lg:hidden grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
+            aria-expanded={open}
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -520,19 +522,19 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="absolute -left-2 sm:-left-6 bottom-8 rounded-2xl glass-card px-4 py-3 shadow-lg"
+            className="absolute left-1 sm:-left-6 bottom-3 sm:bottom-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3"
           >
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Micro-Soldering</div>
-            <div className="font-display text-lg font-bold">0.4 mm precision</div>
+            <div className="text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">Micro-Soldering</div>
+            <div className="font-display text-sm font-bold sm:text-lg">0.4 mm precision</div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="absolute -right-2 sm:-right-6 top-8 rounded-2xl glass-card px-4 py-3 shadow-lg"
+            className="absolute right-1 sm:-right-6 top-2 sm:top-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3"
           >
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Success Rate</div>
-            <div className="font-display text-lg font-bold text-[var(--power)]">98.6%</div>
+            <div className="text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">Success Rate</div>
+            <div className="font-display text-sm font-bold text-[var(--power)] sm:text-lg">98.6%</div>
           </motion.div>
         </motion.div>
       </div>
@@ -1055,7 +1057,7 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
             </div>
           </div>
 
-          <ul className="mt-5 space-y-3">
+          <ul className="mt-5 mb-6 space-y-3">
             {t.features.map((f) => (
               <li key={f} className="flex items-start gap-3 text-sm text-foreground/85">
                 <span
@@ -1072,7 +1074,7 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
           <Link
             to="/course/$slug"
             params={{ slug: t.slug }}
-            className="group/btn mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02]"
+            className="group/btn mt-auto min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             style={{ backgroundColor: t.accent, boxShadow: `0 8px 24px -8px ${t.accent}` }}
           >
             Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
