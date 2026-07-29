@@ -3,6 +3,8 @@ import { motion } from "motion/react";
 import { ArrowLeft, Check, Clock, Users, Zap, ArrowRight, Cpu, CircuitBoard, BriefcaseBusiness, Quote } from "lucide-react";
 import { TIERS } from "@/components/landing/LandingPage";
 
+type Tier = (typeof TIERS)[number];
+
 export const Route = createFileRoute("/course/$slug")({
   head: ({ params }) => {
     const tier = TIERS.find((t) => t.slug === params.slug);
@@ -22,7 +24,7 @@ export const Route = createFileRoute("/course/$slug")({
       ],
     };
   },
-  loader: ({ params }) => {
+  loader: ({ params }): { tier: Tier } => {
     const tier = TIERS.find((t) => t.slug === params.slug);
     if (!tier) throw notFound();
     return { tier };

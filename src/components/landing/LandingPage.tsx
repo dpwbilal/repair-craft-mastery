@@ -30,11 +30,8 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import motherboardImg from "@/assets/motherboard.jpg";
-import nasirAwanAsset from "@/assets/nasir-awan.png.asset.json";
-import diplomaAsset from "@/assets/diploma-2026.jpeg.asset.json";
-
-const masterImg = nasirAwanAsset.url;
-const diplomaImg = diplomaAsset.url;
+import masterImg from "@/assets/master.jpg";
+import diplomaImg from "@/assets/diploma-ceremony.jpg";
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -72,14 +69,17 @@ function StatCard({ label, value, suffix }: { label: string; value: number; suff
 function SplitReveal({ text, className = "" }: { text: string; className?: string }) {
   const words = text.split(" ");
   return (
-    <span className={className}>
+    <span>
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-baseline pr-[0.25em]">
           <motion.span
-            className="mobile-reveal inline-block transform-gpu"
+            /* gradient classes must sit on the element that paints the glyphs,
+               otherwise background-clip:text has nothing to clip and the words
+               render fully transparent */
+            className={`reveal-word inline-block transform-gpu ${className}`}
             initial={{ y: "110%", opacity: 0 }}
             whileInView={{ y: "0%", opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: "some", margin: "0px 0px -10% 0px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.05 }}
           >
             {w}
@@ -707,6 +707,7 @@ function DiplomaShowcase() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [celebrate, setCelebrate] = useState(false);
   const firedRef = useRef(false);
+  const celebrateTimer = useRef<number | null>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -716,14 +717,17 @@ function DiplomaShowcase() {
           if (e.isIntersecting && !firedRef.current) {
             firedRef.current = true;
             setCelebrate(true);
-            window.setTimeout(() => setCelebrate(false), 2600);
+            celebrateTimer.current = window.setTimeout(() => setCelebrate(false), 2600);
           }
         }
       },
       { threshold: 0.35 }
     );
     obs.observe(sectionRef.current);
-    return () => obs.disconnect();
+    return () => {
+      obs.disconnect();
+      if (celebrateTimer.current) window.clearTimeout(celebrateTimer.current);
+    };
   }, []);
 
   return (
@@ -1053,22 +1057,30 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
 function Lab() {
   const [progress, setProgress] = useState(0);
   const [done, setDone] = useState(false);
+  const labRef = useRef<HTMLElement | null>(null);
+  const labInView = useInView(labRef, { amount: 0.15 });
 
   useEffect(() => {
+    if (!labInView) return;
     let raf = 0;
     let start = 0;
+    let lastPaint = 0;
     const loop = (t: number) => {
       if (!start) start = t;
       const elapsed = (t - start) / 1000;
       const cycle = elapsed % 5;
       const p = Math.min(100, (cycle / 4) * 100);
-      setProgress(p);
-      setDone(cycle > 4.1);
+      // Throttle React state updates to ~15fps; the bar is animated in CSS.
+      if (t - lastPaint > 66) {
+        lastPaint = t;
+        setProgress(p);
+        setDone(cycle > 4.1);
+      }
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [labInView]);
 
   const logs = [
     "> Connecting to device (MTK 6789)…",
@@ -1090,7 +1102,7 @@ function Lab() {
   ];
 
   return (
-    <section id="lab" className="relative py-24 lg:py-32 overflow-hidden">
+    <section ref={labRef} id="lab" className="relative py-24 lg:py-32 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1380,17 +1392,29 @@ function ValueProps() {
 function ContactFooter() {
   const [toast, setToast] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
+  const toastTimer = useRef<number | null>(null);
+  const confettiTimer = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (toastTimer.current) window.clearTimeout(toastTimer.current);
+      if (confettiTimer.current) window.clearTimeout(confettiTimer.current);
+    },
+    []
+  );
 
   const copy = async (value: string, label: string) => {
+    if (toastTimer.current) window.clearTimeout(toastTimer.current);
+    if (confettiTimer.current) window.clearTimeout(confettiTimer.current);
     try {
       await navigator.clipboard.writeText(value);
       setToast(`${label} copied to clipboard`);
       setConfetti(true);
-      setTimeout(() => setToast(null), 2000);
-      setTimeout(() => setConfetti(false), 1200);
+      toastTimer.current = window.setTimeout(() => setToast(null), 2000);
+      confettiTimer.current = window.setTimeout(() => setConfetti(false), 1200);
     } catch {
       setToast("Copy failed — long-press to copy");
-      setTimeout(() => setToast(null), 2000);
+      toastTimer.current = window.setTimeout(() => setToast(null), 2000);
     }
   };
 
