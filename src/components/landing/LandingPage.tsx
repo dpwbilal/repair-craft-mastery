@@ -69,7 +69,16 @@ function StatCard({ label, value, suffix }: { label: string; value: number; suff
 function SplitReveal({ text, className = "" }: { text: string; className?: string }) {
   const words = text.split(" ");
   return (
-    <span>
+    /* The trigger lives on the (un-transformed) wrapper: each word is shifted
+       110% down inside its clip box, so observing the word itself made the
+       reveal fire late — or never — because its own box sits outside the
+       viewport. Stagger is driven by variants from the parent. */
+    <motion.span
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ staggerChildren: 0.05 }}
+    >
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-baseline pr-[0.25em]">
           <motion.span
@@ -77,16 +86,17 @@ function SplitReveal({ text, className = "" }: { text: string; className?: strin
                otherwise background-clip:text has nothing to clip and the words
                render fully transparent */
             className={`reveal-word inline-block transform-gpu ${className}`}
-            initial={{ y: "110%", opacity: 0 }}
-            whileInView={{ y: "0%", opacity: 1 }}
-            viewport={{ once: true, amount: "some", margin: "0px 0px -10% 0px" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.05 }}
+            variants={{
+              hidden: { y: "110%", opacity: 0 },
+              visible: { y: "0%", opacity: 1 },
+            }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             {w}
           </motion.span>
         </span>
       ))}
-    </span>
+    </motion.span>
   );
 }
 
