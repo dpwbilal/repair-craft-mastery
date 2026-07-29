@@ -1392,17 +1392,29 @@ function ValueProps() {
 function ContactFooter() {
   const [toast, setToast] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
+  const toastTimer = useRef<number | null>(null);
+  const confettiTimer = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (toastTimer.current) window.clearTimeout(toastTimer.current);
+      if (confettiTimer.current) window.clearTimeout(confettiTimer.current);
+    },
+    []
+  );
 
   const copy = async (value: string, label: string) => {
+    if (toastTimer.current) window.clearTimeout(toastTimer.current);
+    if (confettiTimer.current) window.clearTimeout(confettiTimer.current);
     try {
       await navigator.clipboard.writeText(value);
       setToast(`${label} copied to clipboard`);
       setConfetti(true);
-      setTimeout(() => setToast(null), 2000);
-      setTimeout(() => setConfetti(false), 1200);
+      toastTimer.current = window.setTimeout(() => setToast(null), 2000);
+      confettiTimer.current = window.setTimeout(() => setConfetti(false), 1200);
     } catch {
       setToast("Copy failed — long-press to copy");
-      setTimeout(() => setToast(null), 2000);
+      toastTimer.current = window.setTimeout(() => setToast(null), 2000);
     }
   };
 
