@@ -143,6 +143,24 @@ function RootComponent() {
     window.scrollTo(0, 0);
   }, []);
 
+  /* Safety net: if motion never takes over (script error, blocked JS), any
+     reveal element that is already inside the viewport after 2.5s is forced
+     visible. Scoped to stuck in-view nodes so it never overrides a real
+     entrance animation further down the page. */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const t = window.setTimeout(() => {
+      document.querySelectorAll<HTMLElement>(".mobile-reveal, .reveal-word").forEach((el) => {
+        if (getComputedStyle(el).opacity !== "0") return;
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > window.innerHeight) return;
+        el.style.opacity = "1";
+        el.style.transform = "none";
+      });
+    }, 2500);
+    return () => window.clearTimeout(t);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
