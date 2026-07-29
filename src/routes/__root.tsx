@@ -148,51 +148,6 @@ function RootComponent() {
     window.scrollTo(0, 0);
   }, []);
 
-  /* Safety net: if motion hydration or IntersectionObserver stalls, reveal any
-     stuck in-view content after normal entrance animations have had time to run.
-     This prevents the intermittent "background only" render without fighting
-     healthy fade-ins. */
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const startedAt = window.performance.now();
-    let scrollTimer: number | undefined;
-
-    const revealStuckContent = () => {
-      if (window.performance.now() - startedAt < 1200) return;
-
-      document
-        .querySelectorAll<HTMLElement>(
-          ".mobile-reveal, .reveal-word, .mobile-reveal [style*='opacity: 0'], .mobile-reveal [style*='opacity:0']",
-        )
-        .forEach((el) => {
-          const styles = getComputedStyle(el);
-          if (styles.opacity !== "0" && styles.visibility !== "hidden") return;
-        const r = el.getBoundingClientRect();
-          if (r.width === 0 || r.height === 0) return;
-          if (r.bottom < 0 || r.top > window.innerHeight) return;
-          el.classList.add("reveal-force-visible");
-        });
-    };
-
-    const interval = window.setInterval(revealStuckContent, 450);
-    const stopInterval = window.setTimeout(() => window.clearInterval(interval), 9000);
-    const queueRevealCheck = () => {
-      if (scrollTimer) window.clearTimeout(scrollTimer);
-      scrollTimer = window.setTimeout(revealStuckContent, 1000);
-    };
-
-    window.addEventListener("scroll", queueRevealCheck, { passive: true });
-    window.addEventListener("resize", queueRevealCheck);
-
-    return () => {
-      window.clearInterval(interval);
-      window.clearTimeout(stopInterval);
-      if (scrollTimer) window.clearTimeout(scrollTimer);
-      window.removeEventListener("scroll", queueRevealCheck);
-      window.removeEventListener("resize", queueRevealCheck);
-    };
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}

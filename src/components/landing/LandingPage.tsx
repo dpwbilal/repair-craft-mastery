@@ -32,8 +32,8 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import motherboardImg from "@/assets/motherboard.webp";
-import masterImg from "@/assets/master.webp";
-import diplomaImg from "@/assets/diploma-ceremony.webp";
+import instructorAsset from "@/assets/instructor-new.webp.asset.json";
+import diplomaAsset from "@/assets/diploma-new.webp.asset.json";
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -79,7 +79,7 @@ function SplitReveal({ text, className = "" }: { text: string; className?: strin
           {/* gradient classes must sit on the element that paints the glyphs,
               otherwise background-clip:text has nothing to clip */}
           <span
-            className={`reveal-word inline-block transform-gpu ${className}`}
+            className={`reveal-word inline-block ${className}`}
             style={{ animationDelay: `${i * 60}ms` }}
           >
             {w}
@@ -130,8 +130,6 @@ function MagneticButton({
 
   const Inner = (
     <motion.span
-      animate={{ x: pos.x, y: pos.y }}
-      transition={{ type: "spring", stiffness: 220, damping: 14, mass: 0.4 }}
       className="inline-flex items-center gap-2"
     >
       {children}
@@ -233,11 +231,10 @@ function Nav() {
               {active === n.href.slice(1) && (
                 <motion.span
                   layoutId="nav-active-pill"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   className="absolute inset-0 -z-10 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10"
                 />
               )}
-              <span className="relative z-10">{n.label}</span>
+              <span className="content-section relative z-10">{n.label}</span>
             </a>
           ))}
         </nav>
@@ -246,15 +243,12 @@ function Nav() {
           <button
             onClick={toggle}
             aria-label="Toggle theme"
-            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border bg-background/60 backdrop-blur transition-colors hover:border-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
+            className="content-section relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border bg-background/60 transition-colors hover:border-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={theme}
-                initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
-                animate={{ rotate: 0, opacity: 1, scale: 1 }}
                 exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="grid place-items-center"
               >
                 {theme === "light" ? (
@@ -287,9 +281,7 @@ function Nav() {
 
       <AnimatePresence>
         {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
+          <div
             exit={{ height: 0, opacity: 0 }}
             className="lg:hidden overflow-hidden border-t border-border bg-background"
           >
@@ -305,7 +297,7 @@ function Nav() {
                 </a>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </header>
@@ -334,22 +326,22 @@ function Hero() {
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -160]);
 
   return (
-    <section id="home" className="relative overflow-hidden pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
+    <section id="home" className="content-section relative overflow-hidden pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
       <div className="absolute inset-0 bg-radial-tech pointer-events-none" />
       <div className="absolute inset-0 bg-grid opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)] pointer-events-none" />
-      <motion.div
+      <div
         style={{ y: parallaxY }}
         className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-[var(--tech)]/10 blur-3xl pointer-events-none"
       />
-      <motion.div
+      <div
         style={{ y: parallaxY }}
         className="absolute top-40 -left-24 h-80 w-80 rounded-full bg-[var(--power)]/10 blur-3xl pointer-events-none"
       />
 
-      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:px-10">
+      <div className="content-section relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:px-10">
         {/* Left */}
-        <div className="hero-in flex flex-col justify-center transform-gpu">
-          <div className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium backdrop-blur">
+        <div className="hero-in flex flex-col justify-center">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium">
             <span className="h-2 w-2 rounded-full bg-[var(--power)] animate-pulse" />
             <span className="text-gradient-shimmer font-semibold uppercase tracking-widest">
               Punjab's Premier Mobile Repairing Academy
@@ -430,12 +422,10 @@ function Hero() {
           ref={wrap}
           onMouseMove={onMove}
           onMouseLeave={reset}
-          className="hero-in relative flex items-center justify-center [perspective:1200px] transform-gpu"
+          className="hero-in relative flex items-center justify-center [perspective:1200px]"
         >
-          <motion.div
-            animate={{ rotateX: tilt.rx, rotateY: tilt.ry }}
-            transition={{ type: "spring", stiffness: 120, damping: 15 }}
-            className="relative aspect-square w-full max-w-[520px] rounded-3xl border border-border glass-card overflow-hidden [transform-style:preserve-3d]"
+          <div
+            className="content-section relative aspect-square w-full max-w-[520px] rounded-3xl border border-border glass-card overflow-hidden [transform-style:preserve-3d]"
           >
             <img
               src={motherboardImg}
@@ -459,16 +449,16 @@ function Hero() {
               { top: "58%", left: "50%", label: "LPDDR5X" },
             ].map((h, i) => (
               <div key={i} className="absolute" style={{ top: h.top, left: h.left, transform: "translateZ(40px)" }}>
-                <div className="relative">
+                <div className="content-section relative">
                   <span className="absolute inset-0 -m-2 rounded-full bg-[var(--tech)]/30 blur-md" />
-                  <span className="relative flex items-center gap-2 rounded-full border border-[var(--tech)]/60 bg-background/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)] backdrop-blur">
+                  <span className="content-section relative flex items-center gap-2 rounded-full border border-[var(--tech)]/60 bg-background/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
                     <Circle className="h-2 w-2 fill-[var(--tech)] text-[var(--tech)]" />
                     {h.label}
                   </span>
                 </div>
               </div>
             ))}
-          </motion.div>
+          </div>
 
           {/* Floating spec chips */}
           <div className="absolute left-1 sm:-left-6 bottom-3 sm:bottom-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3">
@@ -563,14 +553,10 @@ function Master() {
   ];
 
   return (
-    <section id="master" className="relative py-20 lg:py-24">
+    <section id="master" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mobile-reveal mb-0 pb-0 max-w-2xl transform-gpu"
+        <div
+          className="mb-0 pb-0 max-w-2xl"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Meet the Instructor</div>
           <h2 className="mt-1 mb-0 pb-0 text-4xl sm:text-5xl font-bold leading-tight">
@@ -578,16 +564,12 @@ function Master() {
             <br />
             <SplitReveal text="into one Lahore classroom." className="text-gradient-tech" />
           </h2>
-        </motion.div>
+        </div>
 
         <div className="mt-2 pt-0 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7 }}
-            className="mobile-reveal relative group transform-gpu mt-0 pt-0"
+          <div
+            className="content-section relative group mt-0 pt-0"
           >
             {/* Premium ambient studio backlight */}
             <div
@@ -601,9 +583,9 @@ function Master() {
                   "linear-gradient(135deg, color-mix(in oklab, var(--tech) 55%, transparent), color-mix(in oklab, var(--power) 45%, transparent))",
               }}
             />
-            <div className="relative overflow-hidden rounded-3xl border border-border transition-transform duration-500 ease-out group-hover:scale-[1.03] group-hover:shadow-[0_30px_80px_-20px_rgba(0,229,255,0.35)] will-change-transform">
+            <div className="content-section relative overflow-hidden rounded-3xl border border-border transition-transform duration-500 ease-out group-hover:scale-[1.03] group-hover:shadow-[0_30px_80px_-20px_rgba(0,229,255,0.35)] will-change-transform">
               <img
-                src={masterImg}
+                src={instructorAsset.url}
                 alt="Sir Nasir Awan"
                 className="h-full w-full object-cover object-top aspect-[4/5]"
                 loading="lazy"
@@ -622,20 +604,16 @@ function Master() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Timeline cards */}
-          <div className="relative">
+          <div className="content-section relative">
             <div className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-[var(--tech)] via-border to-[var(--power)]" />
             <div className="space-y-6">
               {cards.map((c, i) => (
-                <motion.article
+                <article
                   key={c.tag}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="mobile-reveal relative pl-12 transform-gpu"
+                  className="content-section relative pl-12"
                 >
                   <span
                     className="absolute left-0 top-4 grid h-9 w-9 place-items-center rounded-full text-white shadow-md"
@@ -663,7 +641,7 @@ function Master() {
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
                   </div>
-                </motion.article>
+                </article>
               ))}
             </div>
           </div>
@@ -709,14 +687,10 @@ function DiplomaShowcase() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="diploma" className="relative py-20 lg:py-24">
+    <section ref={sectionRef} id="diploma" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mobile-reveal mb-8 text-center transform-gpu"
+        <div
+          className="mb-8 text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--power)]">
             Class of 2026
@@ -727,26 +701,20 @@ function DiplomaShowcase() {
           <p className="mx-auto mt-3 max-w-2xl text-sm sm:text-base text-muted-foreground">
             Certified graduates from the Nasir Tech Institute — ready to lead the next generation of mobile hardware experts.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mobile-reveal relative mx-auto max-w-5xl transform-gpu"
+        <div
+          className="content-section relative mx-auto max-w-5xl"
         >
           <div
             aria-hidden
             className="pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] bg-[radial-gradient(ellipse_at_center,rgba(255,176,32,0.35),rgba(0,229,255,0.18)_50%,transparent_78%)] blur-[70px]"
           />
-          <motion.div
-            animate={{ y: [0, -10, 0], rotate: [0, 0.4, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          <div
             className="group relative overflow-hidden rounded-3xl border border-[var(--power)]/40 bg-card shadow-[0_30px_80px_-30px_rgba(255,176,32,0.5)] will-change-transform"
           >
             <img
-              src={diplomaImg}
+              src={diplomaAsset.url}
               alt="Nasir Tech Institute — 2026 Mobile Repairing Diploma Ceremony with Sir Nasir Awan and graduating students"
               className="h-full w-full object-cover aspect-[16/9]"
               loading="lazy"
@@ -767,7 +735,7 @@ function DiplomaShowcase() {
                 </span>
               </div>
             </div>
-          </motion.div>
+          </div>
           {/* Mobile-only caption below image */}
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--power)]/30 bg-card px-4 py-3 sm:hidden">
             <div className="min-w-0">
@@ -782,7 +750,7 @@ function DiplomaShowcase() {
               <Award className="h-3 w-3" /> Certified
             </span>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Full-screen confetti on first view */}
@@ -799,9 +767,6 @@ function DiplomaShowcase() {
               return (
                 <motion.span
                   key={i}
-                  initial={{ opacity: 1, y: -20, rotate: 0 }}
-                  animate={{ opacity: [1, 1, 0], y: "110vh", rotate: rot }}
-                  transition={{ duration, delay, ease: "easeIn" }}
                   className="absolute rounded-[2px]"
                   style={{
                     left: `${left}%`,
@@ -824,13 +789,10 @@ function CurriculumInner() {
   const tiers = TIERS;
 
   return (
-    <section id="curriculum" className="relative py-24 lg:py-32 bg-surface">
+    <section id="curriculum" className="content-section relative py-24 lg:py-32 bg-surface">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mobile-reveal mx-auto mb-16 max-w-3xl text-center transform-gpu"
+        <div
+          className="mx-auto mb-16 max-w-3xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">Choose Your Path</div>
           <h2 className="mt-3 font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
@@ -843,7 +805,7 @@ function CurriculumInner() {
           <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
             Select the best mobile repairing course level and learn from basic to master level with hands-on practice.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 items-stretch">
           {tiers.map((t, i) => (
@@ -934,19 +896,13 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
   const reset = () => setTilt({ rx: 0, ry: 0 });
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, delay: index * 0.12 }}
-      className="mobile-reveal [perspective:1200px] transform-gpu h-full"
+    <div
+      className="[perspective:1200px] h-full"
     >
-      <motion.article
+      <article
         ref={ref}
         onMouseMove={onMove}
         onMouseLeave={reset}
-        animate={{ rotateX: tilt.rx, rotateY: tilt.ry }}
-        transition={{ type: "spring", stiffness: 200, damping: 18 }}
         className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-shadow duration-500 hover:shadow-2xl"
         style={{
           borderTop: `4px solid ${t.accent}`,
@@ -970,7 +926,7 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
           }}
         />
 
-        <div className="relative flex flex-1 flex-col" style={{ transform: "translateZ(30px)" }}>
+        <div className="content-section relative flex flex-1 flex-col" style={{ transform: "translateZ(30px)" }}>
           <div className="flex items-center justify-between">
             <span
               className="rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-black"
@@ -1023,8 +979,8 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
             Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
           </Link>
         </div>
-      </motion.article>
-    </motion.div>
+      </article>
+    </div>
   );
 }
 
@@ -1080,13 +1036,10 @@ function Lab() {
   ];
 
   return (
-    <section ref={labRef} id="lab" className="relative py-24 lg:py-32 overflow-hidden">
+    <section ref={labRef} id="lab" className="content-section relative py-24 lg:py-32 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mobile-reveal mx-auto max-w-3xl text-center transform-gpu"
+        <div
+          className="mx-auto max-w-3xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--tech)]">Software Lab</div>
           <h2 className="mt-3 font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
@@ -1096,18 +1049,14 @@ function Lab() {
           <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base text-muted-foreground">
             Master mobile software repair with professional training in phone flashing, device unlocking, and dead phone recovery using industry-standard tools. The course covers Samsung, Oppo, Vivo, Xiaomi, Infinix, Tecno, and iPhone.
           </p>
-        </motion.div>
+        </div>
 
         {/* Compact software tool grid: 2 cols mobile / 4 cols desktop */}
         <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
           {softwareTools.map((s, i) => (
-            <motion.div
+            <div
               key={s.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: (i % 4) * 0.05 }}
-              className="mobile-reveal group relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-5 transform-gpu transition-transform hover:-translate-y-1"
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-5 transition-transform hover:-translate-y-1"
               style={{ boxShadow: `0 4px 18px -12px color-mix(in oklab, ${s.accent} 55%, transparent)` }}
             >
               <div
@@ -1124,17 +1073,13 @@ function Lab() {
               <p className="mt-1 hidden text-xs leading-relaxed text-muted-foreground sm:block">
                 {s.desc}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Simulator */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="mobile-reveal relative mx-auto mt-12 max-w-3xl rounded-3xl border border-[#2a2a30] bg-[#0B0B0C] p-5 sm:p-6 shadow-2xl transform-gpu"
+        <div
+          className="content-section relative mx-auto mt-12 max-w-3xl rounded-3xl border border-[#2a2a30] bg-[#0B0B0C] p-5 sm:p-6 shadow-2xl"
         >
           {/* window chrome */}
           <div className="flex items-center gap-2">
@@ -1148,16 +1093,12 @@ function Lab() {
 
           <div className="mt-4 rounded-xl bg-black/70 p-4 font-mono text-[12px] text-emerald-300 min-h-[220px]">
             {logs.map((l, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, x: -8 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ delay: i * 0.08 }}
-                className="mobile-reveal transform-gpu"
+                className="transform-gpu"
               >
                 {l}
-              </motion.div>
+              </div>
             ))}
             <div className="mt-3 flex items-center gap-2 text-white/80">
               <span className="text-[var(--tech)]">›</span>
@@ -1175,9 +1116,7 @@ function Lab() {
             </div>
             <AnimatePresence>
               {done && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <div
                   exit={{ opacity: 0 }}
                   className="mt-3 flex items-center gap-2 text-emerald-400"
                 >
@@ -1185,13 +1124,13 @@ function Lab() {
                     <Check className="h-3 w-3" />
                   </span>
                   Firmware flashed successfully.
-                </motion.div>
+                </div>
               )}
             </AnimatePresence>
           </div>
 
           <div className="pointer-events-none absolute -inset-1 -z-10 rounded-3xl bg-gradient-to-tr from-[#00E5FF]/25 via-transparent to-[#FF5500]/25 blur-2xl" />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -1209,19 +1148,16 @@ function StatsBand() {
     { k: "Batch size (max)", v: 10, suffix: "" },
   ];
   return (
-    <section className="relative py-20 lg:py-24">
+    <section className="content-section relative py-20 lg:py-24">
       {/* Divider */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="mx-auto mb-14 h-px w-full max-w-2xl bg-gradient-to-r from-transparent via-[var(--tech)]/60 to-transparent" />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mobile-reveal mx-auto mb-10 max-w-2xl text-center transform-gpu"
+        <div
+          className="mx-auto mb-10 max-w-2xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--power)]">By the Numbers</div>
           <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold">A track record built in the bench.</h2>
-        </motion.div>
+        </div>
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {stats.map((s) => (
             <StatCard key={s.k} label={s.k} value={s.v} suffix={s.suffix} />
@@ -1238,15 +1174,11 @@ function StatsBand() {
 
 function ValueProps() {
   return (
-    <section className="relative py-24 lg:py-32 bg-surface">
+    <section className="content-section relative py-24 lg:py-32 bg-surface">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-10">
         {/* Certificate */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="mobile-reveal relative overflow-hidden rounded-3xl border border-border bg-card p-8 lg:p-10 transform-gpu"
+        <div
+          className="content-section relative overflow-hidden rounded-3xl border border-border bg-card p-8 lg:p-10"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">The Certificate</div>
           <h3 className="mt-3 font-display text-3xl font-bold leading-tight">
@@ -1257,14 +1189,10 @@ function ValueProps() {
             shops, jobs, and premium clients.
           </p>
 
-          <motion.div
-            initial={{ opacity: 0, rotate: -8, y: 30 }}
-            whileInView={{ opacity: 1, rotate: -6, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
+          <div
             whileHover={{ rotate: 0, scale: 1.02 }}
             whileTap={{ scale: 0.95 }}
-            className="mobile-reveal relative mx-auto mt-10 aspect-[4/3] w-full max-w-sm rounded-2xl border-4 border-[#d4b46a] bg-gradient-to-br from-[#fdf6e3] to-[#f2e7c8] p-6 text-[#3a2a10] shadow-2xl [transform-style:preserve-3d] transform-gpu"
+            className="content-section relative mx-auto mt-10 aspect-[4/3] w-full max-w-sm rounded-2xl border-4 border-[#d4b46a] bg-gradient-to-br from-[#fdf6e3] to-[#f2e7c8] p-6 text-[#3a2a10] shadow-2xl [transform-style:preserve-3d]"
           >
             <div className="text-center font-display text-[10px] uppercase tracking-[0.35em] text-[#8a6b1e]">
               Certificate of Mastery
@@ -1280,7 +1208,7 @@ function ValueProps() {
                 <div className="text-[10px] uppercase tracking-widest text-[#8a6b1e]">Signed</div>
                 <div className="font-display italic text-sm">Nasir Awan</div>
               </div>
-              <div className="relative">
+              <div className="content-section relative">
                 <div
                   className="grid h-14 w-14 place-items-center rounded-full text-[9px] font-bold uppercase text-[#8a6b1e]"
                   style={{
@@ -1293,16 +1221,12 @@ function ValueProps() {
                 </div>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Location */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="relative overflow-hidden rounded-3xl border border-border bg-card p-8 lg:p-10"
+        <div
+          className="content-section relative overflow-hidden rounded-3xl border border-border bg-card p-8 lg:p-10"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Location Advantage</div>
           <h3 className="mt-3 font-display text-3xl font-bold leading-tight">
@@ -1317,7 +1241,7 @@ function ValueProps() {
             href="https://maps.app.goo.gl/UgDqfVGAs2Nts2Ye7"
             target="_blank"
             rel="noopener noreferrer"
-            className="premium-lift group mt-6 inline-flex items-center gap-3 rounded-full border border-[var(--tech)]/50 bg-background/60 px-6 py-3 text-sm font-semibold text-[var(--tech)] backdrop-blur-md hover:border-[var(--tech)] hover:bg-[var(--tech)] hover:text-white"
+            className="premium-lift group mt-6 inline-flex items-center gap-3 rounded-full border border-[var(--tech)]/50 bg-background/60 px-6 py-3 text-sm font-semibold text-[var(--tech)]-md hover:border-[var(--tech)] hover:bg-[var(--tech)] hover:text-white"
           >
             <MapPin className="h-4 w-4 transition-transform group-hover:-rotate-12" />
             Click to Get the Location
@@ -1325,7 +1249,7 @@ function ValueProps() {
           </a>
 
           {/* Stylized map */}
-          <div className="relative mt-8 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-background">
+          <div className="content-section relative mt-8 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-background">
             <svg viewBox="0 0 400 300" className="h-full w-full">
               <defs>
                 <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -1357,7 +1281,7 @@ function ValueProps() {
               </text>
             </svg>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -1398,16 +1322,12 @@ function ContactFooter() {
 
 
   return (
-    <section id="contact" className="relative pt-24 lg:pt-32">
+    <section id="contact" className="content-section relative pt-24 lg:pt-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="grid grid-cols-1 items-start gap-8 lg:gap-14">
           {/* Column 2 — contact cards parallel to the form */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.08 }}
-            className="mobile-reveal transform-gpu lg:sticky lg:top-24"
+          <div
+            className="transform-gpu lg:sticky lg:top-24"
           >
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
               <Sparkles className="h-3 w-3" />
@@ -1423,7 +1343,7 @@ function ContactFooter() {
                 <span className="pointer-events-none absolute -inset-1 rounded-3xl opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-60"
                   style={{ background: "radial-gradient(50% 40% at 50% 0%, var(--tech), transparent 70%)" }}
                 />
-                <span className="relative flex items-center gap-4">
+                <span className="content-section relative flex items-center gap-4">
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[var(--tech)]/15 text-[var(--tech)] transition-transform duration-300 group-hover:scale-110">
                     <Phone className="h-5 w-5" />
                   </span>
@@ -1448,7 +1368,7 @@ function ContactFooter() {
                 <span className="pointer-events-none absolute -inset-1 rounded-3xl opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-60"
                   style={{ background: "radial-gradient(50% 40% at 50% 0%, var(--power), transparent 70%)" }}
                 />
-                <span className="relative flex items-center gap-4">
+                <span className="content-section relative flex items-center gap-4">
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[var(--power)]/15 text-[var(--power)] transition-transform duration-300 group-hover:scale-110">
                     <Headphones className="h-5 w-5" />
                   </span>
@@ -1485,11 +1405,11 @@ function ContactFooter() {
               Fees, seat availability, and batch schedules are handled personally by the institute. Tap any option above —
               it copies instantly.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* animated divider */}
-        <div className="relative my-16 h-px w-full overflow-hidden">
+        <div className="content-section relative my-16 h-px w-full overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--tech)] to-transparent opacity-60" />
           <div className="absolute inset-y-0 left-0 h-full w-1/3 bg-gradient-to-r from-[var(--tech)] via-[var(--power)] to-transparent blur-[2px] animate-[slide_5s_linear_infinite]" />
           <style>{`@keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(400%)} }`}</style>
@@ -1519,10 +1439,7 @@ function ContactFooter() {
               return (
                 <motion.span
                   key={i}
-                  initial={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
-                  animate={{ opacity: 0, x: dx, y: dy, rotate: rot }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 1.1, ease: "easeOut" }}
                   className="absolute h-2 w-2 rounded-sm"
                   style={{
                     left: `${left}%`,
@@ -1539,14 +1456,12 @@ function ContactFooter() {
       {/* Toast */}
       <AnimatePresence>
         {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
             exit={{ opacity: 0, y: 20 }}
             className="fixed bottom-6 left-1/2 z-[101] -translate-x-1/2 rounded-full border border-border bg-foreground px-4 py-2 text-sm font-medium text-background shadow-xl"
           >
             {toast}
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </section>
