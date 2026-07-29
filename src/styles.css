@@ -193,6 +193,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 @utility text-gradient-shimmer {
