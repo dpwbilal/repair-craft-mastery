@@ -82,7 +82,7 @@ function SplitReveal({ text, className = "" }: { text: string; className?: strin
       transition={{ staggerChildren: 0.05 }}
     >
       {words.map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden align-baseline pr-[0.25em]">
+        <span key={i} className="inline-block overflow-hidden align-bottom leading-[1.12] pr-[0.25em]">
           <motion.span
             /* gradient classes must sit on the element that paints the glyphs,
                otherwise background-clip:text has nothing to clip and the words
