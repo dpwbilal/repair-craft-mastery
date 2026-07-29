@@ -207,6 +207,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
   animation: shimmer 6s linear infinite;
 }
 
