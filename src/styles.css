@@ -328,7 +328,20 @@
 }
 
 .mobile-reveal {
-  animation: reveal-fallback 0.01s linear 3s forwards;
+  /* Start hidden so the SSR'd box/border never flashes before the
+     entrance animation takes over; fallback guarantees visibility. */
+  opacity: 0;
+  animation: reveal-fallback 0.3s ease-out 3s forwards;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Once motion has taken control, its inline opacity wins over the base rule. */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-reveal {
+    opacity: 1;
+    animation: none;
+  }
 }
 
 /* Gradient text fallback — if the gradient background fails to paint for

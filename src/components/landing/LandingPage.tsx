@@ -592,24 +592,24 @@ function Master() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mobile-reveal mb-2 max-w-2xl transform-gpu"
+          className="mobile-reveal mb-0 pb-0 max-w-2xl transform-gpu"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Meet the Instructor</div>
-          <h2 className="mt-1 text-4xl sm:text-5xl font-bold leading-tight">
+          <h2 className="mt-1 mb-0 pb-0 text-4xl sm:text-5xl font-bold leading-tight">
             <SplitReveal text="A three-country journey" />
             <br />
             <SplitReveal text="into one Lahore classroom." className="text-gradient-tech" />
           </h2>
         </motion.div>
 
-        <div className="mt-2 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
+        <div className="mt-2 pt-0 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="mobile-reveal relative group transform-gpu"
+            className="mobile-reveal relative group transform-gpu mt-0 pt-0"
           >
             {/* Premium ambient studio backlight */}
             <div
@@ -675,19 +675,8 @@ function Master() {
                     <h3 className="mt-1 font-display text-2xl font-bold">
                       {c.titleParts.map((p, idx) =>
                         p.highlight ? (
-                          <span
-                            key={idx}
-                            className="relative inline-block rounded-lg px-2 py-0.5 font-extrabold text-white shadow-[0_0_18px_-4px_currentColor]"
-                            style={{
-                              backgroundImage: `linear-gradient(135deg, ${c.accent}, color-mix(in oklab, ${c.accent} 70%, var(--power)))`,
-                              textShadow: "0 1px 2px rgba(0,0,0,0.25)",
-                            }}
-                          >
-                            <span className="relative z-10">{p.text}</span>
-                            <span
-                              aria-hidden
-                              className="pointer-events-none absolute inset-0 rounded-lg border border-white/20"
-                            />
+                          <span key={idx} className="font-extrabold" style={{ color: c.accent }}>
+                            {p.text}
                           </span>
                         ) : (
                           <span key={idx}>{p.text}</span>
@@ -894,6 +883,12 @@ export const TIERS = [
     duration: "1 Month",
     bestFor: "Beginners & Job Seekers",
     features: [
+      "Glass separator machine",
+      "OCA machine",
+      "Debubbler machine",
+      "Mobile housing",
+      "Mobile opening and closing",
+      "OCA glass change",
       "Basic Multimeter introduction",
       "Basic tool guide and more",
     ],
