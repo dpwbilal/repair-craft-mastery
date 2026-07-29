@@ -318,55 +318,25 @@
 
 @utility mobile-reveal {
   will-change: transform, opacity;
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Safety net: guarantee text visibility even if motion JS is slow / blocked */
-/* -------------------------------------------------------------------------- */
-@keyframes reveal-fallback {
-  to {
-    opacity: 1;
-  }
-}
-
-/* Split-headline words start translated 110% inside an overflow-hidden box.
-   If the reveal never fires they stay clipped = invisible text, so the
-   fallback must restore the transform as well as the opacity. */
-@keyframes reveal-word-fallback {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.reveal-word {
-  opacity: 0;
-  will-change: transform, opacity;
-  animation: reveal-word-fallback 0.3s ease-out 0.9s forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal-word {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-}
-
-.mobile-reveal {
-  /* Start hidden so the SSR'd box/border never flashes before the
-     entrance animation takes over; fallback guarantees visibility. */
-  opacity: 0;
-  animation: reveal-fallback 0.3s ease-out 0.9s forwards;
   backface-visibility: hidden;
-  transform: translateZ(0);
 }
 
-/* Once motion has taken control, its inline opacity wins over the base rule. */
+/* Reveal elements are driven ENTIRELY by motion (opacity/transform are already
+   inlined in the SSR markup), so no CSS keyframe fallback here — a CSS
+   animation would override motion's inline styles and make elements flash in,
+   vanish, then re-animate. */
+.reveal-word {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .reveal-word,
   .mobile-reveal {
-    opacity: 1;
-    animation: none;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
   }
 }
 
