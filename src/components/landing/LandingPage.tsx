@@ -30,11 +30,8 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import motherboardImg from "@/assets/motherboard.jpg";
-import nasirAwanAsset from "@/assets/nasir-awan.png.asset.json";
-import diplomaAsset from "@/assets/diploma-2026.jpeg.asset.json";
-
-const masterImg = nasirAwanAsset.url;
-const diplomaImg = diplomaAsset.url;
+import masterImg from "@/assets/master.jpg";
+import diplomaImg from "@/assets/diploma-ceremony.jpg";
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
