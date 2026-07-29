@@ -1053,22 +1053,30 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
 function Lab() {
   const [progress, setProgress] = useState(0);
   const [done, setDone] = useState(false);
+  const labRef = useRef<HTMLElement | null>(null);
+  const labInView = useInView(labRef, { amount: 0.15 });
 
   useEffect(() => {
+    if (!labInView) return;
     let raf = 0;
     let start = 0;
+    let lastPaint = 0;
     const loop = (t: number) => {
       if (!start) start = t;
       const elapsed = (t - start) / 1000;
       const cycle = elapsed % 5;
       const p = Math.min(100, (cycle / 4) * 100);
-      setProgress(p);
-      setDone(cycle > 4.1);
+      // Throttle React state updates to ~15fps; the bar is animated in CSS.
+      if (t - lastPaint > 66) {
+        lastPaint = t;
+        setProgress(p);
+        setDone(cycle > 4.1);
+      }
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [labInView]);
 
   const logs = [
     "> Connecting to device (MTK 6789)…",
