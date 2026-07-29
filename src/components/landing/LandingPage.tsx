@@ -161,14 +161,9 @@ function Nav() {
           <button
             onClick={toggle}
             aria-label="Toggle theme"
-            className="content-section relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border bg-background/60 transition-colors hover:border-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
+            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border bg-background/60 transition-colors hover:border-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
           >
-            <AnimatePresence mode="wait" initial={false}>
-              <span
-                key={theme}
-                exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                className="grid place-items-center"
-              >
+            <span className="grid place-items-center">
                 {theme === "light" ? (
                   <Sun className="h-4 w-4" />
                 ) : (
@@ -686,8 +681,6 @@ function ValueProps() {
           </p>
 
           <div
-            whileHover={{ rotate: 0, scale: 1.02 }}
-            whileTap={{ scale: 0.95 }}
             className="relative mx-auto mt-10 aspect-[4/3] w-full max-w-sm rounded-2xl border-4 border-[#d4b46a] bg-gradient-to-br from-[#fdf6e3] to-[#f2e7c8] p-6 text-[#3a2a10] shadow-2xl [transform-style:preserve-3d]"
           >
             <div className="text-center font-display text-[10px] uppercase tracking-[0.35em] text-[#8a6b1e]">
@@ -789,31 +782,24 @@ function ValueProps() {
 
 function ContactFooter() {
   const [toast, setToast] = useState<string | null>(null);
-  const [confetti, setConfetti] = useState(false);
   const toastTimer = useRef<number | null>(null);
-  const confettiTimer = useRef<number | null>(null);
 
   useEffect(
     () => () => {
       if (toastTimer.current) window.clearTimeout(toastTimer.current);
-      if (confettiTimer.current) window.clearTimeout(confettiTimer.current);
     },
     []
   );
 
   const copy = async (value: string, label: string) => {
     if (toastTimer.current) window.clearTimeout(toastTimer.current);
-    if (confettiTimer.current) window.clearTimeout(confettiTimer.current);
     try {
       await navigator.clipboard.writeText(value);
       setToast(`${label} copied to clipboard`);
-      setConfetti(true);
-      toastTimer.current = window.setTimeout(() => setToast(null), 2000);
-      confettiTimer.current = window.setTimeout(() => setConfetti(false), 1200);
     } catch {
       setToast("Copy failed — long-press to copy");
-      toastTimer.current = window.setTimeout(() => setToast(null), 2000);
     }
+    toastTimer.current = window.setTimeout(() => setToast(null), 2000);
   };
 
 
@@ -920,42 +906,11 @@ function ContactFooter() {
         </footer>
       </div>
 
-      {/* Confetti */}
-      <AnimatePresence>
-        {confetti && (
-          <div className="pointer-events-none fixed inset-0 z-[100]">
-            {Array.from({ length: 24 }).map((_, i) => {
-              const colors = ["#0066FF", "#FF6600", "#00E5FF", "#FF5500"];
-              const left = 50 + (Math.random() - 0.5) * 30;
-              const dx = (Math.random() - 0.5) * 400;
-              const dy = -200 - Math.random() * 200;
-              const rot = (Math.random() - 0.5) * 720;
-              return (
-                <span
-                  key={i}
-                  exit={{ opacity: 0 }}
-                  className="absolute h-2 w-2 rounded-sm"
-                  style={{
-                    left: `${left}%`,
-                    bottom: "35%",
-                    backgroundColor: colors[i % colors.length],
-                  }}
-                />
-              );
-            })}
-          </div>
-        )}
-
-      {/* Toast */}
-      <AnimatePresence>
-        {toast && (
-          <div
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-6 left-1/2 z-[101] -translate-x-1/2 rounded-full border border-border bg-foreground px-4 py-2 text-sm font-medium text-background shadow-xl"
-          >
-            {toast}
-          </div>
-        )}
+      {toast ? (
+        <div className="fixed bottom-6 left-1/2 z-[101] -translate-x-1/2 rounded-full border border-border bg-foreground px-4 py-2 text-sm font-medium text-background shadow-xl">
+          {toast}
+        </div>
+      ) : null}
     </section>
   );
 }

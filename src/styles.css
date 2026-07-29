@@ -243,15 +243,11 @@
 }
 
 @utility glow-tech {
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--tech) 40%, transparent),
-    0 10px 40px -10px color-mix(in oklab, var(--tech) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--tech) 35%, transparent);
 }
 
 @utility glow-power {
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--power) 40%, transparent),
-    0 10px 40px -10px color-mix(in oklab, var(--power) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--power) 35%, transparent);
 }
 
 @utility bg-grid {
@@ -346,7 +342,6 @@
 }
 
 .reveal-word {
-  animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   opacity: 1 !important;
   transform: none !important;
   visibility: visible !important;
