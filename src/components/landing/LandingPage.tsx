@@ -707,6 +707,7 @@ function DiplomaShowcase() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [celebrate, setCelebrate] = useState(false);
   const firedRef = useRef(false);
+  const celebrateTimer = useRef<number | null>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -716,14 +717,17 @@ function DiplomaShowcase() {
           if (e.isIntersecting && !firedRef.current) {
             firedRef.current = true;
             setCelebrate(true);
-            window.setTimeout(() => setCelebrate(false), 2600);
+            celebrateTimer.current = window.setTimeout(() => setCelebrate(false), 2600);
           }
         }
       },
       { threshold: 0.35 }
     );
     obs.observe(sectionRef.current);
-    return () => obs.disconnect();
+    return () => {
+      obs.disconnect();
+      if (celebrateTimer.current) window.clearTimeout(celebrateTimer.current);
+    };
   }, []);
 
   return (
