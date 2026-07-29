@@ -31,9 +31,9 @@ import {
   Youtube,
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
-import motherboardImg from "@/assets/motherboard.jpg";
-import masterImg from "@/assets/master.jpg";
-import diplomaImg from "@/assets/diploma-ceremony.jpg";
+import motherboardImg from "@/assets/motherboard.webp";
+import masterImg from "@/assets/master.webp";
+import diplomaImg from "@/assets/diploma-ceremony.webp";
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -360,31 +360,15 @@ function Hero() {
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:px-10">
         {/* Left */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55 }}
-          className="mobile-reveal flex flex-col justify-center transform-gpu"
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium backdrop-blur"
-          >
+        <div className="hero-in flex flex-col justify-center transform-gpu">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium backdrop-blur">
             <span className="h-2 w-2 rounded-full bg-[var(--power)] animate-pulse" />
             <span className="text-gradient-shimmer font-semibold uppercase tracking-widest">
               Punjab's Premier Mobile Repairing Academy
             </span>
-          </motion.div>
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, x: -60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-            className="mt-6 font-sans text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-extrabold leading-[1.02] tracking-tight"
-          >
+          <h1 className="mt-6 font-sans text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-extrabold leading-[1.02] tracking-tight">
             <span className="text-hero-mono">Nasir Awan</span>
             <br />
             <span
@@ -399,25 +383,14 @@ function Hero() {
             >
               Training Center
             </span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-            className="mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground"
-          >
+          <p className="mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground">
             Punjab's most advanced facility for comprehensive mobile repair training.
             Build your career with hands-on, expert-led courses and real-world diagnostics.
-          </motion.p>
+          </p>
 
-          <motion.blockquote
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: 0.4, duration: 0.7 }}
-            className="mobile-reveal mt-8 relative rounded-2xl border border-border glass-card p-5 sm:p-6 transform-gpu"
-          >
+          <blockquote className="mt-8 relative rounded-2xl border border-border glass-card p-5 sm:p-6">
             <span className="absolute -top-3 left-6 rounded-full bg-[var(--power)] px-3 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-white">
               Master's Philosophy
             </span>
@@ -425,7 +398,7 @@ function Hero() {
               "In today's world, a real skill in your hands is more powerful than any degree."
             </p>
             <footer className="mt-3 text-sm text-muted-foreground">— Sir Nasir Awan</footer>
-          </motion.blockquote>
+          </blockquote>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <MagneticButton href="#curriculum" pulse>
@@ -462,17 +435,14 @@ function Hero() {
               <Youtube className="h-5 w-5" />
             </a>
           </div>
-        </motion.div>
+        </div>
 
         {/* Right — interactive tilt motherboard */}
-        <motion.div
+        <div
           ref={wrap}
           onMouseMove={onMove}
           onMouseLeave={reset}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mobile-reveal relative flex items-center justify-center [perspective:1200px] transform-gpu"
+          className="hero-in relative flex items-center justify-center [perspective:1200px] transform-gpu"
         >
           <motion.div
             animate={{ rotateX: tilt.rx, rotateY: tilt.ry }}
@@ -483,7 +453,9 @@ function Hero() {
               src={motherboardImg}
               alt="Smartphone motherboard with glowing traces"
               className="absolute inset-0 h-full w-full object-cover"
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               width={1200}
               height={1200}
             />
@@ -498,14 +470,7 @@ function Hero() {
               { top: "22%", left: "48%", label: "UFS" },
               { top: "58%", left: "50%", label: "LPDDR5X" },
             ].map((h, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 + i * 0.2 }}
-                className="absolute"
-                style={{ top: h.top, left: h.left, transform: "translateZ(40px)" }}
-              >
+              <div key={i} className="absolute" style={{ top: h.top, left: h.left, transform: "translateZ(40px)" }}>
                 <div className="relative">
                   <span className="absolute inset-0 -m-2 rounded-full bg-[var(--tech)]/30 blur-md" />
                   <span className="relative flex items-center gap-2 rounded-full border border-[var(--tech)]/60 bg-background/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)] backdrop-blur">
@@ -513,30 +478,20 @@ function Hero() {
                     {h.label}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
 
           {/* Floating spec chips */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="absolute left-1 sm:-left-6 bottom-3 sm:bottom-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3"
-          >
+          <div className="absolute left-1 sm:-left-6 bottom-3 sm:bottom-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3">
             <div className="text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">Micro-Soldering</div>
             <div className="font-display text-sm font-bold sm:text-lg">0.4 mm precision</div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="absolute right-1 sm:-right-6 top-2 sm:top-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3"
-          >
+          </div>
+          <div className="absolute right-1 sm:-right-6 top-2 sm:top-8 rounded-2xl glass-card px-3 py-2 shadow-lg sm:px-4 sm:py-3">
             <div className="text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">Success Rate</div>
             <div className="font-display text-sm font-bold text-[var(--power)] sm:text-lg">98.6%</div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
