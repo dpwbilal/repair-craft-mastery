@@ -329,6 +329,30 @@
   }
 }
 
+/* Split-headline words start translated 110% inside an overflow-hidden box.
+   If the reveal never fires they stay clipped = invisible text, so the
+   fallback must restore the transform as well as the opacity. */
+@keyframes reveal-word-fallback {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-word {
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: reveal-word-fallback 0.3s ease-out 0.9s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-word {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
 .mobile-reveal {
   /* Start hidden so the SSR'd box/border never flashes before the
      entrance animation takes over; fallback guarantees visibility. */
