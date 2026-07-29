@@ -592,24 +592,24 @@ function Master() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mobile-reveal mb-2 max-w-2xl transform-gpu"
+          className="mobile-reveal mb-0 pb-0 max-w-2xl transform-gpu"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Meet the Instructor</div>
-          <h2 className="mt-1 text-4xl sm:text-5xl font-bold leading-tight">
+          <h2 className="mt-1 mb-0 pb-0 text-4xl sm:text-5xl font-bold leading-tight">
             <SplitReveal text="A three-country journey" />
             <br />
             <SplitReveal text="into one Lahore classroom." className="text-gradient-tech" />
           </h2>
         </motion.div>
 
-        <div className="mt-2 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
+        <div className="mt-2 pt-0 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="mobile-reveal relative group transform-gpu"
+            className="mobile-reveal relative group transform-gpu mt-0 pt-0"
           >
             {/* Premium ambient studio backlight */}
             <div
