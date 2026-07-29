@@ -229,13 +229,11 @@
 
 @utility glass-nav {
   background-color: color-mix(in oklab, var(--background) 65%, transparent);
-  backdrop-filter: blur(14px) saturate(160%);
   border-bottom: 1px solid var(--border);
 }
 
 @utility glass-card {
   background-color: color-mix(in oklab, var(--card) 70%, transparent);
-  backdrop-filter: blur(12px) saturate(140%);
   border: 1px solid var(--border);
 }
 
@@ -400,10 +398,7 @@
   [class*="backdrop-blur"],
   .glass-nav,
   .glass-card {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
     background-color: color-mix(in oklab, var(--card) 94%, transparent) !important;
-    box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.28);
   }
 
   [class*="blur-3xl"],

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { motion, useScroll, useTransform, AnimatePresence, useInView, animate } from "motion/react";
 import {
   Menu,
   X,
@@ -36,27 +35,10 @@ import instructorAsset from "@/assets/instructor-new.webp.asset.json";
 import diplomaAsset from "@/assets/diploma-new.webp.asset.json";
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { amount: 0.5 });
-  const [n, setN] = useState(0);
-
-  useEffect(() => {
-    if (!inView) {
-      setN(0);
-      return;
-    }
-    const controls = animate(0, value, {
-      duration: 1.8,
-      ease: [0.22, 1, 0.36, 1],
-      onUpdate: (v) => setN(v),
-    });
-    return () => controls.stop();
-  }, [inView, value]);
-
   return (
-    <div ref={ref} className="premium-lift rounded-xl border border-border bg-card p-4 hover:border-[var(--tech)]/60">
+    <div className="premium-lift rounded-xl border border-border bg-card p-4 hover:border-[var(--tech)]/60">
       <div className="font-display text-2xl font-bold">
-        {Math.floor(n).toLocaleString()}
+        {value.toLocaleString()}
         {suffix}
       </div>
       <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{label}</div>
@@ -69,25 +51,7 @@ function StatCard({ label, value, suffix }: { label: string; value: number; suff
 /* -------------------------------------------------------------------------- */
 
 function SplitReveal({ text, className = "" }: { text: string; className?: string }) {
-  const words = text.split(" ");
-  return (
-    /* Pure-CSS staggered reveal: no JS/observer dependency, so the text is
-       never stuck invisible if hydration is slow. */
-    <span>
-      {words.map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom leading-[1.12] pr-[0.25em]">
-          {/* gradient classes must sit on the element that paints the glyphs,
-              otherwise background-clip:text has nothing to clip */}
-          <span
-            className={`reveal-word inline-block ${className}`}
-            style={{ animationDelay: `${i * 60}ms` }}
-          >
-            {w}
-          </span>
-        </span>
-      ))}
-    </span>
-  );
+  return <span className={className}>{text}</span>;
 }
 
 function MagneticButton({
@@ -129,11 +93,9 @@ function MagneticButton({
   };
 
   const Inner = (
-    <motion.span
-      className="inline-flex items-center gap-2"
-    >
+    <span className="inline-flex items-center gap-2">
       {children}
-    </motion.span>
+    </span>
   );
 
   const props = {
@@ -169,43 +131,9 @@ const NAV = [
 function Nav() {
   const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState<string>("home");
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const ids = NAV.map((n) => n.href.replace("#", ""));
-    const els = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => !!el);
-    if (!els.length) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActive(visible.target.id);
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
-    els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
 
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "backdrop-blur-2xl bg-background/60 border-b border-border/60 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.6)]"
-          : "backdrop-blur-md bg-background/20 border-b border-transparent"
-      }`}
-    >
+    <header className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/95">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:px-6 lg:px-10">
         <a href="#home" className="flex min-w-0 items-center gap-2 font-display font-bold tracking-tight">
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-foreground text-background">
@@ -222,19 +150,9 @@ function Nav() {
             <a
               key={n.href}
               href={n.href}
-              className={`relative px-4 py-2 text-sm transition-colors ${
-                active === n.href.slice(1)
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              className="relative px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              {active === n.href.slice(1) && (
-                <motion.span
-                  layoutId="nav-active-pill"
-                  className="absolute inset-0 -z-10 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10"
-                />
-              )}
-              <span className="content-section relative z-10">{n.label}</span>
+              <span className="relative z-10">{n.label}</span>
             </a>
           ))}
         </nav>
@@ -246,7 +164,7 @@ function Nav() {
             className="content-section relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border bg-background/60 transition-colors hover:border-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
           >
             <AnimatePresence mode="wait" initial={false}>
-              <motion.span
+              <span
                 key={theme}
                 exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
                 className="grid place-items-center"
@@ -256,8 +174,7 @@ function Nav() {
                 ) : (
                   <Moon className="h-4 w-4" />
                 )}
-              </motion.span>
-            </AnimatePresence>
+              </span>
           </button>
 
           <MagneticButton
@@ -279,12 +196,8 @@ function Nav() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <div
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden overflow-hidden border-t border-border bg-background"
-          >
+      {open && (
+          <div className="lg:hidden overflow-hidden border-t border-border bg-background">
             <div className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4">
               {NAV.map((n) => (
                 <a
@@ -299,7 +212,6 @@ function Nav() {
             </div>
           </div>
         )}
-      </AnimatePresence>
     </header>
   );
 }
@@ -310,35 +222,18 @@ function Nav() {
 
 function Hero() {
   const wrap = useRef<HTMLDivElement | null>(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = wrap.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ rx: -py * 12, ry: px * 14 });
-  };
-  const reset = () => setTilt({ rx: 0, ry: 0 });
-
-  const { scrollYProgress } = useScroll();
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -160]);
-
   return (
-    <section id="home" className="content-section relative overflow-hidden pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
+    <section id="home" className="relative overflow-hidden pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
       <div className="absolute inset-0 bg-radial-tech pointer-events-none" />
       <div className="absolute inset-0 bg-grid opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)] pointer-events-none" />
       <div
-        style={{ y: parallaxY }}
         className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-[var(--tech)]/10 blur-3xl pointer-events-none"
       />
       <div
-        style={{ y: parallaxY }}
         className="absolute top-40 -left-24 h-80 w-80 rounded-full bg-[var(--power)]/10 blur-3xl pointer-events-none"
       />
 
-      <div className="content-section relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:px-10">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:px-10">
         {/* Left */}
         <div className="hero-in flex flex-col justify-center">
           <div className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium">
@@ -420,12 +315,10 @@ function Hero() {
         {/* Right — interactive tilt motherboard */}
         <div
           ref={wrap}
-          onMouseMove={onMove}
-          onMouseLeave={reset}
           className="hero-in relative flex items-center justify-center [perspective:1200px]"
         >
           <div
-            className="content-section relative aspect-square w-full max-w-[520px] rounded-3xl border border-border glass-card overflow-hidden [transform-style:preserve-3d]"
+            className="relative aspect-square w-full max-w-[520px] rounded-3xl border border-border glass-card overflow-hidden [transform-style:preserve-3d]"
           >
             <img
               src={motherboardImg}
@@ -449,9 +342,9 @@ function Hero() {
               { top: "58%", left: "50%", label: "LPDDR5X" },
             ].map((h, i) => (
               <div key={i} className="absolute" style={{ top: h.top, left: h.left, transform: "translateZ(40px)" }}>
-                <div className="content-section relative">
+                <div className="relative">
                   <span className="absolute inset-0 -m-2 rounded-full bg-[var(--tech)]/30 blur-md" />
-                  <span className="content-section relative flex items-center gap-2 rounded-full border border-[var(--tech)]/60 bg-background/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
+                  <span className="relative flex items-center gap-2 rounded-full border border-[var(--tech)]/60 bg-background/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
                     <Circle className="h-2 w-2 fill-[var(--tech)] text-[var(--tech)]" />
                     {h.label}
                   </span>
@@ -607,7 +500,7 @@ function Master() {
           </div>
 
           {/* Timeline cards */}
-          <div className="content-section relative">
+          <div className="relative">
             <div className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-[var(--tech)] via-border to-[var(--power)]" />
             <div className="space-y-6">
               {cards.map((c, i) => (
@@ -660,31 +553,6 @@ function Curriculum() {
 }
 
 function DiplomaShowcase() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const [celebrate, setCelebrate] = useState(false);
-  const firedRef = useRef(false);
-  const celebrateTimer = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting && !firedRef.current) {
-            firedRef.current = true;
-            setCelebrate(true);
-            celebrateTimer.current = window.setTimeout(() => setCelebrate(false), 2600);
-          }
-        }
-      },
-      { threshold: 0.35 }
-    );
-    obs.observe(sectionRef.current);
-    return () => {
-      obs.disconnect();
-      if (celebrateTimer.current) window.clearTimeout(celebrateTimer.current);
-    };
-  }, []);
 
   return (
     <section ref={sectionRef} id="diploma" className="content-section relative py-20 lg:py-24">
@@ -704,7 +572,7 @@ function DiplomaShowcase() {
         </div>
 
         <div
-          className="content-section relative mx-auto max-w-5xl"
+          className="relative mx-auto max-w-5xl"
         >
           <div
             aria-hidden
@@ -718,6 +586,9 @@ function DiplomaShowcase() {
               alt="Nasir Tech Institute — 2026 Mobile Repairing Diploma Ceremony with Sir Nasir Awan and graduating students"
               className="h-full w-full object-cover aspect-[16/9]"
               loading="lazy"
+              decoding="async"
+              width={1536}
+              height={864}
             />
             {/* Overlay caption — hidden on mobile so image is fully visible */}
             <div className="hidden sm:block absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-5 sm:p-7 text-white">
@@ -752,381 +623,6 @@ function DiplomaShowcase() {
           </div>
         </div>
       </div>
-
-      {/* Full-screen confetti on first view */}
-      <AnimatePresence>
-        {celebrate && (
-          <div className="pointer-events-none fixed inset-0 z-[120] overflow-hidden">
-            {Array.from({ length: typeof window !== "undefined" && window.innerWidth < 768 ? 40 : 100 }).map((_, i) => {
-              const colors = ["#FFC300", "#FF7A00", "#00A3FF", "#00E5FF", "#FF5500", "#FFFFFF"];
-              const left = Math.random() * 100;
-              const delay = Math.random() * 0.3;
-              const duration = 2 + Math.random() * 1.5;
-              const size = 6 + Math.random() * 8;
-              const rot = (Math.random() - 0.5) * 900;
-              return (
-                <motion.span
-                  key={i}
-                  className="absolute rounded-[2px]"
-                  style={{
-                    left: `${left}%`,
-                    top: `-2vh`,
-                    width: size,
-                    height: size * 0.4,
-                    backgroundColor: colors[i % colors.length],
-                  }}
-                />
-              );
-            })}
-          </div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-}
-
-function CurriculumInner() {
-  const tiers = TIERS;
-
-  return (
-    <section id="curriculum" className="content-section relative py-24 lg:py-32 bg-surface">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
-          <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">Choose Your Path</div>
-          <h2 className="mt-3 font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-            <SplitReveal text="Course Level" className="text-gradient-tech" />
-          </h2>
-          <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)]" />
-          <h3 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
-            <span className="text-gradient-tech">OUR PLANS</span>
-          </h3>
-          <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
-            Select the best mobile repairing course level and learn from basic to master level with hands-on practice.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 items-stretch">
-          {tiers.map((t, i) => (
-            <TierCard key={t.slug} tier={t} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export const TIERS = [
-  {
-    slug: "basic",
-    tier: "Tier 01",
-    title: "Basic Level",
-    accent: "#FFC300",
-    badge: "Basic",
-    duration: "1 Month",
-    bestFor: "Beginners & Job Seekers",
-    features: [
-      "Glass separator machine",
-      "OCA machine",
-      "Debubbler machine",
-      "Mobile housing",
-      "Mobile opening and closing",
-      "OCA glass change",
-      "Basic Multimeter introduction",
-      "Basic tool guide and more",
-    ],
-  },
-  {
-    slug: "advance",
-    tier: "Tier 02",
-    title: "Advance Level",
-    accent: "#FF7A00",
-    badge: "Advance",
-    duration: "1 to 1.5 Months",
-    bestFor: "Technicians ready to go chip-level",
-    features: [
-      "Includes All Basic Level Training +",
-      "Advance Checking through Digital Multimeter",
-      "Resistors & Capacitors (Polar / Non-Polar Identification & Checking)",
-      "Diodes (Zener, Rectifier, Signal, LED, Power)",
-      "Transistors (NPN, PNP), FET & MOSFET (Working, Identification, Replacement)",
-      "Inductors (Boost / Buck Coil) & Fuses (Working, Use, Checking)",
-      "RTC & RF Crystals (Types, Working, Faults, and Location)",
-      "And many more advanced diagnostic modules…",
-    ],
-  },
-  {
-    slug: "master",
-    tier: "Tier 03",
-    title: "Master Level",
-    accent: "#00A3FF",
-    badge: "Master",
-    duration: "2 to 3 Months",
-    bestFor: "Professionals & Experienced Technicians",
-    features: [
-      "Includes All Basic + Advance + Master",
-      "IC Reballing",
-      "Fault tracing",
-      "IC Handling: Charging, Network, Power, PA, and Wifi ICs",
-      "SIM section",
-      "Audio section",
-      "Signal section",
-      "Hands-on work on New Mobile & boards",
-      "Basic to Double Board Swiping",
-      "Battery section",
-    ],
-  },
-] as const;
-
-export type Tier = (typeof TIERS)[number];
-
-function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ rx: -py * 8, ry: px * 10 });
-  };
-  const reset = () => setTilt({ rx: 0, ry: 0 });
-
-  return (
-    <div
-      className="[perspective:1200px] h-full"
-    >
-      <article
-        ref={ref}
-        onMouseMove={onMove}
-        onMouseLeave={reset}
-        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-shadow duration-500 hover:shadow-2xl"
-        style={{
-          borderTop: `4px solid ${t.accent}`,
-          boxShadow: `0 -4px 22px -6px ${t.accent}55`,
-          backgroundImage: `linear-gradient(180deg, transparent 55%, ${t.accent}18 100%)`,
-        }}
-      >
-        {/* neon glow on hover */}
-        <div
-          className="pointer-events-none absolute -inset-1 rounded-[2rem] opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-70"
-          style={{ background: `radial-gradient(60% 50% at 50% 0%, ${t.accent}, transparent 70%)` }}
-        />
-        {/* Schematic bg on hover */}
-        <div
-          className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"
-          style={{
-            backgroundImage: `radial-gradient(circle at 20% 20%, ${t.accent}22 0%, transparent 40%),
-              linear-gradient(to right, ${t.accent}12 1px, transparent 1px),
-              linear-gradient(to bottom, ${t.accent}12 1px, transparent 1px)`,
-            backgroundSize: "100% 100%, 32px 32px, 32px 32px",
-          }}
-        />
-
-        <div className="content-section relative flex flex-1 flex-col" style={{ transform: "translateZ(30px)" }}>
-          <div className="flex items-center justify-between">
-            <span
-              className="rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-black"
-              style={{ backgroundColor: t.accent }}
-            >
-              {t.badge} Level
-            </span>
-            <span className="font-display text-xs font-bold text-muted-foreground">{t.tier}</span>
-          </div>
-
-          <h3 className="mt-6 font-display text-2xl sm:text-3xl font-bold leading-tight">
-            {t.title}
-          </h3>
-          <div
-            className="mt-2 h-[2px] w-14 rounded-full"
-            style={{ background: `linear-gradient(90deg, ${t.accent}, transparent)`, boxShadow: `0 0 10px ${t.accent}` }}
-          />
-
-          <div className="mt-4 grid grid-cols-1 gap-2 text-xs">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <span className="text-[10px] uppercase tracking-widest opacity-70">Duration</span>
-              <span className="font-semibold text-foreground">{t.duration}</span>
-            </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <span className="text-[10px] uppercase tracking-widest opacity-70">Best For</span>
-              <span className="font-semibold text-foreground">{t.bestFor}</span>
-            </div>
-          </div>
-
-          <ul className="mt-5 mb-6 space-y-3">
-            {t.features.map((f) => (
-              <li key={f} className="flex items-start gap-3 text-sm text-foreground/85">
-                <span
-                  className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full"
-                  style={{ backgroundColor: `${t.accent}22`, color: t.accent }}
-                >
-                  <Check className="h-3 w-3" />
-                </span>
-                {f}
-              </li>
-            ))}
-          </ul>
-
-          <Link
-            to="/course/$slug"
-            params={{ slug: t.slug }}
-            className="group/btn mt-auto min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            style={{ backgroundColor: t.accent, boxShadow: `0 8px 24px -8px ${t.accent}` }}
-          >
-            Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
-          </Link>
-        </div>
-      </article>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Lab Simulator                                                             */
-/* -------------------------------------------------------------------------- */
-
-function Lab() {
-  const [progress, setProgress] = useState(0);
-  const [done, setDone] = useState(false);
-  const labRef = useRef<HTMLElement | null>(null);
-  const labInView = useInView(labRef, { amount: 0.15 });
-
-  useEffect(() => {
-    if (!labInView) return;
-    let raf = 0;
-    let start = 0;
-    let lastPaint = 0;
-    const loop = (t: number) => {
-      if (!start) start = t;
-      const elapsed = (t - start) / 1000;
-      const cycle = elapsed % 5;
-      const p = Math.min(100, (cycle / 4) * 100);
-      // Throttle React state updates to ~15fps; the bar is animated in CSS.
-      if (t - lastPaint > 66) {
-        lastPaint = t;
-        setProgress(p);
-        setDone(cycle > 4.1);
-      }
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [labInView]);
-
-  const logs = [
-    "> Connecting to device (MTK 6789)…",
-    "> Auth handshake OK",
-    "> Reading partition table…",
-    "> Writing firmware chunk 12/12",
-    "> Verifying checksum…",
-  ];
-
-  const softwareTools = [
-    { name: "iPhone Flashing", desc: "iTunes, 3uTools, iMazing restore & IPSW pipelines.", icon: <Smartphone className="h-5 w-5" />, accent: "var(--tech)" },
-    { name: "iCloud Bypass", desc: "Checkra1n, Palera1n & signal-preserving bypass flows.", icon: <Unlock className="h-5 w-5" />, accent: "var(--power)" },
-    { name: "FRP Unlocking", desc: "Samsung, Xiaomi, Vivo & Oppo Google-account removal.", icon: <ShieldOff className="h-5 w-5" />, accent: "var(--tech)" },
-    { name: "China Unlock", desc: "MTK / SPD / Qualcomm processor flashing with UnlockTool.", icon: <KeyRound className="h-5 w-5" />, accent: "var(--power)" },
-    { name: "Firmware Repair", desc: "Odin, QFIL, MiFlash, SP Flash Tool — full boot recovery.", icon: <Database className="h-5 w-5" />, accent: "var(--tech)" },
-    { name: "Network Repair", desc: "Baseband, IMEI, and country/society-code correction.", icon: <Wifi className="h-5 w-5" />, accent: "var(--power)" },
-    { name: "Dead Boot Recovery", desc: "Reviving dead phones via ISP, EDL & test-point flashing.", icon: <Zap className="h-5 w-5" />, accent: "var(--tech)" },
-    { name: "Pattern Unlock", desc: "Screen lock, pin & pattern removal without data wipe.", icon: <ShieldCheck className="h-5 w-5" />, accent: "var(--power)" },
-  ];
-
-  return (
-    <section ref={labRef} id="lab" className="content-section relative py-24 lg:py-32 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div
-          className="mx-auto max-w-3xl text-center"
-        >
-          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--tech)]">Software Lab</div>
-          <h2 className="mt-3 font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
-            <span className="text-gradient-tech">SOFTWARE</span>
-          </h2>
-          <div className="mx-auto mt-3 h-1 w-24 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)]" />
-          <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base text-muted-foreground">
-            Master mobile software repair with professional training in phone flashing, device unlocking, and dead phone recovery using industry-standard tools. The course covers Samsung, Oppo, Vivo, Xiaomi, Infinix, Tecno, and iPhone.
-          </p>
-        </div>
-
-        {/* Compact software tool grid: 2 cols mobile / 4 cols desktop */}
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
-          {softwareTools.map((s, i) => (
-            <div
-              key={s.name}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-5 transition-transform hover:-translate-y-1"
-              style={{ boxShadow: `0 4px 18px -12px color-mix(in oklab, ${s.accent} 55%, transparent)` }}
-            >
-              <div
-                className="pointer-events-none absolute inset-x-0 top-0 h-[2px] opacity-70"
-                style={{ background: `linear-gradient(90deg, transparent, ${s.accent}, transparent)` }}
-              />
-              <span
-                className="grid h-10 w-10 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110"
-                style={{ backgroundColor: `color-mix(in oklab, ${s.accent} 18%, transparent)`, color: s.accent }}
-              >
-                {s.icon}
-              </span>
-              <div className="mt-3 font-display text-sm sm:text-base font-bold leading-tight">{s.name}</div>
-              <p className="mt-1 hidden text-xs leading-relaxed text-muted-foreground sm:block">
-                {s.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Simulator */}
-        <div
-          className="content-section relative mx-auto mt-12 max-w-3xl rounded-3xl border border-[#2a2a30] bg-[#0B0B0C] p-5 sm:p-6 shadow-2xl"
-        >
-          {/* window chrome */}
-          <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-red-500" />
-            <span className="h-3 w-3 rounded-full bg-yellow-500" />
-            <span className="h-3 w-3 rounded-full bg-green-500" />
-            <span className="ml-3 text-[11px] uppercase tracking-widest text-white/50 font-mono">
-              awantech.flash — /dev/ttyUSB0
-            </span>
-          </div>
-
-          <div className="mt-4 rounded-xl bg-black/70 p-4 font-mono text-[12px] text-emerald-300 min-h-[220px]">
-            {logs.map((l, i) => (
-              <div
-                key={i}
-                className="transform-gpu"
-              >
-                {l}
-              </div>
-            ))}
-            <div className="mt-3 flex items-center gap-2 text-white/80">
-              <span className="text-[var(--tech)]">›</span>
-              Flashing firmware…
-              <span className="ml-auto text-white/60">{Math.floor(progress)}%</span>
-            </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full transition-[width] duration-100"
-                style={{
-                  width: `${progress}%`,
-                  background: "linear-gradient(90deg, #00E5FF, #FF5500)",
-                }}
-              />
-            </div>
-            <AnimatePresence>
-              {done && (
-                <div
-                  exit={{ opacity: 0 }}
-                  className="mt-3 flex items-center gap-2 text-emerald-400"
-                >
-                  <span className="grid h-5 w-5 place-items-center rounded-full bg-emerald-400/20">
-                    <Check className="h-3 w-3" />
-                  </span>
-                  Firmware flashed successfully.
-                </div>
-              )}
-            </AnimatePresence>
           </div>
 
           <div className="pointer-events-none absolute -inset-1 -z-10 rounded-3xl bg-gradient-to-tr from-[#00E5FF]/25 via-transparent to-[#FF5500]/25 blur-2xl" />
@@ -1192,7 +688,7 @@ function ValueProps() {
           <div
             whileHover={{ rotate: 0, scale: 1.02 }}
             whileTap={{ scale: 0.95 }}
-            className="content-section relative mx-auto mt-10 aspect-[4/3] w-full max-w-sm rounded-2xl border-4 border-[#d4b46a] bg-gradient-to-br from-[#fdf6e3] to-[#f2e7c8] p-6 text-[#3a2a10] shadow-2xl [transform-style:preserve-3d]"
+            className="relative mx-auto mt-10 aspect-[4/3] w-full max-w-sm rounded-2xl border-4 border-[#d4b46a] bg-gradient-to-br from-[#fdf6e3] to-[#f2e7c8] p-6 text-[#3a2a10] shadow-2xl [transform-style:preserve-3d]"
           >
             <div className="text-center font-display text-[10px] uppercase tracking-[0.35em] text-[#8a6b1e]">
               Certificate of Mastery
@@ -1208,7 +704,7 @@ function ValueProps() {
                 <div className="text-[10px] uppercase tracking-widest text-[#8a6b1e]">Signed</div>
                 <div className="font-display italic text-sm">Nasir Awan</div>
               </div>
-              <div className="content-section relative">
+              <div className="relative">
                 <div
                   className="grid h-14 w-14 place-items-center rounded-full text-[9px] font-bold uppercase text-[#8a6b1e]"
                   style={{
@@ -1334,8 +830,7 @@ function ContactFooter() {
               Click to copy number
             </div>
             <div className="flex flex-col gap-3">
-              <motion.button
-                whileHover={{ y: -4 }}
+              <button
                 onClick={() => copy("0335-3590008", "Primary phone")}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--tech)]"
               >
@@ -1343,7 +838,7 @@ function ContactFooter() {
                 <span className="pointer-events-none absolute -inset-1 rounded-3xl opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-60"
                   style={{ background: "radial-gradient(50% 40% at 50% 0%, var(--tech), transparent 70%)" }}
                 />
-                <span className="content-section relative flex items-center gap-4">
+                <span className="relative flex items-center gap-4">
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[var(--tech)]/15 text-[var(--tech)] transition-transform duration-300 group-hover:scale-110">
                     <Phone className="h-5 w-5" />
                   </span>
@@ -1357,10 +852,9 @@ function ContactFooter() {
                   </span>
                   <ChevronRight className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
-              </motion.button>
+              </button>
 
-              <motion.button
-                whileHover={{ y: -4 }}
+              <button
                 onClick={() => copy("0301-4692771", "Support line")}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--power)]"
               >
@@ -1368,7 +862,7 @@ function ContactFooter() {
                 <span className="pointer-events-none absolute -inset-1 rounded-3xl opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-60"
                   style={{ background: "radial-gradient(50% 40% at 50% 0%, var(--power), transparent 70%)" }}
                 />
-                <span className="content-section relative flex items-center gap-4">
+                <span className="relative flex items-center gap-4">
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[var(--power)]/15 text-[var(--power)] transition-transform duration-300 group-hover:scale-110">
                     <Headphones className="h-5 w-5" />
                   </span>
@@ -1382,7 +876,7 @@ function ContactFooter() {
                   </span>
                   <ChevronRight className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
-              </motion.button>
+              </button>
 
               <button
                 onClick={() => copy("bmsaadnasir@gmail.com", "Email")}
@@ -1437,7 +931,7 @@ function ContactFooter() {
               const dy = -200 - Math.random() * 200;
               const rot = (Math.random() - 0.5) * 720;
               return (
-                <motion.span
+                <span
                   key={i}
                   exit={{ opacity: 0 }}
                   className="absolute h-2 w-2 rounded-sm"
@@ -1451,7 +945,6 @@ function ContactFooter() {
             })}
           </div>
         )}
-      </AnimatePresence>
 
       {/* Toast */}
       <AnimatePresence>
@@ -1463,7 +956,6 @@ function ContactFooter() {
             {toast}
           </div>
         )}
-      </AnimatePresence>
     </section>
   );
 }
