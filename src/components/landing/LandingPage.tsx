@@ -71,34 +71,22 @@ function StatCard({ label, value, suffix }: { label: string; value: number; suff
 function SplitReveal({ text, className = "" }: { text: string; className?: string }) {
   const words = text.split(" ");
   return (
-    /* The trigger lives on the (un-transformed) wrapper: each word is shifted
-       110% down inside its clip box, so observing the word itself made the
-       reveal fire late — or never — because its own box sits outside the
-       viewport. Stagger is driven by variants from the parent. */
-    <motion.span
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ staggerChildren: 0.05 }}
-    >
+    /* Pure-CSS staggered reveal: no JS/observer dependency, so the text is
+       never stuck invisible if hydration is slow. */
+    <span>
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-bottom leading-[1.12] pr-[0.25em]">
-          <motion.span
-            /* gradient classes must sit on the element that paints the glyphs,
-               otherwise background-clip:text has nothing to clip and the words
-               render fully transparent */
+          {/* gradient classes must sit on the element that paints the glyphs,
+              otherwise background-clip:text has nothing to clip */}
+          <span
             className={`reveal-word inline-block transform-gpu ${className}`}
-            variants={{
-              hidden: { y: "110%", opacity: 0 },
-              visible: { y: "0%", opacity: 1 },
-            }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            style={{ animationDelay: `${i * 60}ms` }}
           >
             {w}
-          </motion.span>
+          </span>
         </span>
       ))}
-    </motion.span>
+    </span>
   );
 }
 
