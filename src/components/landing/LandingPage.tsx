@@ -69,11 +69,14 @@ function StatCard({ label, value, suffix }: { label: string; value: number; suff
 function SplitReveal({ text, className = "" }: { text: string; className?: string }) {
   const words = text.split(" ");
   return (
-    <span className={className}>
+    <span>
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-baseline pr-[0.25em]">
           <motion.span
-            className="reveal-word inline-block transform-gpu"
+            /* gradient classes must sit on the element that paints the glyphs,
+               otherwise background-clip:text has nothing to clip and the words
+               render fully transparent */
+            className={`reveal-word inline-block transform-gpu ${className}`}
             initial={{ y: "110%", opacity: 0 }}
             whileInView={{ y: "0%", opacity: 1 }}
             viewport={{ once: true, amount: "some", margin: "0px 0px -10% 0px" }}
