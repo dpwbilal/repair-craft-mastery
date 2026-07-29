@@ -331,8 +331,9 @@
   /* Start hidden so the SSR'd box/border never flashes before the
      entrance animation takes over; fallback guarantees visibility. */
   opacity: 0;
-  animation: reveal-fallback 0.3s ease-out 1.2s forwards;
+  animation: reveal-fallback 0.3s ease-out 3s forwards;
   backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* Once motion has taken control, its inline opacity wins over the base rule. */
