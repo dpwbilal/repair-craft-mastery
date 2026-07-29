@@ -894,6 +894,12 @@ export const TIERS = [
     duration: "1 Month",
     bestFor: "Beginners & Job Seekers",
     features: [
+      "Glass separator machine",
+      "OCA machine",
+      "Debubbler machine",
+      "Mobile housing",
+      "Mobile opening and closing",
+      "OCA glass change",
       "Basic Multimeter introduction",
       "Basic tool guide and more",
     ],
