@@ -446,7 +446,7 @@ function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow Nasir Tech Institute on Facebook"
-              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[var(--tech)] hover:text-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#1877F2] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[#1877F2] hover:text-[#1877F2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Facebook className="h-5 w-5" />
             </a>
@@ -455,7 +455,7 @@ function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Watch Nasir Tech Institute on YouTube"
-              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[var(--power)] hover:text-[var(--power)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#FF0000] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[#FF0000] hover:text-[#FF0000] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Youtube className="h-5 w-5" />
             </a>
