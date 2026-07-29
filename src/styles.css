@@ -321,13 +321,28 @@
   backface-visibility: hidden;
 }
 
-/* Reveal elements are driven ENTIRELY by motion (opacity/transform are already
-   inlined in the SSR markup), so no CSS keyframe fallback here — a CSS
-   animation would override motion's inline styles and make elements flash in,
-   vanish, then re-animate. */
+/* Hero + split-word reveals are pure CSS: they start animating as soon as the
+   stylesheet paints, with no JS/hydration dependency, so text is never stuck
+   invisible. */
+@keyframes rise-in {
+  from { opacity: 0; transform: translate3d(0, 40%, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
 .reveal-word {
+  animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   will-change: transform, opacity;
   backface-visibility: hidden;
+}
+
+.hero-in {
+  animation: fade-up-in 0.5s ease-out both;
+  will-change: transform, opacity;
 }
 
 .reveal-force-visible {
@@ -338,6 +353,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .reveal-word,
+  .hero-in,
   .mobile-reveal {
     opacity: 1 !important;
     transform: none !important;
