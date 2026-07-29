@@ -220,13 +220,14 @@ function Nav() {
           : "backdrop-blur-md bg-background/20 border-b border-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
-        <a href="#home" className="flex items-center gap-2 font-display font-bold tracking-tight">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:px-6 lg:px-10">
+        <a href="#home" className="flex min-w-0 items-center gap-2 font-display font-bold tracking-tight">
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-foreground text-background">
             <Wrench className="h-4 w-4" />
           </span>
-          <span className="text-sm sm:text-base">
-            NASIR <span className="text-[var(--tech)]">TECH</span> INSTITUTE
+          <span className="truncate whitespace-nowrap text-sm sm:text-base">
+            NASIR <span className="text-[var(--tech)]">TECH</span>
+            <span className="hidden sm:inline"> INSTITUTE</span>
           </span>
         </a>
 
@@ -253,11 +254,11 @@ function Nav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <button
             onClick={toggle}
             aria-label="Toggle theme"
-            className="relative grid h-9 w-9 place-items-center rounded-full border border-border bg-background/60 backdrop-blur transition-colors hover:border-[var(--tech)]"
+            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border bg-background/60 backdrop-blur transition-colors hover:border-[var(--tech)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -280,15 +281,16 @@ function Nav() {
           <MagneticButton
             href="#contact"
             pulse
-            className="mobile-enroll h-8 whitespace-nowrap px-3 py-1.5 text-sm sm:h-auto sm:px-6 sm:py-3"
+            className="mobile-enroll min-h-11 whitespace-nowrap px-4 py-2 text-sm sm:h-auto sm:min-h-0 sm:px-6 sm:py-3"
           >
             Enroll Now <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4" />
           </MagneticButton>
 
           <button
-            className="lg:hidden grid h-9 w-9 place-items-center rounded-full border border-border"
+            className="lg:hidden grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
+            aria-expanded={open}
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
