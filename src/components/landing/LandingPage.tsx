@@ -547,10 +547,373 @@ function Curriculum() {
   return <CurriculumInner />;
 }
 
+function CurriculumInner() {
+  const tiers = TIERS;
+
+  return (
+    <section id="curriculum" className="content-section relative py-24 lg:py-32 bg-surface">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div
+          className="mx-auto mb-16 max-w-3xl text-center"
+        >
+          <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">Choose Your Path</div>
+          <h2 className="mt-3 font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+            <SplitReveal text="Course Level" className="text-gradient-tech" />
+          </h2>
+          <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)]" />
+          <h3 className="mt-6 font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
+            <span className="text-gradient-tech">OUR PLANS</span>
+          </h3>
+          <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
+            Select the best mobile repairing course level and learn from basic to master level with hands-on practice.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 items-stretch">
+          {tiers.map((t, i) => (
+            <TierCard key={t.slug} tier={t} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export const TIERS = [
+  {
+    slug: "basic",
+    tier: "Tier 01",
+    title: "Basic Level",
+    accent: "#FFC300",
+    badge: "Basic",
+    duration: "1 Month",
+    bestFor: "Beginners & Job Seekers",
+    features: [
+      "Glass separator machine",
+      "OCA machine",
+      "Debubbler machine",
+      "Mobile housing",
+      "Mobile opening and closing",
+      "OCA glass change",
+      "Basic Multimeter introduction",
+      "Basic tool guide and more",
+    ],
+  },
+  {
+    slug: "advance",
+    tier: "Tier 02",
+    title: "Advance Level",
+    accent: "#FF7A00",
+    badge: "Advance",
+    duration: "1 to 1.5 Months",
+    bestFor: "Technicians ready to go chip-level",
+    features: [
+      "Includes All Basic Level Training +",
+      "Advance Checking through Digital Multimeter",
+      "Resistors & Capacitors (Polar / Non-Polar Identification & Checking)",
+      "Diodes (Zener, Rectifier, Signal, LED, Power)",
+      "Transistors (NPN, PNP), FET & MOSFET (Working, Identification, Replacement)",
+      "Inductors (Boost / Buck Coil) & Fuses (Working, Use, Checking)",
+      "RTC & RF Crystals (Types, Working, Faults, and Location)",
+      "And many more advanced diagnostic modules…",
+    ],
+  },
+  {
+    slug: "master",
+    tier: "Tier 03",
+    title: "Master Level",
+    accent: "#00A3FF",
+    badge: "Master",
+    duration: "2 to 3 Months",
+    bestFor: "Professionals & Experienced Technicians",
+    features: [
+      "Includes All Basic + Advance + Master",
+      "IC Reballing",
+      "Fault tracing",
+      "IC Handling: Charging, Network, Power, PA, and Wifi ICs",
+      "SIM section",
+      "Audio section",
+      "Signal section",
+      "Hands-on work on New Mobile & boards",
+      "Basic to Double Board Swiping",
+      "Battery section",
+    ],
+  },
+] as const;
+
+export type Tier = (typeof TIERS)[number];
+
+function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
+
+  const onMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    setTilt({ rx: -py * 8, ry: px * 10 });
+  };
+  const reset = () => setTilt({ rx: 0, ry: 0 });
+
+  return (
+    <div
+      className="[perspective:1200px] h-full"
+    >
+      <article
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseLeave={reset}
+        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-shadow duration-500 hover:shadow-2xl"
+        style={{
+          borderTop: `4px solid ${t.accent}`,
+          boxShadow: `0 -4px 22px -6px ${t.accent}55`,
+          backgroundImage: `linear-gradient(180deg, transparent 55%, ${t.accent}18 100%)`,
+        }}
+      >
+        {/* neon glow on hover */}
+        <div
+          className="pointer-events-none absolute -inset-1 rounded-[2rem] opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-70"
+          style={{ background: `radial-gradient(60% 50% at 50% 0%, ${t.accent}, transparent 70%)` }}
+        />
+        {/* Schematic bg on hover */}
+        <div
+          className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(circle at 20% 20%, ${t.accent}22 0%, transparent 40%),
+              linear-gradient(to right, ${t.accent}12 1px, transparent 1px),
+              linear-gradient(to bottom, ${t.accent}12 1px, transparent 1px)`,
+            backgroundSize: "100% 100%, 32px 32px, 32px 32px",
+          }}
+        />
+
+        <div className="content-section relative flex flex-1 flex-col" style={{ transform: "translateZ(30px)" }}>
+          <div className="flex items-center justify-between">
+            <span
+              className="rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-black"
+              style={{ backgroundColor: t.accent }}
+            >
+              {t.badge} Level
+            </span>
+            <span className="font-display text-xs font-bold text-muted-foreground">{t.tier}</span>
+          </div>
+
+          <h3 className="mt-6 font-display text-2xl sm:text-3xl font-bold leading-tight">
+            {t.title}
+          </h3>
+          <div
+            className="mt-2 h-[2px] w-14 rounded-full"
+            style={{ background: `linear-gradient(90deg, ${t.accent}, transparent)`, boxShadow: `0 0 10px ${t.accent}` }}
+          />
+
+          <div className="mt-4 grid grid-cols-1 gap-2 text-xs">
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <span className="text-[10px] uppercase tracking-widest opacity-70">Duration</span>
+              <span className="font-semibold text-foreground">{t.duration}</span>
+            </div>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <span className="text-[10px] uppercase tracking-widest opacity-70">Best For</span>
+              <span className="font-semibold text-foreground">{t.bestFor}</span>
+            </div>
+          </div>
+
+          <ul className="mt-5 mb-6 space-y-3">
+            {t.features.map((f) => (
+              <li key={f} className="flex items-start gap-3 text-sm text-foreground/85">
+                <span
+                  className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full"
+                  style={{ backgroundColor: `${t.accent}22`, color: t.accent }}
+                >
+                  <Check className="h-3 w-3" />
+                </span>
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <Link
+            to="/course/$slug"
+            params={{ slug: t.slug }}
+            className="group/btn mt-auto min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            style={{ backgroundColor: t.accent, boxShadow: `0 8px 24px -8px ${t.accent}` }}
+          >
+            Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
+          </Link>
+        </div>
+      </article>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Lab Simulator                                                             */
+/* -------------------------------------------------------------------------- */
+
+function Lab() {
+  const [progress, setProgress] = useState(0);
+  const [done, setDone] = useState(false);
+  const labRef = useRef<HTMLElement | null>(null);
+  const [labInView, setLabInView] = useState(false);
+
+  useEffect(() => {
+    const el = labRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setLabInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => setLabInView(entries.some((e) => e.isIntersecting)),
+      { threshold: 0.15 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!labInView) return;
+    let raf = 0;
+    let start = 0;
+    let lastPaint = 0;
+    const loop = (t: number) => {
+      if (!start) start = t;
+      const elapsed = (t - start) / 1000;
+      const cycle = elapsed % 5;
+      const p = Math.min(100, (cycle / 4) * 100);
+      // Throttle React state updates to ~15fps; the bar is animated in CSS.
+      if (t - lastPaint > 66) {
+        lastPaint = t;
+        setProgress(p);
+        setDone(cycle > 4.1);
+      }
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [labInView]);
+
+  const logs = [
+    "> Connecting to device (MTK 6789)…",
+    "> Auth handshake OK",
+    "> Reading partition table…",
+    "> Writing firmware chunk 12/12",
+    "> Verifying checksum…",
+  ];
+
+  const softwareTools = [
+    { name: "iPhone Flashing", desc: "iTunes, 3uTools, iMazing restore & IPSW pipelines.", icon: <Smartphone className="h-5 w-5" />, accent: "var(--tech)" },
+    { name: "iCloud Bypass", desc: "Checkra1n, Palera1n & signal-preserving bypass flows.", icon: <Unlock className="h-5 w-5" />, accent: "var(--power)" },
+    { name: "FRP Unlocking", desc: "Samsung, Xiaomi, Vivo & Oppo Google-account removal.", icon: <ShieldOff className="h-5 w-5" />, accent: "var(--tech)" },
+    { name: "China Unlock", desc: "MTK / SPD / Qualcomm processor flashing with UnlockTool.", icon: <KeyRound className="h-5 w-5" />, accent: "var(--power)" },
+    { name: "Firmware Repair", desc: "Odin, QFIL, MiFlash, SP Flash Tool — full boot recovery.", icon: <Database className="h-5 w-5" />, accent: "var(--tech)" },
+    { name: "Network Repair", desc: "Baseband, IMEI, and country/society-code correction.", icon: <Wifi className="h-5 w-5" />, accent: "var(--power)" },
+    { name: "Dead Boot Recovery", desc: "Reviving dead phones via ISP, EDL & test-point flashing.", icon: <Zap className="h-5 w-5" />, accent: "var(--tech)" },
+    { name: "Pattern Unlock", desc: "Screen lock, pin & pattern removal without data wipe.", icon: <ShieldCheck className="h-5 w-5" />, accent: "var(--power)" },
+  ];
+
+  return (
+    <section ref={labRef} id="lab" className="content-section relative py-24 lg:py-32 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div
+          className="mx-auto max-w-3xl text-center"
+        >
+          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--tech)]">Software Lab</div>
+          <h2 className="mt-3 font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight">
+            <span className="text-gradient-tech">SOFTWARE</span>
+          </h2>
+          <div className="mx-auto mt-3 h-1 w-24 rounded-full bg-gradient-to-r from-[var(--tech)] to-[var(--power)]" />
+          <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base text-muted-foreground">
+            Master mobile software repair with professional training in phone flashing, device unlocking, and dead phone recovery using industry-standard tools. The course covers Samsung, Oppo, Vivo, Xiaomi, Infinix, Tecno, and iPhone.
+          </p>
+        </div>
+
+        {/* Compact software tool grid: 2 cols mobile / 4 cols desktop */}
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+          {softwareTools.map((s, i) => (
+            <div
+              key={s.name}
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-5 transition-transform hover:-translate-y-1"
+              style={{ boxShadow: `0 4px 18px -12px color-mix(in oklab, ${s.accent} 55%, transparent)` }}
+            >
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-[2px] opacity-70"
+                style={{ background: `linear-gradient(90deg, transparent, ${s.accent}, transparent)` }}
+              />
+              <span
+                className="grid h-10 w-10 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110"
+                style={{ backgroundColor: `color-mix(in oklab, ${s.accent} 18%, transparent)`, color: s.accent }}
+              >
+                {s.icon}
+              </span>
+              <div className="mt-3 font-display text-sm sm:text-base font-bold leading-tight">{s.name}</div>
+              <p className="mt-1 hidden text-xs leading-relaxed text-muted-foreground sm:block">
+                {s.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Simulator */}
+        <div
+          className="content-section relative mx-auto mt-12 max-w-3xl rounded-3xl border border-[#2a2a30] bg-[#0B0B0C] p-5 sm:p-6 shadow-2xl"
+        >
+          {/* window chrome */}
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-red-500" />
+            <span className="h-3 w-3 rounded-full bg-yellow-500" />
+            <span className="h-3 w-3 rounded-full bg-green-500" />
+            <span className="ml-3 text-[11px] uppercase tracking-widest text-white/50 font-mono">
+              awantech.flash — /dev/ttyUSB0
+            </span>
+          </div>
+
+          <div className="mt-4 rounded-xl bg-black/70 p-4 font-mono text-[12px] text-emerald-300 min-h-[220px]">
+            {logs.map((l, i) => (
+              <div
+                key={i}
+                className="transform-gpu"
+              >
+                {l}
+              </div>
+            ))}
+            <div className="mt-3 flex items-center gap-2 text-white/80">
+              <span className="text-[var(--tech)]">›</span>
+              Flashing firmware…
+              <span className="ml-auto text-white/60">{Math.floor(progress)}%</span>
+            </div>
+            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full rounded-full transition-[width] duration-100"
+                style={{
+                  width: `${progress}%`,
+                  background: "linear-gradient(90deg, #00E5FF, #FF5500)",
+                }}
+              />
+            </div>
+              {done && (
+                <div
+                  className="mt-3 flex items-center gap-2 text-emerald-400"
+                >
+                  <span className="grid h-5 w-5 place-items-center rounded-full bg-emerald-400/20">
+                    <Check className="h-3 w-3" />
+                  </span>
+                  Firmware flashed successfully.
+                </div>
+              )}
+          </div>
+
+          <div className="pointer-events-none absolute -inset-1 -z-10 rounded-3xl bg-gradient-to-tr from-[#00E5FF]/25 via-transparent to-[#FF5500]/25 blur-2xl" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 function DiplomaShowcase() {
 
   return (
-    <section ref={sectionRef} id="diploma" className="content-section relative py-20 lg:py-24">
+    <section id="diploma" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
         <div
           className="mb-8 text-center"
@@ -616,11 +979,6 @@ function DiplomaShowcase() {
               <Award className="h-3 w-3" /> Certified
             </span>
           </div>
-        </div>
-      </div>
-          </div>
-
-          <div className="pointer-events-none absolute -inset-1 -z-10 rounded-3xl bg-gradient-to-tr from-[#00E5FF]/25 via-transparent to-[#FF5500]/25 blur-2xl" />
         </div>
       </div>
     </section>
