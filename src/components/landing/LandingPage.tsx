@@ -1186,12 +1186,14 @@ function ContactFooter() {
           <div
             className="transform-gpu lg:sticky lg:top-24"
           >
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
+            <div data-reveal className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
               <Sparkles className="h-3 w-3" />
               Click to copy number
             </div>
             <div className="flex flex-col gap-3">
               <button
+                data-reveal
+                style={{ ["--reveal-delay" as string]: "60ms" }}
                 onClick={() => copy("0335-3590008", "Primary phone")}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--tech)]"
               >
@@ -1216,6 +1218,8 @@ function ContactFooter() {
               </button>
 
               <button
+                data-reveal
+                style={{ ["--reveal-delay" as string]: "140ms" }}
                 onClick={() => copy("0301-4692771", "Support line")}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--power)]"
               >
@@ -1240,6 +1244,8 @@ function ContactFooter() {
               </button>
 
               <button
+                data-reveal
+                style={{ ["--reveal-delay" as string]: "220ms" }}
                 onClick={() => copy("bmsaadnasir@gmail.com", "Email")}
                 className="premium-lift group inline-flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-left hover:border-[var(--power)]"
               >
@@ -1256,7 +1262,7 @@ function ContactFooter() {
               </button>
             </div>
 
-            <p className="mt-4 text-xs text-muted-foreground">
+            <p data-reveal style={{ ["--reveal-delay" as string]: "280ms" }} className="mt-4 text-xs text-muted-foreground">
               Fees, seat availability, and batch schedules are handled personally by the institute. Tap any option above —
               it copies instantly.
             </p>
@@ -1270,7 +1276,7 @@ function ContactFooter() {
           <style>{`@keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(400%)} }`}</style>
         </div>
 
-        <footer className="flex flex-col items-start justify-between gap-4 pb-10 sm:flex-row sm:items-center">
+        <footer data-reveal className="flex flex-col items-start justify-between gap-4 pb-10 sm:flex-row sm:items-center">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span className="grid h-6 w-6 place-items-center rounded bg-foreground text-background">
               <Wrench className="h-3 w-3" />
