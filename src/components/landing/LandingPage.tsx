@@ -1277,7 +1277,51 @@ function ContactFooter() {
 /*  Root                                                                      */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * One shared IntersectionObserver for every [data-reveal] element.
+ * - No scroll listeners, so the main thread stays free.
+ * - Hidden state is only armed once JS runs (html.reveal-ready), so content
+ *   can never be permanently invisible if JS fails.
+ * - A 3s failsafe reveals anything still pending.
+ */
+function useScrollReveal() {
+  useEffect(() => {
+    const root = document.documentElement;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || typeof IntersectionObserver === "undefined") return;
+
+    root.classList.add("reveal-ready");
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-revealed");
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" },
+    );
+
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    els.forEach((el) => io.observe(el));
+
+    const failsafe = window.setTimeout(() => {
+      els.forEach((el) => el.classList.add("is-revealed"));
+      io.disconnect();
+    }, 3000);
+
+    return () => {
+      window.clearTimeout(failsafe);
+      io.disconnect();
+      root.classList.remove("reveal-ready");
+    };
+  }, []);
+}
+
 export default function LandingPage() {
+  useScrollReveal();
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-[var(--tech)]/30">
       <Nav />
