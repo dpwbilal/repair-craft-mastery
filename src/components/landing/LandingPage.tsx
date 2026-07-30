@@ -51,7 +51,21 @@ function StatCard({ label, value, suffix }: { label: string; value: number; suff
 /* -------------------------------------------------------------------------- */
 
 function SplitReveal({ text, className = "" }: { text: string; className?: string }) {
-  return <span className={className}>{text}</span>;
+  const words = text.split(" ");
+  return (
+    <span className={className}>
+      {words.map((w, i) => (
+        <span
+          key={`${w}-${i}`}
+          className="reveal-word"
+          style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
+        >
+          {w}
+          {i < words.length - 1 ? "\u00A0" : ""}
+        </span>
+      ))}
+    </span>
+  );
 }
 
 function MagneticButton({
