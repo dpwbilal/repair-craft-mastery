@@ -291,7 +291,7 @@ function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow Nasir Tech Institute on Facebook"
-              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#1877F2] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[#1877F2] hover:text-[#1877F2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="hover-bounce group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#1877F2] hover:border-[#1877F2] hover:text-[#1877F2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Facebook className="h-5 w-5" />
             </a>
@@ -300,7 +300,7 @@ function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Watch Nasir Tech Institute on YouTube"
-              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#FF0000] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[#FF0000] hover:text-[#FF0000] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="hover-bounce group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#FF0000] hover:border-[#FF0000] hover:text-[#FF0000] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Youtube className="h-5 w-5" />
             </a>
@@ -450,7 +450,7 @@ function Master() {
         <div className="mt-2 pt-0 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
           <div
-            data-reveal
+            data-reveal="left"
             className="content-section relative group mt-0 pt-0"
           >
             {/* Premium ambient studio backlight */}
@@ -495,7 +495,7 @@ function Master() {
               {cards.map((c, i) => (
                 <article
                   key={c.tag}
-                  data-reveal
+                  data-reveal="right"
                   style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
                   className="content-section relative pl-12"
                 >
