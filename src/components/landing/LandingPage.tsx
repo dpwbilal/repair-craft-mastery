@@ -664,7 +664,7 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
         ref={ref}
         onMouseMove={onMove}
         onMouseLeave={reset}
-        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-shadow duration-500 hover:shadow-2xl"
+        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-[transform,box-shadow] duration-500 ease-out will-change-transform hover:scale-[1.02] hover:shadow-2xl"
         style={{
           borderTop: `4px solid ${t.accent}`,
           boxShadow: `0 -4px 22px -6px ${t.accent}55`,
