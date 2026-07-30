@@ -415,6 +415,31 @@ html.reveal-ready [data-reveal="slow"].is-revealed {
 }
 
 /* Social icon hover bounce */
+/* Certificate tilt-to-straight on scroll */
+.tilt-straight {
+  transform: rotate(-6deg) scale(0.95);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  transform-origin: center;
+}
+.tilt-straight.is-straight {
+  transform: rotate(0deg) scale(1);
+}
+
+/* Header scrollspy active link — brand blue/cyan shine */
+.nav-link {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.nav-link.is-active {
+  color: var(--tech);
+  text-shadow: 0 0 12px color-mix(in oklab, var(--tech) 70%, transparent);
+  animation: nav-shine 2s ease-in-out infinite;
+}
+@keyframes nav-shine {
+  0%, 100% { text-shadow: 0 0 8px color-mix(in oklab, var(--tech) 45%, transparent); }
+  50% { text-shadow: 0 0 16px color-mix(in oklab, var(--tech) 85%, transparent); }
+}
+
 @keyframes icon-bounce {
   0% { transform: translate3d(0, 0, 0) scale(1); }
   35% { transform: translate3d(0, -6px, 0) scale(1.12); }
