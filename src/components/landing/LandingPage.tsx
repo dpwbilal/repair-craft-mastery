@@ -754,7 +754,21 @@ function Lab() {
   const [progress, setProgress] = useState(0);
   const [done, setDone] = useState(false);
   const labRef = useRef<HTMLElement | null>(null);
-  const labInView = useInView(labRef, { amount: 0.15 });
+  const [labInView, setLabInView] = useState(false);
+
+  useEffect(() => {
+    const el = labRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setLabInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => setLabInView(entries.some((e) => e.isIntersecting)),
+      { threshold: 0.15 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!labInView) return;
