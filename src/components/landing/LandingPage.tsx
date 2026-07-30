@@ -1210,11 +1210,12 @@ function ContactFooter() {
     []
   );
 
-  const copy = async (value: string, label: string) => {
+  const copy = async (value: string, label: string, e?: React.MouseEvent) => {
     if (toastTimer.current) window.clearTimeout(toastTimer.current);
     try {
       await navigator.clipboard.writeText(value);
       setToast(`${label} copied to clipboard`);
+      void miniBurst((e?.currentTarget as HTMLElement) ?? null);
     } catch {
       setToast("Copy failed — long-press to copy");
     }
@@ -1238,7 +1239,7 @@ function ContactFooter() {
               <button
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "60ms" }}
-                onClick={() => copy("0335-3590008", "Primary phone")}
+                onClick={(e) => copy("0335-3590008", "Primary phone", e)}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--tech)]"
               >
                 <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--tech)] to-transparent opacity-70" />
@@ -1264,7 +1265,7 @@ function ContactFooter() {
               <button
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "140ms" }}
-                onClick={() => copy("0301-4692771", "Support line")}
+                onClick={(e) => copy("0301-4692771", "Support line", e)}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--power)]"
               >
                 <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--power)] to-transparent opacity-70" />
@@ -1290,7 +1291,7 @@ function ContactFooter() {
               <button
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "220ms" }}
-                onClick={() => copy("bmsaadnasir@gmail.com", "Email")}
+                onClick={(e) => copy("bmsaadnasir@gmail.com", "Email", e)}
                 className="premium-lift group inline-flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-left hover:border-[var(--power)]"
               >
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--power)]/10 text-[var(--power)]">
