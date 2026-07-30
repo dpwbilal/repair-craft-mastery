@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Check, Clock, Users, Zap, ArrowRight, Cpu, CircuitBoard, BriefcaseBusiness, Quote } from "lucide-react";
 import { TIERS } from "@/components/landing/LandingPage";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 type Tier = (typeof TIERS)[number];
 
@@ -69,6 +70,8 @@ function CoursePage() {
       icon: BriefcaseBusiness,
     },
   ];
+
+  useScrollReveal();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
