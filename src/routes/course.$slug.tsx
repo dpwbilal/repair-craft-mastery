@@ -74,6 +74,7 @@ function CoursePage() {
     <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
       <section
+        data-reveal
         className="relative overflow-hidden border-b border-border pb-20 pt-28 sm:pt-32"
         style={{
           background: `radial-gradient(60% 60% at 50% 0%, ${tier.accent}22, transparent 70%)`,
@@ -118,7 +119,7 @@ function CoursePage() {
       </section>
 
       {/* Curriculum */}
-      <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-10">
+      <section data-reveal className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-10">
         <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: tier.accent }}>
           What you'll master
         </div>
@@ -148,7 +149,7 @@ function CoursePage() {
         </div>
       </section>
 
-      <section className="border-y border-border bg-surface py-20">
+      <section data-reveal="slow" className="border-y border-border bg-surface py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10">
           <div
             className="max-w-2xl"
@@ -190,7 +191,7 @@ function CoursePage() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border bg-surface py-20">
+      <section data-reveal="zoom" className="border-t border-border bg-surface py-20">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <h2 className="font-display text-3xl font-bold sm:text-4xl">Ready to enroll?</h2>
           <p className="mt-3 text-muted-foreground">
