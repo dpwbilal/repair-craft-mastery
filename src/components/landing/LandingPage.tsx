@@ -550,6 +550,7 @@ function CurriculumInner() {
     <section id="curriculum" className="content-section relative py-24 lg:py-32 bg-surface">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div
+          data-reveal
           className="mx-auto mb-16 max-w-3xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">Choose Your Path</div>
@@ -655,6 +656,8 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
 
   return (
     <div
+      data-reveal
+      style={{ "--reveal-delay": `${index * 110}ms` } as React.CSSProperties}
       className="[perspective:1200px] h-full"
     >
       <article
