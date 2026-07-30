@@ -920,7 +920,7 @@ function DiplomaShowcase() {
     <section id="diploma" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
         <div
-          data-reveal
+          data-reveal="slow"
           className="mb-8 text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--power)]">
@@ -935,7 +935,8 @@ function DiplomaShowcase() {
         </div>
 
         <div
-          data-reveal
+          data-reveal="zoom"
+          style={{ ["--reveal-delay" as string]: "120ms" }}
           className="relative mx-auto max-w-5xl"
         >
           <div
