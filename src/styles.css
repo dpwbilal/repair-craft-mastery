@@ -461,6 +461,17 @@ html.reveal-ready [data-reveal="slow"].is-revealed {
   }
 }
 
+/* Absolute failsafe: if an entrance animation is unsupported or interrupted,
+   nothing may stay invisible. */
+@supports not (animation-fill-mode: both) {
+  .reveal-word,
+  .hero-in > *,
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Gradient text fallback — only for engines without background-clip: text.
    Applying it unconditionally used to paint solid text over the gradient. */
 @supports not ((background-clip: text) or (-webkit-background-clip: text)) {
