@@ -524,3 +524,16 @@ html.reveal-ready [data-reveal="slow"].is-revealed {
     will-change: auto;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html.reveal-ready [data-reveal],
+  html.reveal-ready [data-reveal]:not(.is-revealed),
+  html.reveal-ready [data-reveal].is-revealed {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .hover-bounce:hover {
+    animation: none !important;
+  }
+}
