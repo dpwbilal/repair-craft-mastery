@@ -954,10 +954,15 @@ function Lab() {
 
 
 function DiplomaShowcase() {
+  // Party-popper burst fires each time the ceremony section scrolls into view.
+  const { ref, inView } = useInView<HTMLDivElement>(0.35);
+  useEffect(() => {
+    if (inView) void partyPopper();
+  }, [inView]);
 
   return (
     <section id="diploma" className="content-section relative py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
+      <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
         <div
           data-reveal="slow"
           className="mb-8 text-center"
