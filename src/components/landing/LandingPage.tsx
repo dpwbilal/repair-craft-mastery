@@ -816,7 +816,9 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
               style={{
                 backgroundColor: t.accent,
                 borderRadius: "9999px",
-                boxShadow: `0 0 18px ${t.accent}80, 0 0 44px ${t.accent}40`,
+                // Glow hugs the pill: tight spread scaled to the button height,
+                // no oversized halo bleeding past the rounded silhouette.
+                boxShadow: `0 0 0 1px ${t.accent}66, 0 2px 10px -2px ${t.accent}80, 0 6px 18px -8px ${t.accent}66`,
               }}
             >
               Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />

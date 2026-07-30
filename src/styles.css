@@ -188,6 +188,24 @@
   contain-intrinsic-size: 900px;
 }
 
+/* ============ Smoothness / GPU budget ============
+   Large blur() layers are the single biggest source of scroll jank because the
+   compositor re-rasterises them on every frame. Cap the blur radius, keep the
+   decorative layers off the main paint path, and never leave will-change on. */
+[class*="blur-3xl"] { filter: blur(42px) !important; }
+[class*="blur-2xl"] { filter: blur(28px) !important; }
+
+[class*="blur-"][class*="pointer-events-none"],
+.animate-float-slow,
+.animate-scan {
+  contain: paint;
+}
+
+/* Only promote layers that are actually moving. */
+html.reveal-ready [data-reveal].is-revealed {
+  will-change: auto;
+}
+
 /* ============ Custom utilities ============ */
 
 @utility font-display {
