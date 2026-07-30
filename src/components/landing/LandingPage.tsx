@@ -540,7 +540,7 @@ function Master() {
             {/* Premium ambient studio backlight */}
             <div
               aria-hidden
-              className="pointer-events-none absolute -inset-8 -z-10 rounded-[3rem] bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.35),rgba(0,102,255,0.22)_45%,transparent_75%)] blur-[60px]"
+              className="pointer-events-none absolute -inset-10 -z-10 rounded-[3rem] opacity-30 blur-[60px] bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.9),rgba(0,102,255,0.6)_45%,transparent_75%)]"
             />
             <div
               className="pointer-events-none absolute -inset-3 rounded-[2rem] opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
