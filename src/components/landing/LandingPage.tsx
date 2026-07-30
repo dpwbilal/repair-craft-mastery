@@ -183,13 +183,30 @@ function Nav() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
-    const el = document.getElementById("master");
-    if (!el || typeof IntersectionObserver === "undefined") return;
+    if (typeof IntersectionObserver === "undefined") return;
+    const ids = NAV.map((n) => n.href.slice(1));
+    const els = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (!els.length) return;
+
+    const ratios = new Map<string, number>();
     const io = new IntersectionObserver(
-      ([entry]) => setActiveId(entry.isIntersecting ? "master" : null),
-      { threshold: 0.3 },
+      (entries) => {
+        for (const e of entries) ratios.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0);
+        let best: string | null = null;
+        let bestRatio = 0;
+        for (const [id, r] of ratios) {
+          if (r > bestRatio) {
+            bestRatio = r;
+            best = id;
+          }
+        }
+        setActiveId(best);
+      },
+      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1], rootMargin: "-72px 0px -35% 0px" },
     );
-    io.observe(el);
+    els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 
@@ -325,7 +342,7 @@ function Hero() {
             Build your career with hands-on, expert-led courses and real-world diagnostics.
           </p>
 
-          <blockquote className="mt-8 relative rounded-2xl border border-border glass-card p-5 sm:p-6">
+          <blockquote className="philosophy-card mt-8 relative rounded-2xl border border-border glass-card p-5 sm:p-6">
             <span className="absolute -top-3 left-6 rounded-full bg-[var(--power)] px-3 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-white">
               Master's Philosophy
             </span>
