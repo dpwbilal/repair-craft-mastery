@@ -359,6 +359,53 @@
   visibility: visible !important;
 }
 
+/* ============ Scroll reveal system ============
+   Default state is fully visible, so content can NEVER get stuck hidden if
+   JS fails, lags, or is disabled. Only after JS confirms IntersectionObserver
+   support does <html> get `.reveal-ready`, which arms the hidden state. */
+[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+html.reveal-ready [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+}
+
+html.reveal-ready [data-reveal].is-revealed {
+  animation: reveal-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+  will-change: transform, opacity;
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Hero: pure-CSS entrance, no observer, runs the moment CSS paints. */
+.hero-in > * {
+  animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-in > *:nth-child(1) { animation-delay: 0.05s; }
+.hero-in > *:nth-child(2) { animation-delay: 0.12s; }
+.hero-in > *:nth-child(3) { animation-delay: 0.19s; }
+.hero-in > *:nth-child(4) { animation-delay: 0.26s; }
+.hero-in > *:nth-child(5) { animation-delay: 0.33s; }
+.hero-in > *:nth-child(6) { animation-delay: 0.4s; }
+.hero-in > *:nth-child(7) { animation-delay: 0.47s; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  html.reveal-ready [data-reveal]:not(.is-revealed),
+  .hero-in > * {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal-word,
   .hero-in,
