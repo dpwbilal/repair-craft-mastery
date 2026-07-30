@@ -804,14 +804,21 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
             ))}
           </ul>
 
+          <span className="relative mt-auto block overflow-visible">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-x-1 -bottom-1 top-1 rounded-full blur-lg opacity-60"
+              style={{ backgroundColor: t.accent }}
+            />
           <Link
             to="/course/$slug"
             params={{ slug: t.slug }}
-            className="group/btn mt-auto min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            style={{ backgroundColor: t.accent, boxShadow: `0 8px 24px -8px ${t.accent}` }}
+            className="group/btn relative min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            style={{ backgroundColor: t.accent, borderRadius: "9999px" }}
           >
             Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
           </Link>
+          </span>
         </div>
       </article>
     </div>
@@ -988,12 +995,16 @@ function Lab() {
 
 
 function DiplomaShowcase() {
-  // Party-popper burst fires each time the ceremony section scrolls into view.
+  // Party-popper burst fires only the first time the ceremony scrolls into view.
   const { ref, inView } = useInView<HTMLDivElement>(0.35);
   // Certificate tilts straight whenever it enters the viewport.
   const { ref: certRef, inView: certInView } = useInView<HTMLDivElement>(0.25);
+  const hasTriggered = useRef(false);
   useEffect(() => {
-    if (inView) void partyPopper();
+    if (inView && !hasTriggered.current) {
+      hasTriggered.current = true;
+      void partyPopper();
+    }
   }, [inView]);
 
   return (
