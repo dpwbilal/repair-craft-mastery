@@ -814,6 +814,7 @@ function Lab() {
     <section ref={labRef} id="lab" className="content-section relative py-24 lg:py-32 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div
+          data-reveal
           className="mx-auto max-w-3xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--tech)]">Software Lab</div>
@@ -831,8 +832,12 @@ function Lab() {
           {softwareTools.map((s, i) => (
             <div
               key={s.name}
+              data-reveal
               className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-5 transition-transform hover:-translate-y-1"
-              style={{ boxShadow: `0 4px 18px -12px color-mix(in oklab, ${s.accent} 55%, transparent)` }}
+              style={{
+                boxShadow: `0 4px 18px -12px color-mix(in oklab, ${s.accent} 55%, transparent)`,
+                ["--reveal-delay" as string]: `${(i % 4) * 70}ms`,
+              }}
             >
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-[2px] opacity-70"
@@ -929,6 +934,7 @@ function DiplomaShowcase() {
         </div>
 
         <div
+          data-reveal
           className="relative mx-auto max-w-5xl"
         >
           <div
