@@ -83,7 +83,7 @@ function MagneticButton({
   const reset = () => setPos({ x: 0, y: 0 });
 
   const base =
-    "group relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-colors will-change-transform";
+    "group relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-[transform,color,background-color,border-color] duration-300 ease-out hover:scale-[1.04] active:scale-[0.98] will-change-transform";
   const variants: Record<string, string> = {
     primary:
       "bg-foreground text-background hover:bg-[var(--tech)] hover:text-white",
