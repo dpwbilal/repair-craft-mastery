@@ -920,6 +920,7 @@ function DiplomaShowcase() {
     <section id="diploma" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
         <div
+          data-reveal
           className="mb-8 text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--power)]">
@@ -1086,6 +1087,8 @@ function ValueProps() {
 
         {/* Location */}
         <div
+          data-reveal
+          style={{ ["--reveal-delay" as string]: "100ms" }}
           className="content-section relative overflow-hidden rounded-3xl border border-border bg-card p-8 lg:p-10"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Location Advantage</div>
