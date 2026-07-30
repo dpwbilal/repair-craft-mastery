@@ -83,7 +83,7 @@ function MagneticButton({
   const reset = () => setPos({ x: 0, y: 0 });
 
   const base =
-    "group relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-colors will-change-transform";
+    "group relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-[transform,color,background-color,border-color] duration-300 ease-out hover:scale-[1.04] active:scale-[0.98] will-change-transform";
   const variants: Record<string, string> = {
     primary:
       "bg-foreground text-background hover:bg-[var(--tech)] hover:text-white",
@@ -387,7 +387,7 @@ function Marquee() {
   ];
   return (
     <div className="border-y border-border bg-surface overflow-hidden">
-      <div className="flex w-max gap-12 py-4 whitespace-nowrap animate-[marquee_60s_linear_infinite]">
+      <div className="flex w-max gap-12 py-4 whitespace-nowrap animate-[marquee_60s_linear_infinite] will-change-transform">
         {[...items, ...items].map((s, i) => (
           <span key={i} className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-muted-foreground">
             <Sparkles className="h-4 w-4 text-[var(--tech)]" />
@@ -395,7 +395,7 @@ function Marquee() {
           </span>
         ))}
       </div>
-      <style>{`@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }`}</style>
+      <style>{`@keyframes marquee { 0%{transform:translate3d(0,0,0)} 100%{transform:translate3d(-50%,0,0)} }`}</style>
     </div>
   );
 }
@@ -443,20 +443,14 @@ function Master() {
   return (
     <section id="master" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div
-          className="mb-0 pb-0 max-w-2xl"
-        >
+        <div data-reveal className="mb-0 pb-0 max-w-2xl">
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Meet the Instructor</div>
-          <h2 className="mt-1 mb-0 pb-0 text-4xl sm:text-5xl font-bold leading-tight">
-            <SplitReveal text="A three-country journey" />
-            <br />
-            <SplitReveal text="into one Lahore classroom." className="text-gradient-tech" />
-          </h2>
         </div>
 
         <div className="mt-2 pt-0 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
           <div
+            data-reveal
             className="content-section relative group mt-0 pt-0"
           >
             {/* Premium ambient studio backlight */}
@@ -501,6 +495,8 @@ function Master() {
               {cards.map((c, i) => (
                 <article
                   key={c.tag}
+                  data-reveal
+                  style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
                   className="content-section relative pl-12"
                 >
                   <span
@@ -554,6 +550,7 @@ function CurriculumInner() {
     <section id="curriculum" className="content-section relative py-24 lg:py-32 bg-surface">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div
+          data-reveal
           className="mx-auto mb-16 max-w-3xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">Choose Your Path</div>
@@ -659,6 +656,8 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
 
   return (
     <div
+      data-reveal
+      style={{ "--reveal-delay": `${index * 110}ms` } as React.CSSProperties}
       className="[perspective:1200px] h-full"
     >
       <article
@@ -815,6 +814,7 @@ function Lab() {
     <section ref={labRef} id="lab" className="content-section relative py-24 lg:py-32 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div
+          data-reveal
           className="mx-auto max-w-3xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--tech)]">Software Lab</div>
@@ -832,8 +832,12 @@ function Lab() {
           {softwareTools.map((s, i) => (
             <div
               key={s.name}
+              data-reveal
               className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-5 transition-transform hover:-translate-y-1"
-              style={{ boxShadow: `0 4px 18px -12px color-mix(in oklab, ${s.accent} 55%, transparent)` }}
+              style={{
+                boxShadow: `0 4px 18px -12px color-mix(in oklab, ${s.accent} 55%, transparent)`,
+                ["--reveal-delay" as string]: `${(i % 4) * 70}ms`,
+              }}
             >
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-[2px] opacity-70"
@@ -916,6 +920,7 @@ function DiplomaShowcase() {
     <section id="diploma" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
         <div
+          data-reveal
           className="mb-8 text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--power)]">
@@ -930,6 +935,7 @@ function DiplomaShowcase() {
         </div>
 
         <div
+          data-reveal
           className="relative mx-auto max-w-5xl"
         >
           <div
@@ -1002,14 +1008,21 @@ function StatsBand() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="mx-auto mb-14 h-px w-full max-w-2xl bg-gradient-to-r from-transparent via-[var(--tech)]/60 to-transparent" />
         <div
+          data-reveal
           className="mx-auto mb-10 max-w-2xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--power)]">By the Numbers</div>
           <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold">A track record built in the bench.</h2>
         </div>
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {stats.map((s) => (
-            <StatCard key={s.k} label={s.k} value={s.v} suffix={s.suffix} />
+          {stats.map((s, i) => (
+            <div
+              key={s.k}
+              data-reveal
+              style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}
+            >
+              <StatCard label={s.k} value={s.v} suffix={s.suffix} />
+            </div>
           ))}
         </div>
       </div>
@@ -1027,6 +1040,7 @@ function ValueProps() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-10">
         {/* Certificate */}
         <div
+          data-reveal
           className="content-section relative overflow-hidden rounded-3xl border border-border bg-card p-8 lg:p-10"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">The Certificate</div>
@@ -1073,6 +1087,8 @@ function ValueProps() {
 
         {/* Location */}
         <div
+          data-reveal
+          style={{ ["--reveal-delay" as string]: "100ms" }}
           className="content-section relative overflow-hidden rounded-3xl border border-border bg-card p-8 lg:p-10"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Location Advantage</div>
@@ -1277,7 +1293,51 @@ function ContactFooter() {
 /*  Root                                                                      */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * One shared IntersectionObserver for every [data-reveal] element.
+ * - No scroll listeners, so the main thread stays free.
+ * - Hidden state is only armed once JS runs (html.reveal-ready), so content
+ *   can never be permanently invisible if JS fails.
+ * - A 3s failsafe reveals anything still pending.
+ */
+function useScrollReveal() {
+  useEffect(() => {
+    const root = document.documentElement;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || typeof IntersectionObserver === "undefined") return;
+
+    root.classList.add("reveal-ready");
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-revealed");
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" },
+    );
+
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    els.forEach((el) => io.observe(el));
+
+    const failsafe = window.setTimeout(() => {
+      els.forEach((el) => el.classList.add("is-revealed"));
+      io.disconnect();
+    }, 3000);
+
+    return () => {
+      window.clearTimeout(failsafe);
+      io.disconnect();
+      root.classList.remove("reveal-ready");
+    };
+  }, []);
+}
+
 export default function LandingPage() {
+  useScrollReveal();
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-[var(--tech)]/30">
       <Nav />
