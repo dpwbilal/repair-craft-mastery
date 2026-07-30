@@ -252,14 +252,6 @@ function Nav() {
               </span>
           </button>
 
-          <MagneticButton
-            href="#contact"
-            pulse
-            className="mobile-enroll min-h-11 whitespace-nowrap px-4 py-2 text-sm sm:h-auto sm:min-h-0 sm:px-6 sm:py-3"
-          >
-            Enroll Now <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4" />
-          </MagneticButton>
-
           <button
             className="lg:hidden grid h-11 w-11 shrink-0 place-items-center rounded-full border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-9 sm:w-9"
             onClick={() => setOpen((v) => !v)}
