@@ -430,6 +430,17 @@ html.reveal-ready [data-reveal="slow"].is-revealed {
 .nav-link {
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
+
+/* Master's Philosophy card — subtle lift + cyan glow on hover */
+.philosophy-card {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+.philosophy-card:hover {
+  transform: scale(1.015);
+  border-color: color-mix(in oklab, var(--tech) 55%, transparent);
+  box-shadow: 0 12px 40px -12px color-mix(in oklab, var(--tech) 45%, transparent);
+}
 .nav-link.is-active {
   color: var(--tech);
   text-shadow: 0 0 12px color-mix(in oklab, var(--tech) 70%, transparent);

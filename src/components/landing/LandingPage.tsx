@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { useTilt } from "@/hooks/use-tilt";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useInView } from "@/hooks/use-in-view";
 import { partyPopper, miniBurst } from "@/lib/celebrate";
 import motherboardImg from "@/assets/motherboard.webp";
@@ -182,13 +183,30 @@ function Nav() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
-    const el = document.getElementById("master");
-    if (!el || typeof IntersectionObserver === "undefined") return;
+    if (typeof IntersectionObserver === "undefined") return;
+    const ids = NAV.map((n) => n.href.slice(1));
+    const els = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (!els.length) return;
+
+    const ratios = new Map<string, number>();
     const io = new IntersectionObserver(
-      ([entry]) => setActiveId(entry.isIntersecting ? "master" : null),
-      { threshold: 0.3 },
+      (entries) => {
+        for (const e of entries) ratios.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0);
+        let best: string | null = null;
+        let bestRatio = 0;
+        for (const [id, r] of ratios) {
+          if (r > bestRatio) {
+            bestRatio = r;
+            best = id;
+          }
+        }
+        setActiveId(best);
+      },
+      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1], rootMargin: "-72px 0px -35% 0px" },
     );
-    io.observe(el);
+    els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 
@@ -324,7 +342,7 @@ function Hero() {
             Build your career with hands-on, expert-led courses and real-world diagnostics.
           </p>
 
-          <blockquote className="mt-8 relative rounded-2xl border border-border glass-card p-5 sm:p-6">
+          <blockquote className="philosophy-card mt-8 relative rounded-2xl border border-border glass-card p-5 sm:p-6">
             <span className="absolute -top-3 left-6 rounded-full bg-[var(--power)] px-3 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-white">
               Master's Philosophy
             </span>
@@ -522,7 +540,7 @@ function Master() {
             {/* Premium ambient studio backlight */}
             <div
               aria-hidden
-              className="pointer-events-none absolute -inset-8 -z-10 rounded-[3rem] bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.35),rgba(0,102,255,0.22)_45%,transparent_75%)] blur-[60px]"
+              className="pointer-events-none absolute -inset-10 -z-10 rounded-[3rem] opacity-30 blur-[60px] bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.9),rgba(0,102,255,0.6)_45%,transparent_75%)]"
             />
             <div
               className="pointer-events-none absolute -inset-3 rounded-[2rem] opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
@@ -786,14 +804,21 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
             ))}
           </ul>
 
+          <span className="relative mt-auto block overflow-visible">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-x-1 -bottom-1 top-1 rounded-full blur-lg opacity-60"
+              style={{ backgroundColor: t.accent }}
+            />
           <Link
             to="/course/$slug"
             params={{ slug: t.slug }}
-            className="group/btn mt-auto min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            style={{ backgroundColor: t.accent, boxShadow: `0 8px 24px -8px ${t.accent}` }}
+            className="group/btn relative min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            style={{ backgroundColor: t.accent, borderRadius: "9999px" }}
           >
             Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
           </Link>
+          </span>
         </div>
       </article>
     </div>
@@ -970,12 +995,16 @@ function Lab() {
 
 
 function DiplomaShowcase() {
-  // Party-popper burst fires each time the ceremony section scrolls into view.
+  // Party-popper burst fires only the first time the ceremony scrolls into view.
   const { ref, inView } = useInView<HTMLDivElement>(0.35);
   // Certificate tilts straight whenever it enters the viewport.
   const { ref: certRef, inView: certInView } = useInView<HTMLDivElement>(0.25);
+  const hasTriggered = useRef(false);
   useEffect(() => {
-    if (inView) void partyPopper();
+    if (inView && !hasTriggered.current) {
+      hasTriggered.current = true;
+      void partyPopper();
+    }
   }, [inView]);
 
   return (
@@ -1375,57 +1404,6 @@ function ContactFooter() {
  *   only once they are fully off-screen, so nothing flickers at the edges.
  * - A failsafe reveals anything still hidden while it is on screen.
  */
-function useScrollReveal() {
-  useEffect(() => {
-    const root = document.documentElement;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || typeof IntersectionObserver === "undefined") return;
-
-    root.classList.add("reveal-ready");
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.intersectionRatio >= 0.15 || (e.isIntersecting && e.intersectionRatio > 0)) {
-            e.target.classList.add("is-revealed");
-          } else if (e.intersectionRatio === 0) {
-            // fully off-screen — re-arm so the reveal plays again next time
-            e.target.classList.remove("is-revealed");
-          }
-        }
-      },
-      { threshold: [0, 0.15] },
-    );
-
-    let els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    els.forEach((el) => io.observe(el));
-
-    // Pick up any element mounted after the first pass.
-    const mo = new MutationObserver(() => {
-      const next = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-      next.filter((el) => !els.includes(el)).forEach((el) => io.observe(el));
-      els = next;
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
-
-    // Failsafe: if the JS thread lagged, never leave on-screen content hidden.
-    const failsafe = window.setInterval(() => {
-      for (const el of els) {
-        if (el.classList.contains("is-revealed")) continue;
-        const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("is-revealed");
-      }
-    }, 1500);
-
-    return () => {
-      window.clearInterval(failsafe);
-      mo.disconnect();
-      io.disconnect();
-      root.classList.remove("reveal-ready");
-    };
-  }, []);
-}
-
 export default function LandingPage() {
   useScrollReveal();
   return (
