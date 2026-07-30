@@ -1211,11 +1211,13 @@ function ContactFooter() {
   );
 
   const copy = async (value: string, label: string, e?: React.MouseEvent) => {
+    // currentTarget is nulled after the handler returns, so grab it up front.
+    const source = (e?.currentTarget as HTMLElement | undefined) ?? null;
     if (toastTimer.current) window.clearTimeout(toastTimer.current);
     try {
       await navigator.clipboard.writeText(value);
       setToast(`${label} copied to clipboard`);
-      void miniBurst((e?.currentTarget as HTMLElement) ?? null);
+      void miniBurst(source);
     } catch {
       setToast("Copy failed — long-press to copy");
     }
