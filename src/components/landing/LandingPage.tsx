@@ -443,15 +443,8 @@ function Master() {
   return (
     <section id="master" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div
-          className="mb-0 pb-0 max-w-2xl"
-        >
+        <div data-reveal className="mb-0 pb-0 max-w-2xl">
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">Meet the Instructor</div>
-          <h2 className="mt-1 mb-0 pb-0 text-4xl sm:text-5xl font-bold leading-tight">
-            <SplitReveal text="A three-country journey" />
-            <br />
-            <SplitReveal text="into one Lahore classroom." className="text-gradient-tech" />
-          </h2>
         </div>
 
         <div className="mt-2 pt-0 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
