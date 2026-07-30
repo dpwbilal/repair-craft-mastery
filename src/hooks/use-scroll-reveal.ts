@@ -26,29 +26,24 @@ export function useScrollReveal() {
       { threshold: [0, 0.15] },
     );
 
-    let els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    els.forEach((el) => io.observe(el));
+    const observed = new WeakSet<Element>();
+    const scan = () => {
+      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+        if (observed.has(el)) return;
+        observed.add(el);
+        io.observe(el);
+      });
+    };
+    scan();
 
-    // Pick up any element mounted after the first pass.
-    const mo = new MutationObserver(() => {
-      const next = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-      next.filter((el) => !els.includes(el)).forEach((el) => io.observe(el));
-      els = next;
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
-
-    // Failsafe: if the JS thread lagged, never leave on-screen content hidden.
-    const failsafe = window.setInterval(() => {
-      for (const el of els) {
-        if (el.classList.contains("is-revealed")) continue;
-        const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("is-revealed");
-      }
-    }, 1500);
+    // Pick up late-mounted elements a couple of times instead of running a
+    // permanent MutationObserver + polling loop (both caused scroll jank).
+    const t1 = window.setTimeout(scan, 400);
+    const t2 = window.setTimeout(scan, 1600);
 
     return () => {
-      window.clearInterval(failsafe);
-      mo.disconnect();
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
       io.disconnect();
       root.classList.remove("reveal-ready");
     };
