@@ -387,7 +387,7 @@ function Marquee() {
   ];
   return (
     <div className="border-y border-border bg-surface overflow-hidden">
-      <div className="flex w-max gap-12 py-4 whitespace-nowrap animate-[marquee_60s_linear_infinite]">
+      <div className="flex w-max gap-12 py-4 whitespace-nowrap animate-[marquee_60s_linear_infinite] will-change-transform">
         {[...items, ...items].map((s, i) => (
           <span key={i} className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-muted-foreground">
             <Sparkles className="h-4 w-4 text-[var(--tech)]" />
@@ -395,7 +395,7 @@ function Marquee() {
           </span>
         ))}
       </div>
-      <style>{`@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }`}</style>
+      <style>{`@keyframes marquee { 0%{transform:translate3d(0,0,0)} 100%{transform:translate3d(-50%,0,0)} }`}</style>
     </div>
   );
 }
