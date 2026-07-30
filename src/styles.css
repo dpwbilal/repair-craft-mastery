@@ -188,16 +188,6 @@
   contain-intrinsic-size: 900px;
 }
 
-.mobile-reveal,
-.reveal-word,
-.hero-in,
-[style*="opacity: 0"],
-[style*="opacity:0"] {
-  opacity: 1 !important;
-  transform: none !important;
-  visibility: visible !important;
-}
-
 /* ============ Custom utilities ============ */
 
 @utility font-display {
@@ -341,16 +331,14 @@
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
+/* Word-by-word headline reveal — pure CSS, hardware accelerated, and it can
+   never strand text because the animation fills forwards to opacity: 1. */
 .reveal-word {
-  opacity: 1 !important;
-  transform: none !important;
-  visibility: visible !important;
-}
-
-.hero-in {
-  opacity: 1 !important;
-  transform: none !important;
-  visibility: visible !important;
+  display: inline-block;
+  white-space: pre;
+  will-change: transform, opacity;
+  animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
 }
 
 .reveal-force-visible {
@@ -470,6 +458,17 @@ html.reveal-ready [data-reveal="slow"].is-revealed {
     transform: none !important;
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* Absolute failsafe: if an entrance animation is unsupported or interrupted,
+   nothing may stay invisible. */
+@supports not (animation-fill-mode: both) {
+  .reveal-word,
+  .hero-in > *,
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
