@@ -264,7 +264,7 @@ function Nav() {
 /* -------------------------------------------------------------------------- */
 
 function Hero() {
-  const wrap = useRef<HTMLDivElement | null>(null);
+  const heroTilt = useTilt<HTMLDivElement>(8);
   return (
     <section id="home" className="relative overflow-hidden pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
       <div className="absolute inset-0 bg-radial-tech pointer-events-none" />
@@ -357,11 +357,13 @@ function Hero() {
 
         {/* Right — interactive tilt motherboard */}
         <div
-          ref={wrap}
           className="hero-in relative flex items-center justify-center [perspective:1200px]"
         >
           <div
-            className="relative aspect-square w-full max-w-[520px] rounded-3xl border border-border glass-card overflow-hidden [transform-style:preserve-3d]"
+            ref={heroTilt.ref}
+            onMouseMove={heroTilt.onMouseMove}
+            onMouseLeave={heroTilt.onMouseLeave}
+            className="relative aspect-square w-full max-w-[520px] rounded-3xl border border-border glass-card overflow-hidden [transform-style:preserve-3d] transition-transform duration-300 ease-out will-change-transform"
           >
             <img
               src={motherboardImg}
