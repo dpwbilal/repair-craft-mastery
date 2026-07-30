@@ -128,6 +128,12 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" className="dark">
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if('scrollRestoration' in history){history.scrollRestoration='manual';}window.addEventListener('beforeunload',function(){window.scrollTo(0,0);});}catch(e){}",
+          }}
+        />
       </head>
       <body>
         {children}
@@ -146,6 +152,11 @@ function RootComponent() {
       window.history.scrollRestoration = "manual";
     }
     window.scrollTo(0, 0);
+    if (window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    const raf = requestAnimationFrame(() => window.scrollTo(0, 0));
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (

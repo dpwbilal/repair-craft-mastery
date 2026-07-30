@@ -808,20 +808,19 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
             ))}
           </ul>
 
-          <span className="relative mt-auto block overflow-visible">
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-x-1 -bottom-1 top-1 rounded-full blur-lg opacity-60"
-              style={{ backgroundColor: t.accent }}
-            />
-          <Link
-            to="/course/$slug"
-            params={{ slug: t.slug }}
-            className="group/btn relative min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            style={{ backgroundColor: t.accent, borderRadius: "9999px" }}
-          >
-            Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
-          </Link>
+          <span className="relative mt-auto block">
+            <Link
+              to="/course/$slug"
+              params={{ slug: t.slug }}
+              className="group/btn relative min-h-11 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-black transition-[transform,box-shadow] duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              style={{
+                backgroundColor: t.accent,
+                borderRadius: "9999px",
+                boxShadow: `0 0 18px ${t.accent}80, 0 0 44px ${t.accent}40`,
+              }}
+            >
+              Learn More <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
+            </Link>
           </span>
         </div>
       </article>
