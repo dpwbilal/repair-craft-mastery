@@ -30,15 +30,49 @@ import {
   Youtube,
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
+import { useTilt } from "@/hooks/use-tilt";
+import { useInView } from "@/hooks/use-in-view";
+import { partyPopper, miniBurst } from "@/lib/celebrate";
 import motherboardImg from "@/assets/motherboard.webp";
 import instructorAsset from "@/assets/instructor-new.webp.asset.json";
 import diplomaAsset from "@/assets/diploma-new.webp.asset.json";
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
+  // Re-triggerable count-up: restarts every time the card enters the viewport,
+  // scrolling down or back up.
+  const { ref, inView } = useInView<HTMLDivElement>(0.3);
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    if (!inView) {
+      setDisplay(0);
+      return;
+    }
+    if (
+      typeof window === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setDisplay(value);
+      return;
+    }
+    let raf = 0;
+    let start = 0;
+    const duration = 1500;
+    const tick = (t: number) => {
+      if (!start) start = t;
+      const p = Math.min(1, (t - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisplay(Math.round(value * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, value]);
+
   return (
-    <div className="premium-lift rounded-xl border border-border bg-card p-4 hover:border-[var(--tech)]/60">
+    <div ref={ref} className="premium-lift rounded-xl border border-border bg-card p-4 hover:border-[var(--tech)]/60">
       <div className="font-display text-2xl font-bold">
-        {value.toLocaleString()}
+        {display.toLocaleString()}
         {suffix}
       </div>
       <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{label}</div>
