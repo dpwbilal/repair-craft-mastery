@@ -291,7 +291,7 @@ function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow Nasir Tech Institute on Facebook"
-              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#1877F2] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[#1877F2] hover:text-[#1877F2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="hover-bounce group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#1877F2] hover:border-[#1877F2] hover:text-[#1877F2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Facebook className="h-5 w-5" />
             </a>
@@ -300,7 +300,7 @@ function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Watch Nasir Tech Institute on YouTube"
-              className="group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#FF0000] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[#FF0000] hover:text-[#FF0000] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="hover-bounce group inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border glass-card text-[#FF0000] hover:border-[#FF0000] hover:text-[#FF0000] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Youtube className="h-5 w-5" />
             </a>
@@ -450,7 +450,7 @@ function Master() {
         <div className="mt-2 pt-0 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
           <div
-            data-reveal
+            data-reveal="left"
             className="content-section relative group mt-0 pt-0"
           >
             {/* Premium ambient studio backlight */}
@@ -495,7 +495,7 @@ function Master() {
               {cards.map((c, i) => (
                 <article
                   key={c.tag}
-                  data-reveal
+                  data-reveal="right"
                   style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
                   className="content-section relative pl-12"
                 >
@@ -664,7 +664,7 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
         ref={ref}
         onMouseMove={onMove}
         onMouseLeave={reset}
-        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-shadow duration-500 hover:shadow-2xl"
+        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-[transform,box-shadow] duration-500 ease-out will-change-transform hover:scale-[1.02] hover:shadow-2xl"
         style={{
           borderTop: `4px solid ${t.accent}`,
           boxShadow: `0 -4px 22px -6px ${t.accent}55`,
@@ -920,7 +920,7 @@ function DiplomaShowcase() {
     <section id="diploma" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
         <div
-          data-reveal
+          data-reveal="slow"
           className="mb-8 text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--power)]">
@@ -935,7 +935,8 @@ function DiplomaShowcase() {
         </div>
 
         <div
-          data-reveal
+          data-reveal="zoom"
+          style={{ ["--reveal-delay" as string]: "120ms" }}
           className="relative mx-auto max-w-5xl"
         >
           <div
@@ -1185,12 +1186,14 @@ function ContactFooter() {
           <div
             className="transform-gpu lg:sticky lg:top-24"
           >
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
+            <div data-reveal className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
               <Sparkles className="h-3 w-3" />
               Click to copy number
             </div>
             <div className="flex flex-col gap-3">
               <button
+                data-reveal
+                style={{ ["--reveal-delay" as string]: "60ms" }}
                 onClick={() => copy("0335-3590008", "Primary phone")}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--tech)]"
               >
@@ -1215,6 +1218,8 @@ function ContactFooter() {
               </button>
 
               <button
+                data-reveal
+                style={{ ["--reveal-delay" as string]: "140ms" }}
                 onClick={() => copy("0301-4692771", "Support line")}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--power)]"
               >
@@ -1239,6 +1244,8 @@ function ContactFooter() {
               </button>
 
               <button
+                data-reveal
+                style={{ ["--reveal-delay" as string]: "220ms" }}
                 onClick={() => copy("bmsaadnasir@gmail.com", "Email")}
                 className="premium-lift group inline-flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-left hover:border-[var(--power)]"
               >
@@ -1255,7 +1262,7 @@ function ContactFooter() {
               </button>
             </div>
 
-            <p className="mt-4 text-xs text-muted-foreground">
+            <p data-reveal style={{ ["--reveal-delay" as string]: "280ms" }} className="mt-4 text-xs text-muted-foreground">
               Fees, seat availability, and batch schedules are handled personally by the institute. Tap any option above —
               it copies instantly.
             </p>
@@ -1269,7 +1276,7 @@ function ContactFooter() {
           <style>{`@keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(400%)} }`}</style>
         </div>
 
-        <footer className="flex flex-col items-start justify-between gap-4 pb-10 sm:flex-row sm:items-center">
+        <footer data-reveal className="flex flex-col items-start justify-between gap-4 pb-10 sm:flex-row sm:items-center">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span className="grid h-6 w-6 place-items-center rounded bg-foreground text-background">
               <Wrench className="h-3 w-3" />
