@@ -450,6 +450,7 @@ function Master() {
         <div className="mt-2 pt-0 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 items-start">
           {/* Portrait */}
           <div
+            data-reveal
             className="content-section relative group mt-0 pt-0"
           >
             {/* Premium ambient studio backlight */}
@@ -494,6 +495,8 @@ function Master() {
               {cards.map((c, i) => (
                 <article
                   key={c.tag}
+                  data-reveal
+                  style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
                   className="content-section relative pl-12"
                 >
                   <span
