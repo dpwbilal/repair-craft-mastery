@@ -537,10 +537,14 @@ function Master() {
             data-reveal="left"
             className="content-section relative group mt-0 pt-0"
           >
-            {/* Premium ambient studio backlight */}
+            {/* Premium ambient studio backlight — theme accent, responsive */}
             <div
               aria-hidden
-              className="pointer-events-none absolute -inset-10 -z-10 rounded-[3rem] opacity-30 blur-[60px] bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.9),rgba(0,102,255,0.6)_45%,transparent_75%)]"
+              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[115%] w-[115%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-35 blur-[48px] sm:blur-[64px] lg:blur-[80px]"
+              style={{
+                background:
+                  "radial-gradient(closest-side, color-mix(in oklab, var(--tech) 70%, transparent) 0%, color-mix(in oklab, var(--tech) 35%, transparent) 45%, transparent 78%)",
+              }}
             />
             <div
               className="pointer-events-none absolute -inset-3 rounded-[2rem] opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
