@@ -691,18 +691,7 @@ export const TIERS = [
 export type Tier = (typeof TIERS)[number];
 
 function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ rx: -py * 8, ry: px * 10 });
-  };
-  const reset = () => setTilt({ rx: 0, ry: 0 });
+  const tilt = useTilt<HTMLElement>(9);
 
   return (
     <div
@@ -711,10 +700,10 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
       className="[perspective:1200px] h-full"
     >
       <article
-        ref={ref}
-        onMouseMove={onMove}
-        onMouseLeave={reset}
-        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-[transform,box-shadow] duration-500 ease-out will-change-transform hover:scale-[1.02] hover:shadow-2xl"
+        ref={tilt.ref as React.Ref<HTMLElement>}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
+        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-[transform,box-shadow] duration-300 ease-out will-change-transform hover:shadow-2xl"
         style={{
           borderTop: `4px solid ${t.accent}`,
           boxShadow: `0 -4px 22px -6px ${t.accent}55`,
