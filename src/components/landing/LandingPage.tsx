@@ -1007,14 +1007,21 @@ function StatsBand() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="mx-auto mb-14 h-px w-full max-w-2xl bg-gradient-to-r from-transparent via-[var(--tech)]/60 to-transparent" />
         <div
+          data-reveal
           className="mx-auto mb-10 max-w-2xl text-center"
         >
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--power)]">By the Numbers</div>
           <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold">A track record built in the bench.</h2>
         </div>
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {stats.map((s) => (
-            <StatCard key={s.k} label={s.k} value={s.v} suffix={s.suffix} />
+          {stats.map((s, i) => (
+            <div
+              key={s.k}
+              data-reveal
+              style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}
+            >
+              <StatCard label={s.k} value={s.v} suffix={s.suffix} />
+            </div>
           ))}
         </div>
       </div>
@@ -1032,6 +1039,7 @@ function ValueProps() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-10">
         {/* Certificate */}
         <div
+          data-reveal
           className="content-section relative overflow-hidden rounded-3xl border border-border bg-card p-8 lg:p-10"
         >
           <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">The Certificate</div>
@@ -1172,6 +1180,7 @@ function ContactFooter() {
         <div className="grid grid-cols-1 items-start gap-8 lg:gap-14">
           {/* Column 2 — contact cards parallel to the form */}
           <div
+            data-reveal
             className="transform-gpu lg:sticky lg:top-24"
           >
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
