@@ -1180,7 +1180,6 @@ function ContactFooter() {
         <div className="grid grid-cols-1 items-start gap-8 lg:gap-14">
           {/* Column 2 — contact cards parallel to the form */}
           <div
-            data-reveal
             className="transform-gpu lg:sticky lg:top-24"
           >
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
