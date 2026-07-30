@@ -358,17 +358,18 @@
 
 html.reveal-ready [data-reveal]:not(.is-revealed) {
   opacity: 0;
-  transform: translate3d(0, 18px, 0);
+  transform: translate3d(0, 30px, 0);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html.reveal-ready [data-reveal].is-revealed {
-  animation: reveal-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: var(--reveal-delay, 0ms);
   will-change: transform, opacity;
 }
 
 @keyframes reveal-up {
-  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  from { opacity: 0; transform: translate3d(0, 30px, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 

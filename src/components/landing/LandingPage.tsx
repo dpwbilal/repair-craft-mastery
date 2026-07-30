@@ -30,15 +30,49 @@ import {
   Youtube,
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
+import { useTilt } from "@/hooks/use-tilt";
+import { useInView } from "@/hooks/use-in-view";
+import { partyPopper, miniBurst } from "@/lib/celebrate";
 import motherboardImg from "@/assets/motherboard.webp";
 import instructorAsset from "@/assets/instructor-new.webp.asset.json";
 import diplomaAsset from "@/assets/diploma-new.webp.asset.json";
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
+  // Re-triggerable count-up: restarts every time the card enters the viewport,
+  // scrolling down or back up.
+  const { ref, inView } = useInView<HTMLDivElement>(0.3);
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    if (!inView) {
+      setDisplay(0);
+      return;
+    }
+    if (
+      typeof window === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setDisplay(value);
+      return;
+    }
+    let raf = 0;
+    let start = 0;
+    const duration = 1500;
+    const tick = (t: number) => {
+      if (!start) start = t;
+      const p = Math.min(1, (t - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisplay(Math.round(value * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, value]);
+
   return (
-    <div className="premium-lift rounded-xl border border-border bg-card p-4 hover:border-[var(--tech)]/60">
+    <div ref={ref} className="premium-lift rounded-xl border border-border bg-card p-4 hover:border-[var(--tech)]/60">
       <div className="font-display text-2xl font-bold">
-        {value.toLocaleString()}
+        {display.toLocaleString()}
         {suffix}
       </div>
       <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{label}</div>
@@ -230,7 +264,7 @@ function Nav() {
 /* -------------------------------------------------------------------------- */
 
 function Hero() {
-  const wrap = useRef<HTMLDivElement | null>(null);
+  const heroTilt = useTilt<HTMLDivElement>(8);
   return (
     <section id="home" className="relative overflow-hidden pt-28 sm:pt-32 lg:pt-40 pb-16 lg:pb-24">
       <div className="absolute inset-0 bg-radial-tech pointer-events-none" />
@@ -323,11 +357,13 @@ function Hero() {
 
         {/* Right — interactive tilt motherboard */}
         <div
-          ref={wrap}
           className="hero-in relative flex items-center justify-center [perspective:1200px]"
         >
           <div
-            className="relative aspect-square w-full max-w-[520px] rounded-3xl border border-border glass-card overflow-hidden [transform-style:preserve-3d]"
+            ref={heroTilt.ref}
+            onMouseMove={heroTilt.onMouseMove}
+            onMouseLeave={heroTilt.onMouseLeave}
+            className="relative aspect-square w-full max-w-[520px] rounded-3xl border border-border glass-card overflow-hidden [transform-style:preserve-3d] transition-transform duration-300 ease-out will-change-transform"
           >
             <img
               src={motherboardImg}
@@ -655,18 +691,7 @@ export const TIERS = [
 export type Tier = (typeof TIERS)[number];
 
 function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ rx: -py * 8, ry: px * 10 });
-  };
-  const reset = () => setTilt({ rx: 0, ry: 0 });
+  const tilt = useTilt<HTMLElement>(9);
 
   return (
     <div
@@ -675,10 +700,10 @@ function TierCard({ tier: t, index }: { tier: Tier; index: number }) {
       className="[perspective:1200px] h-full"
     >
       <article
-        ref={ref}
-        onMouseMove={onMove}
-        onMouseLeave={reset}
-        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-[transform,box-shadow] duration-500 ease-out will-change-transform hover:scale-[1.02] hover:shadow-2xl"
+        ref={tilt.ref as React.Ref<HTMLElement>}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
+        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-8 [transform-style:preserve-3d] transition-[transform,box-shadow] duration-300 ease-out will-change-transform hover:shadow-2xl"
         style={{
           borderTop: `4px solid ${t.accent}`,
           boxShadow: `0 -4px 22px -6px ${t.accent}55`,
@@ -929,10 +954,15 @@ function Lab() {
 
 
 function DiplomaShowcase() {
+  // Party-popper burst fires each time the ceremony section scrolls into view.
+  const { ref, inView } = useInView<HTMLDivElement>(0.35);
+  useEffect(() => {
+    if (inView) void partyPopper();
+  }, [inView]);
 
   return (
     <section id="diploma" className="content-section relative py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
+      <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
         <div
           data-reveal="slow"
           className="mb-8 text-center"
@@ -1180,11 +1210,14 @@ function ContactFooter() {
     []
   );
 
-  const copy = async (value: string, label: string) => {
+  const copy = async (value: string, label: string, e?: React.MouseEvent) => {
+    // currentTarget is nulled after the handler returns, so grab it up front.
+    const source = (e?.currentTarget as HTMLElement | undefined) ?? null;
     if (toastTimer.current) window.clearTimeout(toastTimer.current);
     try {
       await navigator.clipboard.writeText(value);
       setToast(`${label} copied to clipboard`);
+      void miniBurst(source);
     } catch {
       setToast("Copy failed — long-press to copy");
     }
@@ -1208,7 +1241,7 @@ function ContactFooter() {
               <button
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "60ms" }}
-                onClick={() => copy("0335-3590008", "Primary phone")}
+                onClick={(e) => copy("0335-3590008", "Primary phone", e)}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--tech)]"
               >
                 <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--tech)] to-transparent opacity-70" />
@@ -1234,7 +1267,7 @@ function ContactFooter() {
               <button
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "140ms" }}
-                onClick={() => copy("0301-4692771", "Support line")}
+                onClick={(e) => copy("0301-4692771", "Support line", e)}
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--power)]"
               >
                 <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--power)] to-transparent opacity-70" />
@@ -1260,7 +1293,7 @@ function ContactFooter() {
               <button
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "220ms" }}
-                onClick={() => copy("bmsaadnasir@gmail.com", "Email")}
+                onClick={(e) => copy("bmsaadnasir@gmail.com", "Email", e)}
                 className="premium-lift group inline-flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-left hover:border-[var(--power)]"
               >
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--power)]/10 text-[var(--power)]">
@@ -1319,7 +1352,9 @@ function ContactFooter() {
  * - No scroll listeners, so the main thread stays free.
  * - Hidden state is only armed once JS runs (html.reveal-ready), so content
  *   can never be permanently invisible if JS fails.
- * - A 3s failsafe reveals anything still pending.
+ * - Re-triggerable (once: false): elements reveal at 15% visibility and re-arm
+ *   only once they are fully off-screen, so nothing flickers at the edges.
+ * - A failsafe reveals anything still hidden while it is on screen.
  */
 function useScrollReveal() {
   useEffect(() => {
@@ -1332,25 +1367,40 @@ function useScrollReveal() {
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) {
+          if (e.intersectionRatio >= 0.15 || (e.isIntersecting && e.intersectionRatio > 0)) {
             e.target.classList.add("is-revealed");
-            io.unobserve(e.target);
+          } else if (e.intersectionRatio === 0) {
+            // fully off-screen — re-arm so the reveal plays again next time
+            e.target.classList.remove("is-revealed");
           }
         }
       },
-      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" },
+      { threshold: [0, 0.15] },
     );
 
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    let els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     els.forEach((el) => io.observe(el));
 
-    const failsafe = window.setTimeout(() => {
-      els.forEach((el) => el.classList.add("is-revealed"));
-      io.disconnect();
-    }, 3000);
+    // Pick up any element mounted after the first pass.
+    const mo = new MutationObserver(() => {
+      const next = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+      next.filter((el) => !els.includes(el)).forEach((el) => io.observe(el));
+      els = next;
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    // Failsafe: if the JS thread lagged, never leave on-screen content hidden.
+    const failsafe = window.setInterval(() => {
+      for (const el of els) {
+        if (el.classList.contains("is-revealed")) continue;
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("is-revealed");
+      }
+    }, 1500);
 
     return () => {
-      window.clearTimeout(failsafe);
+      window.clearInterval(failsafe);
+      mo.disconnect();
       io.disconnect();
       root.classList.remove("reveal-ready");
     };
