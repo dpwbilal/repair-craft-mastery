@@ -972,6 +972,8 @@ function Lab() {
 function DiplomaShowcase() {
   // Party-popper burst fires each time the ceremony section scrolls into view.
   const { ref, inView } = useInView<HTMLDivElement>(0.35);
+  // Certificate tilts straight whenever it enters the viewport.
+  const { ref: certRef, inView: certInView } = useInView<HTMLDivElement>(0.25);
   useEffect(() => {
     if (inView) void partyPopper();
   }, [inView]);
@@ -1004,7 +1006,8 @@ function DiplomaShowcase() {
             className="pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] bg-[radial-gradient(ellipse_at_center,rgba(255,176,32,0.35),rgba(0,229,255,0.18)_50%,transparent_78%)] blur-[70px]"
           />
           <div
-            className="group relative overflow-hidden rounded-3xl border border-[var(--power)]/40 bg-card shadow-[0_30px_80px_-30px_rgba(255,176,32,0.5)] will-change-transform"
+            ref={certRef}
+            className={`tilt-straight${certInView ? " is-straight" : ""} group relative overflow-hidden rounded-3xl border border-[var(--power)]/40 bg-card shadow-[0_30px_80px_-30px_rgba(255,176,32,0.5)]`}
           >
             <img
               src={diplomaAsset.url}
