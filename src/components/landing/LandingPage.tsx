@@ -179,6 +179,18 @@ const NAV = [
 function Nav() {
   const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const el = document.getElementById("master");
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      ([entry]) => setActiveId(entry.isIntersecting ? "master" : null),
+      { threshold: 0.3 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/95">
@@ -198,7 +210,9 @@ function Nav() {
             <a
               key={n.href}
               href={n.href}
-              className="relative px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className={`nav-link relative px-4 py-2 text-sm text-muted-foreground hover:text-foreground${
+                activeId && n.href === `#${activeId}` ? " is-active" : ""
+              }`}
             >
               <span className="relative z-10">{n.label}</span>
             </a>
@@ -247,7 +261,9 @@ function Nav() {
                   key={n.href}
                   href={n.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                  className={`nav-link rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground${
+                    activeId && n.href === `#${activeId}` ? " is-active" : ""
+                  }`}
                 >
                   {n.label}
                 </a>
@@ -956,6 +972,8 @@ function Lab() {
 function DiplomaShowcase() {
   // Party-popper burst fires each time the ceremony section scrolls into view.
   const { ref, inView } = useInView<HTMLDivElement>(0.35);
+  // Certificate tilts straight whenever it enters the viewport.
+  const { ref: certRef, inView: certInView } = useInView<HTMLDivElement>(0.25);
   useEffect(() => {
     if (inView) void partyPopper();
   }, [inView]);
@@ -988,7 +1006,8 @@ function DiplomaShowcase() {
             className="pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] bg-[radial-gradient(ellipse_at_center,rgba(255,176,32,0.35),rgba(0,229,255,0.18)_50%,transparent_78%)] blur-[70px]"
           />
           <div
-            className="group relative overflow-hidden rounded-3xl border border-[var(--power)]/40 bg-card shadow-[0_30px_80px_-30px_rgba(255,176,32,0.5)] will-change-transform"
+            ref={certRef}
+            className={`tilt-straight${certInView ? " is-straight" : ""} group relative overflow-hidden rounded-3xl border border-[var(--power)]/40 bg-card shadow-[0_30px_80px_-30px_rgba(255,176,32,0.5)]`}
           >
             <img
               src={diplomaAsset.url}
