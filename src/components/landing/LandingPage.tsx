@@ -550,7 +550,7 @@ function Curriculum() {
 function DiplomaShowcase() {
 
   return (
-    <section ref={sectionRef} id="diploma" className="content-section relative py-20 lg:py-24">
+    <section id="diploma" className="content-section relative py-20 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10">
         <div
           className="mb-8 text-center"
@@ -616,11 +616,6 @@ function DiplomaShowcase() {
               <Award className="h-3 w-3" /> Certified
             </span>
           </div>
-        </div>
-      </div>
-          </div>
-
-          <div className="pointer-events-none absolute -inset-1 -z-10 rounded-3xl bg-gradient-to-tr from-[#00E5FF]/25 via-transparent to-[#FF5500]/25 blur-2xl" />
         </div>
       </div>
     </section>
