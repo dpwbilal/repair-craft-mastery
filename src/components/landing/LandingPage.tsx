@@ -35,8 +35,8 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useInView } from "@/hooks/use-in-view";
 import { partyPopper, miniBurst } from "@/lib/celebrate";
 import motherboardImg from "@/assets/motherboard.webp";
-import instructorAsset from "@/assets/instructor-new.webp.asset.json";
-import diplomaAsset from "@/assets/diploma-new.webp.asset.json";
+import instructorImage from "@/assets/instructor-new.webp";
+import diplomaImage from "@/assets/diploma-new.webp";
 
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
   // Re-triggerable count-up: restarts every time the card enters the viewport,
@@ -547,7 +547,7 @@ function Master() {
             />
             <div className="content-section relative overflow-hidden rounded-3xl border border-border transition-transform duration-500 ease-out group-hover:scale-[1.03] group-hover:shadow-[0_30px_80px_-20px_rgba(0,229,255,0.35)] will-change-transform">
               <img
-                src={instructorAsset.url}
+                src={instructorImage}
                 alt="Sir Nasir Awan"
                 className="h-full w-full object-cover object-top aspect-[4/5]"
                 loading="lazy"
@@ -1033,7 +1033,7 @@ function DiplomaShowcase() {
             className={`tilt-straight${certInView ? " is-straight" : ""} group relative overflow-hidden rounded-3xl border border-[var(--power)]/40 bg-card shadow-[0_30px_80px_-30px_rgba(255,176,32,0.5)]`}
           >
             <img
-              src={diplomaAsset.url}
+              src={diplomaImage}
               alt="Nasir Tech Institute — 2026 Mobile Repairing Diploma Ceremony with Sir Nasir Awan and graduating students"
               className="h-full w-full object-cover aspect-[16/9]"
               loading="lazy"
