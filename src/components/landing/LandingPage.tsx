@@ -325,14 +325,16 @@ function Hero() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Training Center
+              Mobile Repairing Course
             </span>
           </h1>
 
           <p className="mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground">
-            Punjab's most advanced facility for comprehensive mobile repair training.
-            Build your career with hands-on, expert-led courses and real-world diagnostics.
+            Lahore's top institute for a complete mobile course — iPhone course, Android course
+            and software course under one roof. 100% hands-on, chip-level training with Sir Nasir
+            Awan on Main Hall Road.
           </p>
+
 
           <blockquote className="philosophy-card mt-8 relative rounded-2xl border border-border glass-card p-5 sm:p-6">
             <span className="absolute -top-3 left-6 rounded-full bg-[var(--power)] px-3 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-white">
