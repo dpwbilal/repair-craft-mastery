@@ -308,12 +308,12 @@ function Hero() {
           <div className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium">
             <span className="h-2 w-2 rounded-full bg-[var(--power)] animate-pulse" />
             <span className="text-gradient-shimmer font-semibold uppercase tracking-widest">
-              Punjab's Premier Mobile Repairing Academy
+              Punjab's #1 Mobile Repairing Institute — Lahore
             </span>
           </div>
 
-          <h1 className="mt-6 font-sans text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-extrabold leading-[1.02] tracking-tight">
-            <span className="text-hero-mono">Nasir Awan</span>
+          <h1 className="mt-6 font-sans text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-extrabold leading-[1.04] tracking-tight">
+            <span className="text-hero-mono">Nasir Awan Training</span>
             <br />
             <span
               style={{
