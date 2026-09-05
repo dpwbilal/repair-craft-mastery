@@ -1475,7 +1475,8 @@ function CourseHub() {
                   ))}
                 </ul>
                 <Link
-                  to={b.to}
+                  to="/course/$slug"
+                  params={{ slug: b.slug }}
                   className="mt-6 inline-flex items-center gap-2 text-sm font-semibold transition-colors"
                   style={{ color: b.accent }}
                 >
