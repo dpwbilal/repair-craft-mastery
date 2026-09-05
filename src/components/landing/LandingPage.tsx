@@ -1388,6 +1388,173 @@ function ContactFooter() {
 }
 
 /* -------------------------------------------------------------------------- */
+/*  Course Hub — topical parent section                                       */
+/* -------------------------------------------------------------------------- */
+
+const COURSE_BRANCHES = [
+  {
+    icon: Smartphone,
+    title: "iPhone Course",
+    sub: "iOS hardware & chip-level",
+    body:
+      "Logic board diagnostics, Face ID and true-tone handling, BGA IC reballing, micro-soldering on iPhone boards with Borneo schematics.",
+    points: ["iOS logic board fault tracing", "Chip-level micro-soldering", "Display, battery & Face ID repair"],
+    to: "/course/master",
+    linkLabel: "Master Level detail",
+    accent: "var(--tech)",
+  },
+  {
+    icon: Cpu,
+    title: "Android Course",
+    sub: "Motherboard, CPU & UFS",
+    body:
+      "Android motherboard repair from power section to network: CPU and UFS handling, charging ICs, double-board swapping and shorting faults.",
+    points: ["CPU / UFS / LPDDR handling", "Charging & network IC repair", "Double board swapping"],
+    to: "/course/advance",
+    linkLabel: "Advance Level detail",
+    accent: "var(--power)",
+  },
+  {
+    icon: Unlock,
+    title: "Software Course",
+    sub: "Flashing, unlocking & diagnostics",
+    body:
+      "Full mobile software training: firmware flashing, FRP and account unlocking, IMEI-safe diagnostics and professional box tools.",
+    points: ["Firmware flashing & recovery", "FRP / pattern unlocking", "Diagnostic box tools (UFI, JCID)"],
+    to: "/course/basic",
+    linkLabel: "Basic Level detail",
+    accent: "var(--tech)",
+  },
+] as const;
+
+function CourseHub() {
+  return (
+    <section id="courses" className="content-section relative py-24 lg:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div data-reveal className="mx-auto max-w-3xl text-center">
+          <div className="text-xs font-semibold uppercase tracking-widest text-[var(--tech)]">
+            Course Hub
+          </div>
+          <h2 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
+            Every mobile repairing course at Nasir Awan Training
+          </h2>
+          <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
+            One complete mobile course, three specialist branches. Start with hardware
+            fundamentals and move into iPhone, Android and software specialisation — all taught
+            practically in Lahore.
+          </p>
+        </div>
+
+        <div className="mt-14 grid grid-cols-1 gap-6 lg:grid-cols-3">
+          {COURSE_BRANCHES.map((b, i) => {
+            const Icon = b.icon;
+            return (
+              <article
+                key={b.title}
+                data-reveal
+                style={{ ["--reveal-delay" as string]: `${i * 110}ms` }}
+                className="premium-lift group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-colors hover:border-[color:var(--fg)]"
+                // eslint-disable-next-line
+                {...{ style: { ["--reveal-delay" as string]: `${i * 110}ms`, ["--fg" as string]: b.accent } as React.CSSProperties }}
+              >
+                <span
+                  className="grid h-12 w-12 place-items-center rounded-xl"
+                  style={{ backgroundColor: `color-mix(in oklab, ${b.accent} 18%, transparent)`, color: b.accent }}
+                >
+                  <Icon className="h-5 w-5" />
+                </span>
+                <h3 className="mt-5 font-display text-2xl font-bold">{b.title}</h3>
+                <div className="mt-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  {b.sub}
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
+                <ul className="mt-5 space-y-2 text-sm">
+                  {b.points.map((p) => (
+                    <li key={p} className="flex items-start gap-2">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: b.accent }} />
+                      <span className="text-foreground/90">{p}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to={b.to}
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold transition-colors"
+                  style={{ color: b.accent }}
+                >
+                  {b.linkLabel} <ArrowRight className="h-4 w-4" />
+                </Link>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  FAQ                                                                       */
+/* -------------------------------------------------------------------------- */
+
+const FAQS = [
+  {
+    q: "What is included in the complete iPhone course and Android course?",
+    a: "The iPhone course covers iOS logic board diagnostics, chip-level micro-soldering, BGA IC reballing, display, battery and Face ID repair. The Android course covers motherboard fault tracing, CPU, UFS and LPDDR handling, charging and network IC replacement, and double-board swapping. Both are taught on live boards in the lab.",
+  },
+  {
+    q: "How long does the mobile repairing course take at Nasir Awan Training?",
+    a: "The Basic Level mobile course runs about 1 month, Advance Level 1 to 1.5 months, and Master Level 2 to 3 months. Batches are scheduled personally by the institute on Main Hall Road, Lahore.",
+  },
+  {
+    q: "Do I need any experience to join the mobile course?",
+    a: "No. Beginners start with the Basic Level — housing, opening and closing, OCA glass change, multimeter basics and tool handling — then move up to chip-level Advance and Master training.",
+  },
+  {
+    q: "What does the software course teach?",
+    a: "The software course covers firmware flashing, FRP and pattern unlocking, software fault diagnostics, and professional box tools such as UFI and JCID used daily in the repair market.",
+  },
+  {
+    q: "Where is the institute located and how do I enrol?",
+    a: "Nasir Awan Training is on Main Hall Road, Lahore. Call or WhatsApp 0335-3590008, or call the admissions desk at 0301-4692771 to confirm fees, seats and the next batch.",
+  },
+];
+
+function FAQ() {
+  return (
+    <section id="faq" className="content-section relative border-t border-border bg-surface py-24 lg:py-28">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-10">
+        <div data-reveal className="text-center">
+          <div className="text-xs font-semibold uppercase tracking-widest text-[var(--power)]">
+            Questions
+          </div>
+          <h2 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
+            Mobile repairing course FAQs
+          </h2>
+        </div>
+
+        <div className="mt-12 space-y-4">
+          {FAQS.map((f, i) => (
+            <details
+              key={f.q}
+              data-reveal
+              style={{ ["--reveal-delay" as string]: `${i * 80}ms` } as React.CSSProperties}
+              className="group rounded-2xl border border-border bg-card p-5 transition-colors open:border-[var(--tech)]/60 hover:border-[var(--tech)]/60"
+            >
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                <h3 className="font-display text-lg font-bold leading-snug">{f.q}</h3>
+                <ChevronRight className="h-5 w-5 shrink-0 text-[var(--tech)] transition-transform group-open:rotate-90" />
+              </summary>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* -------------------------------------------------------------------------- */
 /*  Root                                                                      */
 /* -------------------------------------------------------------------------- */
 
