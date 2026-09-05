@@ -1399,7 +1399,7 @@ const COURSE_BRANCHES = [
     body:
       "Logic board diagnostics, Face ID and true-tone handling, BGA IC reballing, micro-soldering on iPhone boards with Borneo schematics.",
     points: ["iOS logic board fault tracing", "Chip-level micro-soldering", "Display, battery & Face ID repair"],
-    to: "/course/master",
+    slug: "master",
     linkLabel: "Master Level detail",
     accent: "var(--tech)",
   },
@@ -1410,7 +1410,7 @@ const COURSE_BRANCHES = [
     body:
       "Android motherboard repair from power section to network: CPU and UFS handling, charging ICs, double-board swapping and shorting faults.",
     points: ["CPU / UFS / LPDDR handling", "Charging & network IC repair", "Double board swapping"],
-    to: "/course/advance",
+    slug: "advance",
     linkLabel: "Advance Level detail",
     accent: "var(--power)",
   },
@@ -1421,7 +1421,7 @@ const COURSE_BRANCHES = [
     body:
       "Full mobile software training: firmware flashing, FRP and account unlocking, IMEI-safe diagnostics and professional box tools.",
     points: ["Firmware flashing & recovery", "FRP / pattern unlocking", "Diagnostic box tools (UFI, JCID)"],
-    to: "/course/basic",
+    slug: "basic",
     linkLabel: "Basic Level detail",
     accent: "var(--tech)",
   },
