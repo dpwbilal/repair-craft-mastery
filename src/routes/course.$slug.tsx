@@ -49,7 +49,7 @@ export const Route = createFileRoute("/course/$slug")({
 });
 
 function CoursePage() {
-  const { tier } = Route.useLoaderData();
+  const { tier } = Route.useLoaderData() as { tier: Tier };
   const phases = [
     {
       label: "Phase 1",
