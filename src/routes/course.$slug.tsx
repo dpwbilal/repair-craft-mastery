@@ -5,39 +5,67 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 type Tier = (typeof TIERS)[number];
 
+const SITE = "https://repair-craft-mastery.lovable.app";
+
 export const Route = createFileRoute("/course/$slug")({
   head: ({ params }) => {
     const tier = TIERS.find((t) => t.slug === params.slug);
+    const url = `${SITE}/course/${params.slug}`;
+    const title = tier
+      ? `${tier.title} Mobile Repairing Course | Nasir Awan Training`
+      : "Mobile Repairing Course | Nasir Awan Training";
+    const description = tier
+      ? `${tier.title} mobile repairing course (${tier.duration}) at Nasir Awan Training, Main Hall Road Lahore. Hands-on practical training under Sir Nasir Awan.`
+      : "Explore mobile repairing course levels at Nasir Awan Training, Lahore.";
     return {
       meta: [
-        {
-          title: tier
-            ? `${tier.title} — Nasir Tech Institute`
-            : "Course — Nasir Tech Institute",
-        },
-        {
-          name: "description",
-          content: tier
-            ? `${tier.title} · ${tier.duration}. Hands-on mobile repair training under Sir Nasir Awan.`
-            : "Explore our mobile repairing course tiers at Nasir Tech Institute.",
-        },
-        { property: "og:title", content: tier ? `${tier.title} — Nasir Tech Institute` : "Course — Nasir Tech Institute" },
-        {
-          property: "og:description",
-          content: tier
-            ? `${tier.title} · ${tier.duration}. Hands-on mobile repair training under Sir Nasir Awan.`
-            : "Explore our mobile repairing course tiers at Nasir Tech Institute.",
-        },
-        { property: "og:type", content: "website" },
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: tier ? `${tier.title} — Nasir Tech Institute` : "Course — Nasir Tech Institute" },
-        {
-          name: "twitter:description",
-          content: tier
-            ? `${tier.title} · ${tier.duration}. Hands-on mobile repair training under Sir Nasir Awan.`
-            : "Explore our mobile repairing course tiers at Nasir Tech Institute.",
-        },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
       ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: tier
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Course",
+                name: `${tier.title} Mobile Repairing Course`,
+                description,
+                url,
+                inLanguage: "en",
+                provider: {
+                  "@type": "EducationalOrganization",
+                  "@id": `${SITE}/#organization`,
+                  name: "Nasir Awan Training",
+                  url: SITE,
+                },
+                hasCourseInstance: {
+                  "@type": "CourseInstance",
+                  courseMode: "onsite",
+                  courseWorkload: tier.duration,
+                  location: {
+                    "@type": "Place",
+                    name: "Nasir Awan Training",
+                    address: {
+                      "@type": "PostalAddress",
+                      streetAddress: "Main Hall Road",
+                      addressLocality: "Lahore",
+                      addressCountry: "PK",
+                    },
+                  },
+                },
+              }),
+            },
+          ]
+        : [],
     };
   },
   loader: ({ params }): { tier: Tier } => {
