@@ -239,6 +239,18 @@ function CoursePage() {
           >
             Apply for {tier.badge} Level <ArrowRight className="h-4 w-4" />
           </Link>
+
+          <p className="mt-8 text-sm text-muted-foreground">
+            This {tier.title} program is one part of the complete mobile course at{" "}
+            <Link to="/" className="font-semibold text-foreground underline underline-offset-4 hover:text-[var(--tech)]">
+              NASIR AWAN TRAINING
+            </Link>
+            . See every mobile repairing course — including the{" "}
+            <Link to="/" hash="courses" className="font-semibold text-foreground underline underline-offset-4 hover:text-[var(--tech)]">
+              iPhone course, Android course and software course
+            </Link>
+            .
+          </p>
         </div>
       </section>
     </div>
