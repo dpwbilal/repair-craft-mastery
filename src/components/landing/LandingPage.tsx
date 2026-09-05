@@ -1452,10 +1452,8 @@ function CourseHub() {
               <article
                 key={b.title}
                 data-reveal
-                style={{ ["--reveal-delay" as string]: `${i * 110}ms` }}
+                style={{ ["--reveal-delay" as string]: `${i * 110}ms`, ["--fg" as string]: b.accent } as React.CSSProperties}
                 className="premium-lift group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-colors hover:border-[color:var(--fg)]"
-                // eslint-disable-next-line
-                {...{ style: { ["--reveal-delay" as string]: `${i * 110}ms`, ["--fg" as string]: b.accent } as React.CSSProperties }}
               >
                 <span
                   className="grid h-12 w-12 place-items-center rounded-xl"
