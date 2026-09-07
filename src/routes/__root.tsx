@@ -84,6 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Master mobile repairing under Sir Nasir Awan on Main Hall Road, Lahore. Foundational, Advanced and Master micro-soldering tiers with 100% practical lab training.",
       },
       { name: "author", content: "Nasir Tech Institute" },
+      { name: "google-site-verification", content: "MDnRphBBI5wRa-2pmZQR5BOFPF97Prs5uVgETDMNC6Y" },
       { property: "og:title", content: "Nasir Tech Institute — Punjab's Premier Mobile Repairing Academy" },
       {
         property: "og:description",
