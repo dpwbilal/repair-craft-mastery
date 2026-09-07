@@ -1576,10 +1576,12 @@ export default function LandingPage() {
         <Marquee />
         <Master />
         <Curriculum />
+        <CourseHub />
         <DiplomaShowcase />
         <Lab />
         <StatsBand />
         <ValueProps />
+        <FAQ />
         <ContactFooter />
       </main>
     </div>

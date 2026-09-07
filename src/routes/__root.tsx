@@ -77,27 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nasir Tech Institute — Punjab's Premier Mobile Repairing Academy" },
-      {
-        name: "description",
-        content:
-          "Master mobile repairing under Sir Nasir Awan on Main Hall Road, Lahore. Foundational, Advanced and Master micro-soldering tiers with 100% practical lab training.",
-      },
       { name: "author", content: "Nasir Tech Institute" },
       { name: "google-site-verification", content: "MDnRphBBI5wRa-2pmZQR5BOFPF97Prs5uVgETDMNC6Y" },
-      { property: "og:title", content: "Nasir Tech Institute — Punjab's Premier Mobile Repairing Academy" },
-      {
-        property: "og:description",
-        content:
-          "Master mobile repairing under Sir Nasir Awan on Main Hall Road, Lahore. Foundational, Advanced and Master micro-soldering tiers with 100% practical lab training.",
-      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Nasir Tech Institute — Punjab's Premier Mobile Repairing Academy" },
-      { name: "twitter:description", content: "Master mobile repairing under Sir Nasir Awan on Main Hall Road, Lahore. Foundational, Advanced and Master micro-soldering tiers with 100% practical lab training." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a0a187a-dd27-4ff6-9d14-86fa111470ee/id-preview-bb12763d--4c53437e-30ff-43ec-87e9-13a0ae6500af.lovable.app-1784373023209.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9a0a187a-dd27-4ff6-9d14-86fa111470ee/id-preview-bb12763d--4c53437e-30ff-43ec-87e9-13a0ae6500af.lovable.app-1784373023209.png" },
     ],
     links: [
       {
