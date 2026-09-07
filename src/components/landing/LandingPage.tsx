@@ -1279,13 +1279,13 @@ function ContactFooter() {
           >
             <div data-reveal className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--tech)]/40 bg-[var(--tech)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--tech)]">
               <Sparkles className="h-3 w-3" />
-              Click to copy number
+              Tap to call now
             </div>
             <div className="flex flex-col gap-3">
-              <button
+              <a
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "60ms" }}
-                onClick={(e) => copy("0335-3590008", "Primary phone", e)}
+                href="tel:+923353590008"
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--tech)]"
               >
                 <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--tech)] to-transparent opacity-70" />
@@ -1306,12 +1306,12 @@ function ContactFooter() {
                   </span>
                   <ChevronRight className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
-              </button>
+              </a>
 
-              <button
+              <a
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "140ms" }}
-                onClick={(e) => copy("0301-4692771", "Support line", e)}
+                href="tel:+923014692771"
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--power)]"
               >
                 <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--power)] to-transparent opacity-70" />
@@ -1332,7 +1332,7 @@ function ContactFooter() {
                   </span>
                   <ChevronRight className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
-              </button>
+              </a>
 
               <button
                 data-reveal
