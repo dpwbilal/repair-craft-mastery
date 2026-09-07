@@ -1332,7 +1332,7 @@ function ContactFooter() {
                   </span>
                   <ChevronRight className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
-              </button>
+              </a>
 
               <button
                 data-reveal
