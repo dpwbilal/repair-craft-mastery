@@ -1306,12 +1306,12 @@ function ContactFooter() {
                   </span>
                   <ChevronRight className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
-              </button>
+              </a>
 
-              <button
+              <a
                 data-reveal
                 style={{ ["--reveal-delay" as string]: "140ms" }}
-                onClick={(e) => copy("0301-4692771", "Support line", e)}
+                href="tel:+923014692771"
                 className="group relative w-full overflow-hidden rounded-2xl border border-border bg-card px-5 py-5 text-left transition-colors hover:border-[var(--power)]"
               >
                 <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--power)] to-transparent opacity-70" />
