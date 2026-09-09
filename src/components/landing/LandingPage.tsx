@@ -1374,7 +1374,14 @@ function ContactFooter() {
             </span>
             © {new Date().getFullYear()} Nasir Tech Institute — All rights reserved.
           </div>
-          <div className="text-xs text-muted-foreground">Crafted with precision on Main Hall Road.</div>
+          <a
+            href="https://wa.me/923020425075"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Developed by Bilal
+          </a>
         </footer>
       </div>
 
